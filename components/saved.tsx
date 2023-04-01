@@ -39,6 +39,8 @@ const database = [
     }
 ];
 
+const guardados = normalizer(database)
+
 export default function Saved() {
     return (
         <>
@@ -77,6 +79,7 @@ export default function Saved() {
                             <Text style={styles.textinfo}>Series: {interval.series}</Text>
                             <Text style={styles.textinfo}>Sets: {interval.sets}</Text>
                         </View>
+                        <Text style={styles.textinfo}>Total time: {interval.totalTime}</Text>
                     </View>
                 ))
             }
