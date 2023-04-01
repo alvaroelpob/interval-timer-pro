@@ -2,8 +2,11 @@ import { StatusBar, View, Text, Button } from 'react-native';
 import { useState, useEffect } from 'react'
 import containers from '../StyleSheets/containers';
 import styles from '../StyleSheets/styles';
+import { formatTime, calcTotalTime } from '../utils/normalizer';
 
 export default function Countdown({ prepTime, activeTime, restTime, restBetweenSets, series, sets }: any) {
+
+    const totalTime = calcTotalTime({ prepTime, activeTime, restTime, restBetweenSets, series, sets })
 
     const [timerState, setTimerState] = useState('Preparación')
     const [timeRemaining, setTimeRemaining] = useState(prepTime)
@@ -11,12 +14,15 @@ export default function Countdown({ prepTime, activeTime, restTime, restBetweenS
     const [setNumber, setSetNumber] = useState(1)
     const [isRunning, setIsRunning] = useState(false)
 
+    const [totalTimeRemaining, setTotalTimeRemaining] = useState(totalTime)
+
     useEffect(() => {
         let intervalId: string | number | NodeJS.Timeout | undefined;
 
         if (isRunning) {
             intervalId = setInterval(() => {
                 setTimeRemaining((prevTimeRemaining: number) => prevTimeRemaining - 1);
+                setTotalTimeRemaining((prevTotalTimeRemaining: number) => prevTotalTimeRemaining - 1);
             }, 1000);
         }
 
@@ -56,7 +62,7 @@ export default function Countdown({ prepTime, activeTime, restTime, restBetweenS
 
             <View style={containers.timeleft}>
                 <Text>Tiempo restante</Text>
-                <Text>02:49</Text>
+                <Text>{formatTime(totalTimeRemaining)}</Text>
             </View>
 
             <View style={containers.countdown}>
