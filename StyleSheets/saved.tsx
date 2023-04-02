@@ -6,11 +6,13 @@ const saved = StyleSheet.create({
         height: 'auto',
         display: 'flex',
         flexDirection: 'column',
-        backgroundColor: '#ffc107',
+        backgroundColor: '#D1D647',
         margin: '3%',
         borderRadius: 10,
         padding: 10,
-        fontSize: 20
+        fontSize: 20,
+        // borderColor: '#727AFF',
+        // borderWidth: 2
     },
     element: {
         display: 'flex',
