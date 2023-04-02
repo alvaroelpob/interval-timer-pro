@@ -18,11 +18,11 @@ export default function App() {
           tabBarIcon: ({ focused, color, size }) => {
 
             if (route.name === 'Crear') {
-              return <Plus gray={!focused}/>
+              return <Plus gray={!focused} />
             } else if (route.name === 'Guardados') {
               return <Bookmark gray={!focused} />
             } else if (route.name === "Configuración") {
-              return <Gear gray={!focused}/>
+              return <Gear gray={!focused} />
             }
 
           },
