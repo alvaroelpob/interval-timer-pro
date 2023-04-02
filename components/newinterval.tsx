@@ -1,4 +1,4 @@
-import { StatusBar, View, Text, TextInput, Button } from 'react-native';
+import { StatusBar, View, Text, TextInput, Button, ScrollView } from 'react-native';
 import { useState } from 'react'
 import containers from '../StyleSheets/containers';
 import styles from '../StyleSheets/newinterval'
@@ -52,73 +52,75 @@ export default function Newinterval() {
     }
 
     return (
-        <View style={containers.main}>
-            <StatusBar />
-            {
-                sent ?
-                    (
-                        <Countdown
-                            prepTime={prepTime}
-                            activeTime={activeTime}
-                            restTime={restTime}
-                            restBetweenSets={restBetweenSets}
-                            series={series}
-                            sets={sets}
-                        />
-                    ) : (
-                        <>
-                            <View style={styles.create}>
-                                <Text>Preparación</Text>
-                                <TextInput
-                                    value={prepTime}
-                                    onChangeText={handleTextChange1}
-                                    keyboardType="numeric" />
-                            </View>
+        <ScrollView>
+            <View style={containers.main}>
+                <StatusBar />
+                {
+                    sent ?
+                        (
+                            <Countdown
+                                prepTime={prepTime}
+                                activeTime={activeTime}
+                                restTime={restTime}
+                                restBetweenSets={restBetweenSets}
+                                series={series}
+                                sets={sets}
+                            />
+                        ) : (
+                            <>
+                                <View style={styles.create}>
+                                    <Text>Preparación</Text>
+                                    <TextInput
+                                        value={prepTime}
+                                        onChangeText={handleTextChange1}
+                                        keyboardType="numeric" />
+                                </View>
 
-                            <View style={styles.create}>
-                                <Text>Series</Text>
-                                <TextInput
-                                    value={series}
-                                    onChangeText={handleTextChange2}
-                                    keyboardType="numeric" />
-                            </View>
+                                <View style={styles.create}>
+                                    <Text>Series</Text>
+                                    <TextInput
+                                        value={series}
+                                        onChangeText={handleTextChange2}
+                                        keyboardType="numeric" />
+                                </View>
 
-                            <View style={styles.create}>
-                                <Text>Activo</Text>
-                                <TextInput
-                                    value={activeTime}
-                                    onChangeText={handleTextChange3}
-                                    keyboardType="numeric" />
-                            </View>
+                                <View style={styles.create}>
+                                    <Text>Activo</Text>
+                                    <TextInput
+                                        value={activeTime}
+                                        onChangeText={handleTextChange3}
+                                        keyboardType="numeric" />
+                                </View>
 
-                            <View style={styles.create}>
-                                <Text>Descanso</Text>
-                                <TextInput
-                                    value={restTime}
-                                    onChangeText={handleTextChange4}
-                                    keyboardType="numeric" />
-                            </View>
+                                <View style={styles.create}>
+                                    <Text>Descanso</Text>
+                                    <TextInput
+                                        value={restTime}
+                                        onChangeText={handleTextChange4}
+                                        keyboardType="numeric" />
+                                </View>
 
-                            <View style={styles.create}>
-                                <Text>Sets</Text>
-                                <TextInput
-                                    value={sets}
-                                    onChangeText={handleTextChange5}
-                                    keyboardType="numeric" />
-                            </View>
+                                <View style={styles.create}>
+                                    <Text>Sets</Text>
+                                    <TextInput
+                                        value={sets}
+                                        onChangeText={handleTextChange5}
+                                        keyboardType="numeric" />
+                                </View>
 
-                            <View style={styles.create}>
-                                <Text>Descanso entre Sets</Text>
-                                <TextInput
-                                    value={restBetweenSets}
-                                    onChangeText={handleTextChange6}
-                                    keyboardType="numeric" />
-                            </View>
+                                <View style={styles.create}>
+                                    <Text>Descanso entre Sets</Text>
+                                    <TextInput
+                                        value={restBetweenSets}
+                                        onChangeText={handleTextChange6}
+                                        keyboardType="numeric" />
+                                </View>
 
-                            <Button title="Create Interval Timer" onPress={handleClickStart} />
-                        </>
-                    )
-            }
-        </View >
+                                <Button title="Create Interval Timer" onPress={handleClickStart} />
+                            </>
+                        )
+                }
+            </View >
+        </ScrollView>
     )
 }
