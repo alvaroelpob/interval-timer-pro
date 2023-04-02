@@ -1,39 +1,5 @@
-type ArrayDB = Array<{
-    id: string;
-    name: string;
-    prepTime: number;
-    activeTime: number;
-    restTime: number;
-    restBetweenSets: number;
-    series: number;
-    sets: number;
-}>;
+import type { ArrayDB, NewArrayDB, Workout } from "./types";
 
-type NewArrayDB = Array<{
-    id: string;
-    name: string;
-    prepTime: string;
-    activeTime: string;
-    restTime: string;
-    restBetweenSets: string;
-    series: number;
-    sets: number;
-    totalTime: string;
-}>;
-
-type Workout = {
-    id?: string;
-    name?: string;
-    prepTime: number;
-    activeTime: number;
-    restTime: number;
-    restBetweenSets: number;
-    series: number;
-    sets: number;
-};
-
-
-function formatTime(totalSeconds: number): string {
 function formatTime(totalSeconds: number, withHours?: boolean): string {
     const hours = Math.floor(totalSeconds / 3600);
     const minutes = Math.floor((totalSeconds % 3600) / 60);
