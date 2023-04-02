@@ -34,13 +34,32 @@ type Workout = {
 
 
 function formatTime(totalSeconds: number): string {
+function formatTime(totalSeconds: number, withHours?: boolean): string {
     const hours = Math.floor(totalSeconds / 3600);
     const minutes = Math.floor((totalSeconds % 3600) / 60);
     const seconds = totalSeconds % 60;
-    const formattedHours = hours < 10 ? `0${hours}` : `${hours}`;
+
+    const time = [];
+
+    if (withHours) {
+        const formattedHours = hours < 10 ? `0${hours}` : `${hours}`;
+        time.push(formattedHours);
+    }
+
     const formattedMinutes = minutes < 10 ? `0${minutes}` : `${minutes}`;
+    time.push(formattedMinutes);
+
     const formattedSeconds = seconds < 10 ? `0${seconds}` : `${seconds}`;
-    return `${formattedHours}:${formattedMinutes}:${formattedSeconds}`;
+    time.push(formattedSeconds);
+
+    let finalTime = "";
+    for (let i = 0; i < time.length; i++) {
+        finalTime += time[i]
+        if (i !== time.length - 1) {
+            finalTime += ":";
+        }
+    }
+    return finalTime;
 }
 
 function calcTotalTime(workout: Workout) {
@@ -63,7 +82,7 @@ function normalizer(arrayDB: ArrayDB): NewArrayDB {
             restBetweenSets: formatTime(restBetweenSets),
             series: series,
             sets: sets,
-            totalTime: formatTime(calcTotalTime(workout))
+            totalTime: formatTime(calcTotalTime(workout), true)
         }
 
         newArray.push(newObject)
