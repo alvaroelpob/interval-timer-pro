@@ -5,41 +5,9 @@ import Dumbbell from "../assets/svg/dumbbell";
 import Snooze from "../assets/svg/snooze";
 import RepeatSnooze from "../assets/svg/repeatsnooze";
 import normalizer from "../utils/normalizer";
+import devdb from "../utils/devdb";
 
-const database = [
-    {
-        id: "1",
-        name: "Entrenamiento 1",
-        prepTime: 5,
-        activeTime: 8,
-        restTime: 25,
-        restBetweenSets: 60,
-        series: 7,
-        sets: 4
-    },
-    {
-        id: "2",
-        name: "Entrenamiento 2",
-        prepTime: 10,
-        activeTime: 12,
-        restTime: 30,
-        restBetweenSets: 90,
-        series: 5,
-        sets: 3
-    },
-    {
-        id: "3",
-        name: "Entrenamiento 3",
-        prepTime: 7,
-        activeTime: 10,
-        restTime: 20,
-        restBetweenSets: 45,
-        series: 8,
-        sets: 5
-    }
-];
-
-const guardados = normalizer(database)
+const guardados = normalizer(devdb)
 
 export default function Saved() {
     return (
