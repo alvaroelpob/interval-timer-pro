@@ -56,22 +56,22 @@ export default function Saved() {
                         <View style={styles.iconelement}>
                             <View style={styles.element}>
                                 <Clock />
-                                <Text style={styles.textinfo}>{interval.prepTime}s</Text>
+                                <Text style={styles.textinfo}>{interval.prepTime}</Text>
                             </View>
 
                             <View style={styles.element}>
                                 <Dumbbell />
-                                <Text style={styles.textinfo}>{interval.activeTime}s</Text>
+                                <Text style={styles.textinfo}>{interval.activeTime}</Text>
                             </View>
 
                             <View style={styles.element}>
                                 <Snooze />
-                                <Text style={styles.textinfo}>{interval.restTime}s</Text>
+                                <Text style={styles.textinfo}>{interval.restTime}</Text>
                             </View>
 
                             <View style={styles.element}>
                                 <RepeatSnooze />
-                                <Text style={styles.textinfo}>{interval.restBetweenSets}s</Text>
+                                <Text style={styles.textinfo}>{interval.restBetweenSets}</Text>
                             </View>
                         </View>
 
