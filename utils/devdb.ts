@@ -118,6 +118,66 @@ const devdb = [
         restBetweenSets: 120,
         series: 6,
         sets: 5
+    },
+    {
+        id: "13",
+        name: "Entrenamiento 13",
+        prepTime: 5,
+        activeTime: 8,
+        restTime: 20,
+        restBetweenSets: 60,
+        series: 8,
+        sets: 4
+    },
+    {
+        id: "14",
+        name: "Entrenamiento 14",
+        prepTime: 7,
+        activeTime: 18,
+        restTime: 30,
+        restBetweenSets: 90,
+        series: 5,
+        sets: 3
+    },
+    {
+        id: "15",
+        name: "Entrenamiento 15",
+        prepTime: 10,
+        activeTime: 12,
+        restTime: 45,
+        restBetweenSets: 120,
+        series: 6,
+        sets: 5
+    },
+    {
+        id: "16",
+        name: "Entrenamiento 16",
+        prepTime: 5,
+        activeTime: 10,
+        restTime: 20,
+        restBetweenSets: 60,
+        series: 10,
+        sets: 3
+    },
+    {
+        id: "17",
+        name: "Entrenamiento 17",
+        prepTime: 7,
+        activeTime: 12,
+        restTime: 30,
+        restBetweenSets: 90,
+        series: 8,
+        sets: 4
+    },
+    {
+        id: "18",
+        name: "Entrenamiento 18",
+        prepTime: 8,
+        activeTime: 15,
+        restTime: 45,
+        restBetweenSets: 120,
+        series: 6,
+        sets: 5
     }
 ];
 
