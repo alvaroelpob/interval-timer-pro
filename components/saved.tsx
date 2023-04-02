@@ -1,5 +1,6 @@
 import { View, Text, ScrollView } from "react-native";
 import styles from '../StyleSheets/saved'
+import containers from '../StyleSheets/containers';
 import Clock from "../assets/svg/clock";
 import Dumbbell from "../assets/svg/dumbbell";
 import Snooze from "../assets/svg/snooze";
@@ -11,7 +12,7 @@ const guardados = normalizer(devdb)
 
 export default function Saved() {
     return (
-        <ScrollView>
+        <ScrollView style={containers.main}>
             {
                 guardados.map(interval => (
                     <View key={interval.id} style={styles.item}>
