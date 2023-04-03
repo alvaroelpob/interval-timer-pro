@@ -1,5 +1,5 @@
 export type ArrayDB = Array<{
-    id: string;
+    id: number;
     name: string;
     prepTime: number;
     activeTime: number;
@@ -10,7 +10,7 @@ export type ArrayDB = Array<{
 }>;
 
 export type NewArrayDB = Array<{
-    id: string;
+    id: number;
     name: string;
     prepTime: string;
     activeTime: string;
@@ -22,8 +22,8 @@ export type NewArrayDB = Array<{
 }>;
 
 export type Workout = {
-    id?: string;
-    name?: string;
+    id: number | true;
+    name: string;
     prepTime: number;
     activeTime: number;
     restTime: number;
