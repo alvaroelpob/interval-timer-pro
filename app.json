@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "interval-timer-pro",
-    "slug": "interval-timer-pro",
+    "name": "Interval Timer Pro",
+    "slug": "Interval Timer Pro",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
