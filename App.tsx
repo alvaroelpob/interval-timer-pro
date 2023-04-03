@@ -1,15 +1,50 @@
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { NavigationContainer } from '@react-navigation/native';
+import { useState, useEffect } from 'react'
+import { ArrayDB } from './utils/types';
+import * as SQLite from 'expo-sqlite'
+
+/* Components */
 import Newinterval from './components/newinterval';
 import Saved from './components/saved';
 import Settings from './components/settings';
 
+/* Icons */
 import Plus from './assets/svg/plus';
 import Bookmark from './assets/svg/bookmark';
 import Gear from './assets/svg/gear';
 
+
 export default function App() {
+  const [db, setDb] = useState(SQLite.openDatabase('workouts.db'));
+  const [workouts, setWorkouts] = useState<ArrayDB>([]);
+
   const Tab = createBottomTabNavigator();
+
+  useEffect(() => {
+    db.transaction(tx => {
+      tx.executeSql(`
+        CREATE TABLE IF NOT EXISTS workouts (
+          id INTEGER PRIMARY KEY AUTOINCREMENT,
+          name TEXT,
+          prepTime INTEGER,
+          activeTime INTEGER,
+          restTime INTEGER,
+          restBetweenSets INTEGER,
+          series INTEGER,
+          sets INTEGER
+        )
+      `);
+    });
+
+    db.transaction(tx => {
+      tx.executeSql('SELECT * FROM workouts', [],
+        (txObj, resultSet) => setWorkouts(resultSet.rows._array),
+        (txObj, error) => { console.log(error); return false }
+      );
+    });
+
+  }, [db]);
 
   return (
     <NavigationContainer>
@@ -28,7 +63,7 @@ export default function App() {
           },
         })}>
         <Tab.Screen name="Crear" component={Newinterval} />
-        <Tab.Screen name="Guardados" component={Saved} />
+        <Tab.Screen name="Guardados" children={() => <Saved workouts={workouts} />} />
         <Tab.Screen name="Configuración" component={Settings} />
       </Tab.Navigator>
     </NavigationContainer>

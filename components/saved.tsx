@@ -1,20 +1,22 @@
 import { View, Text, ScrollView } from "react-native";
 import styles from '../StyleSheets/saved'
 import containers from '../StyleSheets/containers';
+import normalizer from "../utils/normalizer";
+import { ArrayDB, Workout } from "../utils/types";
+
+/* Icons */
 import Clock from "../assets/svg/clock";
 import Dumbbell from "../assets/svg/dumbbell";
 import Snooze from "../assets/svg/snooze";
 import RepeatSnooze from "../assets/svg/repeatsnooze";
-import normalizer from "../utils/normalizer";
-import devdb from "../utils/devdb";
 
-const guardados = normalizer(devdb)
+export default function Saved({ workouts }: { workouts: ArrayDB }) {
+    const normalized = normalizer(workouts)
 
-export default function Saved() {
     return (
         <ScrollView style={containers.main}>
             {
-                guardados.map(interval => (
+                normalized.map(interval => (
                     <View key={interval.id} style={styles.item}>
                         <View style={styles.header}>
                             <Text style={styles.headertext}>{interval.name}</Text>
