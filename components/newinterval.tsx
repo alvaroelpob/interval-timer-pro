@@ -5,7 +5,7 @@ import styles from '../StyleSheets/newinterval';
 
 import Countdown from './countdown';
 
-export default function NewInterval() {
+export default function NewInterval({ db }: { db: any }) {
     const [sent, setSent] = useState(false);
 
     const [prepTime, setPrepTime] = useState('5');

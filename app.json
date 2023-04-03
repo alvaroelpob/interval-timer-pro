@@ -1,7 +1,7 @@
 {
   "expo": {
     "name": "Interval Timer Pro",
-    "slug": "Interval Timer Pro",
+    "slug": "interval-timer-pro",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
@@ -21,10 +21,17 @@
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
-      }
+      },
+      "package": "com.newalvaro9.intervaltimerpro"
     },
     "web": {
       "favicon": "./assets/favicon.png"
-    }
+    },
+    "extra": {
+      "eas": {
+        "projectId": "d952fd87-1ae6-4916-915c-c3f92251c1be"
+      }
+    },
+    "owner": "newalvaro9"
   }
 }

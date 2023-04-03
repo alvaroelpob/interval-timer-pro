@@ -62,9 +62,9 @@ export default function App() {
 
           },
         })}>
-        <Tab.Screen name="Crear" component={Newinterval} />
+        <Tab.Screen name="Crear" children={() => <Newinterval db={db} />} />
         <Tab.Screen name="Guardados" children={() => <Saved workouts={workouts} />} />
-        <Tab.Screen name="Configuración" component={Settings} />
+        <Tab.Screen name="Configuración" children={() => <Settings db={db} />} />
       </Tab.Navigator>
     </NavigationContainer>
   );
