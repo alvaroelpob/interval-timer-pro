@@ -4,9 +4,9 @@ import containers from '../StyleSheets/containers';
 import styles from '../StyleSheets/styles';
 import { formatTime, calcTotalTime } from '../utils/normalizer';
 
-export default function Countdown({ prepTime, activeTime, restTime, restBetweenSets, series, sets }: any) {
+export default function Countdown({ name, prepTime, activeTime, restTime, restBetweenSets, series, sets }: any) {
 
-    const totalTime = calcTotalTime({ prepTime, activeTime, restTime, restBetweenSets, series, sets })
+    const totalTime = calcTotalTime({ id: true, name: name ? name : "Untitled", prepTime, activeTime, restTime, restBetweenSets, series, sets })
 
     const [timerState, setTimerState] = useState('Preparación')
     const [timeRemaining, setTimeRemaining] = useState(prepTime)
