@@ -59,7 +59,8 @@ export default function Countdown({ name, prepTime, activeTime, restTime, restBe
 
     const handleTogglePause = () => {
         setIsRunning(isRunning => !isRunning);
-    }
+        setButtonText(buttonText => isRunning ? 'Reaunudar' : 'Pausar');
+      }
 
     return (
         <View style={containers.timer}>
@@ -86,7 +87,7 @@ export default function Countdown({ name, prepTime, activeTime, restTime, restBe
                 </View>
             </View>
 
-            <Button title={isRunning ? 'Pausar' : 'Reaunudar'} onPress={handleTogglePause} />
+            <Button title={buttonText} onPress={handleTogglePause} />
 
         </View>
     );
