@@ -2,7 +2,7 @@ import { useState, useRef } from 'react';
 import { Button, StyleSheet, View } from 'react-native';
 import WheelPickerExpo from 'react-native-wheel-picker-expo';
 
-const numberArray = Array.from({ length: 99 }, (_, i) => i);
+const numberArray = Array.from({ length: 100 }, (_, i) => i);
 
 type Props = {
     currentValue: string;

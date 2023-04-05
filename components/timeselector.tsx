@@ -3,9 +3,9 @@ import { Button, StyleSheet, View } from 'react-native';
 import WheelPickerExpo from 'react-native-wheel-picker-expo';
 import { formatTime } from '../utils/normalizer';
 
-const hoursArray = Array.from({ length: 23 }, (_, i) => i);
-const minutesArray = Array.from({ length: 59 }, (_, i) => i);
-const secondsArray = Array.from({ length: 59 }, (_, i) => i);
+const hoursArray = Array.from({ length: 24 }, (_, i) => i);
+const minutesArray = Array.from({ length: 60 }, (_, i) => i);
+const secondsArray = Array.from({ length: 60 }, (_, i) => i);
 
 type Props = {
     currentValue: string;
