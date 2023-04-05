@@ -1,5 +1,5 @@
-import { useState, useRef } from 'react';
-import { Button, StyleSheet, View } from 'react-native';
+import { useState } from 'react';
+import { Button, View } from 'react-native';
 import WheelPickerExpo from 'react-native-wheel-picker-expo';
 import containers from '../StyleSheets/containers';
 

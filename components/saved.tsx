@@ -2,7 +2,7 @@ import { View, Text, ScrollView } from "react-native";
 import styles from '../StyleSheets/saved'
 import containers from '../StyleSheets/containers';
 import normalizer from "../utils/normalizer";
-import { ArrayDB, Workout } from "../utils/types";
+import { ArrayDB } from "../utils/types";
 
 /* Icons */
 import Clock from "../assets/svg/clock";

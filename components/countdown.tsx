@@ -1,4 +1,4 @@
-import { StatusBar, View, Text, Button, BackHandler } from 'react-native';
+import { View, Text, Button, BackHandler } from 'react-native';
 import { useState, useEffect } from 'react'
 import containers from '../StyleSheets/containers';
 import styles from '../StyleSheets/styles';

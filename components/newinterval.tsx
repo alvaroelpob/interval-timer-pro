@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { StatusBar, View, Text, TextInput, Button, ScrollView, Modal, TouchableOpacity } from 'react-native';
+import { StatusBar, View, Text, Button, ScrollView, Modal, TouchableOpacity } from 'react-native';
 import containers from '../StyleSheets/containers';
 import styles from '../StyleSheets/newinterval';
 import { Database } from 'expo-sqlite';
