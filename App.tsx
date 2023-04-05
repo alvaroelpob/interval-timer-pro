@@ -45,7 +45,6 @@ export default function App() {
     });
 
   }, [db]);
-
   return (
     <NavigationContainer>
       <Tab.Navigator
@@ -64,7 +63,7 @@ export default function App() {
         })}>
         <Tab.Screen name="Crear" children={() => <Newinterval db={db} />} />
         <Tab.Screen name="Guardados" children={() => <Saved workouts={workouts} />} />
-        <Tab.Screen name="Configuración" children={() => <Settings db={db} />} />
+        <Tab.Screen name="Configuración" children={() => <Settings db={db} setWorkouts={setWorkouts} />} />
       </Tab.Navigator>
     </NavigationContainer>
   );
