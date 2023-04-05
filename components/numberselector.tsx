@@ -3,7 +3,7 @@ import { Button, StyleSheet, View } from 'react-native';
 import WheelPickerExpo from 'react-native-wheel-picker-expo';
 import containers from '../StyleSheets/containers';
 
-const numberArray = Array.from({ length: 100 }, (_, i) => i);
+const numberArray = Array.from({ length: 100 }, (_, i) => i).filter(num => num !== 0);
 
 type Props = {
     currentValue: string;
@@ -27,7 +27,7 @@ export default function NumberSelector({ currentValue, setter, setModalVisible }
                     selectedStyle={{ borderColor: '#202124', borderWidth: 2 }}
                     height={200}
                     width={100}
-                    initialSelectedIndex={number}
+                    initialSelectedIndex={number - 1}
                     items={numberArray.map(number => ({ label: `${number}`, value: number }))}
                     onChange={({ item }) => setNumber(item.value)}
                 />
