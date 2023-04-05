@@ -12,12 +12,12 @@ export default function NewInterval({ db }: { db: any }) {
     const [renderCountdown, setRenderCountdown] = useState(false);
     const [modalVisible, setModalVisible] = useState(false);
 
-    const [prepTime, setPrepTime] = useState(formatTimeSeconds(5, true));
-    const [series, setSeries] = useState(3);
-    const [activeTime, setActiveTime] = useState(formatTimeSeconds(8, true));
-    const [restTime, setRestTime] = useState(formatTimeSeconds(15, true));
-    const [sets, setSets] = useState(4);
-    const [restBetweenSets, setRestBetweenSets] = useState(formatTimeSeconds(30, true));
+    const [prepTime, setPrepTime] = useState("00:00:00");
+    const [series, setSeries] = useState(1);
+    const [activeTime, setActiveTime] = useState("00:00:00");
+    const [restTime, setRestTime] = useState("00:00:00");
+    const [sets, setSets] = useState(1);
+    const [restBetweenSets, setRestBetweenSets] = useState("00:00:00");
 
     const [setter, setSetter] = useState<any>();
     const [currentVal, setCurrentVal] = useState<any>();
