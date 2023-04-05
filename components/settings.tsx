@@ -1,6 +1,6 @@
 import { ScrollView, View, Text, Button } from "react-native";
 
-export default function Settings({ db }: any) {
+export default function Settings({ db }: { db: any }) {
 
   function addTrainings() {
     if (db) {
