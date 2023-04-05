@@ -12,20 +12,20 @@ export default function NewInterval({ db }: { db: any }) {
     const [renderCountdown, setRenderCountdown] = useState(false);
     const [modalVisible, setModalVisible] = useState(false);
 
-    const [prepTime, setPrepTime] = useState("00:00:00");
-    const [series, setSeries] = useState(1);
-    const [activeTime, setActiveTime] = useState("00:00:00");
-    const [restTime, setRestTime] = useState("00:00:00");
-    const [sets, setSets] = useState(1);
-    const [restBetweenSets, setRestBetweenSets] = useState("00:00:00");
+    const [prepTime, setPrepTime] = useState("00:00:05");
+    const [series, setSeries] = useState(5);
+    const [activeTime, setActiveTime] = useState("00:00:10");
+    const [restTime, setRestTime] = useState("00:00:25");
+    const [sets, setSets] = useState(2);
+    const [restBetweenSets, setRestBetweenSets] = useState("00:01:00");
 
-    const [setter, setSetter] = useState<any>();
-    const [currentVal, setCurrentVal] = useState<any>();
+    const [setter, setSetter] = useState<Function>(() => { });
+    const [currentVal, setCurrentVal] = useState<string>("");
 
     const handleTouched = (currentValues: string | number, fnSetter: Function) => {
         setModalVisible(true)
         setSetter(() => (val: string) => fnSetter(val))
-        setCurrentVal(currentValues)
+        setCurrentVal(`${currentValues}`)
     }
 
     const handleClickStart = () => {
@@ -60,9 +60,9 @@ export default function NewInterval({ db }: { db: any }) {
                             <View style={styles.modalContainer}>
                                 {
                                     /^\d{2}:\d{2}:\d{2}$/.test(currentVal) ? (
-                                        <TimeSelector currentValue={currentVal} setter={setter} setModalVisible={setModalVisible} />
+                                        <TimeSelector currentValue={currentVal as string} setter={setter} setModalVisible={setModalVisible} />
                                     ) : (
-                                        <NumberSelector currentValue={currentVal} setter={setter} setModalVisible={setModalVisible} />
+                                        <NumberSelector currentValue={currentVal as string} setter={setter} setModalVisible={setModalVisible} />
                                     )
                                 }
                             </View>
