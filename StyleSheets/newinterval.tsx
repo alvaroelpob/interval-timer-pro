@@ -6,13 +6,22 @@ const newinterval = StyleSheet.create({
         height: 50,
         margin: '3%',
         padding: 5,
-        backgroundColor: '#444444',
+        backgroundColor: '#D1D647',
         borderRadius: 10
     },
-    input: {
-        backgroundColor: '#1E1E1E',
-        color: '#FFFFFF'
-    }
+    modalContainer: {
+        flex: 1,
+        width: '100%',
+        height: '100%',
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center'
+    },
+    modalView: {
+        backgroundColor: '#fff',
+        padding: 20,
+        borderRadius: 10,
+    },
 });
 
 export default newinterval;

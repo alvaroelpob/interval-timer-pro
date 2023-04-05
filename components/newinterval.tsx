@@ -9,7 +9,7 @@ import NumberSelector from './numberselector'
 import Countdown from './countdown';
 
 export default function NewInterval({ db }: { db: any }) {
-    const [sent, setSent] = useState(false);
+    const [renderCountdown, setRenderCountdown] = useState(false);
     const [modalVisible, setModalVisible] = useState(false);
 
     const [prepTime, setPrepTime] = useState(formatTimeSeconds(5, true));
@@ -29,7 +29,7 @@ export default function NewInterval({ db }: { db: any }) {
     }
 
     const handleClickStart = () => {
-        setSent(true);
+        setRenderCountdown(true);
     };
 
     return (
@@ -42,15 +42,18 @@ export default function NewInterval({ db }: { db: any }) {
                 onRequestClose={() => {
                     setModalVisible(!modalVisible);
                 }}>
-                {
-                    /^\d{2}:\d{2}:\d{2}$/.test(currentVal) ? (
-                        <TimeSelector currentValue={currentVal} setter={setter} setModalVisible={setModalVisible} />
-                    ) : (
-                        <NumberSelector currentValue={currentVal} setter={setter} setModalVisible={setModalVisible} />
-                    )
-                }
+                <View style={styles.modalContainer}>
+                    {
+                        /^\d{2}:\d{2}:\d{2}$/.test(currentVal) ? (
+                            <TimeSelector currentValue={currentVal} setter={setter} setModalVisible={setModalVisible} />
+                        ) : (
+                            <NumberSelector currentValue={currentVal} setter={setter} setModalVisible={setModalVisible} />
+                        )
+                    }
+                </View>
+
             </Modal>
-            {sent ? (
+            {renderCountdown ? (
                 <Countdown
                     prepTime={prepTime}
                     activeTime={activeTime}
@@ -58,6 +61,7 @@ export default function NewInterval({ db }: { db: any }) {
                     restBetweenSets={restBetweenSets}
                     series={series}
                     sets={sets}
+                    setRenderCountdown={setRenderCountdown}
                 />
             ) : (
                 <>

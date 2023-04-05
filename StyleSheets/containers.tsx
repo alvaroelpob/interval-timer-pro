@@ -28,6 +28,14 @@ const containers = StyleSheet.create({
         flexDirection: 'row',
         alignSelf: 'center',
         columnGap: 40
+    },
+    wheelpicker: {
+        flexDirection: 'row',
+        backgroundColor: '#fff',
+        alignItems: 'center',
+        justifyContent: 'space-around',
+        flexWrap: 'nowrap',
+        rowGap: 5
     }
 });
 

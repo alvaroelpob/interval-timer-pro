@@ -1,6 +1,7 @@
 import { useState, useRef } from 'react';
 import { Button, StyleSheet, View } from 'react-native';
 import WheelPickerExpo from 'react-native-wheel-picker-expo';
+import containers from '../StyleSheets/containers';
 
 const numberArray = Array.from({ length: 100 }, (_, i) => i);
 
@@ -21,7 +22,7 @@ export default function NumberSelector({ currentValue, setter, setModalVisible }
 
     return (
         <>
-            <View style={styles.container}>
+            <View style={containers.wheelpicker}>
                 <WheelPickerExpo
                     selectedStyle={{ borderColor: '#202124', borderWidth: 2 }}
                     height={200}
@@ -37,14 +38,3 @@ export default function NumberSelector({ currentValue, setter, setModalVisible }
         </>
     );
 }
-
-const styles = StyleSheet.create({
-    container: {
-        flexDirection: 'row',
-        backgroundColor: '#fff',
-        alignItems: 'center',
-        justifyContent: 'space-around',
-        flexWrap: 'nowrap',
-        rowGap: 5
-    }
-});

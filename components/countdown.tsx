@@ -1,10 +1,10 @@
-import { StatusBar, View, Text, Button } from 'react-native';
+import { StatusBar, View, Text, Button, BackHandler } from 'react-native';
 import { useState, useEffect } from 'react'
 import containers from '../StyleSheets/containers';
 import styles from '../StyleSheets/styles';
 import { formatTimeSeconds, calcTotalTime, timeToSeconds } from '../utils/normalizer';
 
-export default function Countdown({ name, prepTime, activeTime, restTime, restBetweenSets, series, sets }: any) {
+export default function Countdown({ name, prepTime, activeTime, restTime, restBetweenSets, series, sets, setRenderCountdown }: any) {
     prepTime = timeToSeconds(prepTime)
     activeTime = timeToSeconds(activeTime)
     restTime = timeToSeconds(restTime)
@@ -16,7 +16,9 @@ export default function Countdown({ name, prepTime, activeTime, restTime, restBe
     const [timeRemaining, setTimeRemaining] = useState(prepTime)
     const [serie, setSerie] = useState(0)
     const [setNumber, setSetNumber] = useState(1)
+
     const [isRunning, setIsRunning] = useState(false)
+    const [buttonText, setButtonText] = useState('Iniciar');
 
     const [totalTimeRemaining, setTotalTimeRemaining] = useState(totalTime)
 
@@ -56,6 +58,20 @@ export default function Countdown({ name, prepTime, activeTime, restTime, restBe
         return () => clearInterval(intervalId);
 
     }, [isRunning, timeRemaining]);
+
+    useEffect(() => {
+        const backHandler = BackHandler.addEventListener(
+            'hardwareBackPress',
+            handleBackPress
+        );
+
+        return () => backHandler.remove();
+    }, []);
+
+    const handleBackPress = () => {
+        setRenderCountdown(false)
+        return true
+    }
 
     const handleTogglePause = () => {
         setIsRunning(isRunning => !isRunning);

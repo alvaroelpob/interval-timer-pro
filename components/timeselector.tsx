@@ -2,6 +2,7 @@ import { useState, useRef } from 'react';
 import { Button, StyleSheet, View } from 'react-native';
 import WheelPickerExpo from 'react-native-wheel-picker-expo';
 import { formatTime } from '../utils/normalizer';
+import containers from '../StyleSheets/containers';
 
 const hoursArray = Array.from({ length: 24 }, (_, i) => i);
 const minutesArray = Array.from({ length: 60 }, (_, i) => i);
@@ -27,7 +28,7 @@ export default function TimeSelector({ currentValue, setter, setModalVisible }: 
 
     return (
         <>
-            <View style={styles.container}>
+            <View style={containers.wheelpicker}>
                 <WheelPickerExpo
                     selectedStyle={{ borderColor: '#202124', borderWidth: 2 }}
                     height={200}
@@ -61,14 +62,3 @@ export default function TimeSelector({ currentValue, setter, setModalVisible }: 
         </>
     );
 }
-
-const styles = StyleSheet.create({
-    container: {
-        flexDirection: 'row',
-        backgroundColor: '#fff',
-        alignItems: 'center',
-        justifyContent: 'space-around',
-        flexWrap: 'nowrap',
-        rowGap: 5
-    }
-});
