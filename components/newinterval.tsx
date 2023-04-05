@@ -1,24 +1,32 @@
 import React, { useState } from 'react';
-import { StatusBar, View, Text, TextInput, Button, ScrollView, } from 'react-native';
+import { StatusBar, View, Text, TextInput, Button, ScrollView, Modal, TouchableOpacity } from 'react-native';
 import containers from '../StyleSheets/containers';
 import styles from '../StyleSheets/newinterval';
+import { formatTimeSeconds } from '../utils/normalizer';
 
+import TimeSelector from './timeselector';
+import NumberSelector from './numberselector'
 import Countdown from './countdown';
 
 export default function NewInterval({ db }: { db: any }) {
     const [sent, setSent] = useState(false);
+    const [modalVisible, setModalVisible] = useState(false);
 
-    const [prepTime, setPrepTime] = useState('5');
-    const [series, setSeries] = useState('3');
-    const [activeTime, setActiveTime] = useState('8');
-    const [restTime, setRestTime] = useState('15');
-    const [sets, setSets] = useState('4');
-    const [restBetweenSets, setRestBetweenSets] = useState('30');
+    const [prepTime, setPrepTime] = useState(formatTimeSeconds(5, true));
+    const [series, setSeries] = useState(3);
+    const [activeTime, setActiveTime] = useState(formatTimeSeconds(8, true));
+    const [restTime, setRestTime] = useState(formatTimeSeconds(15, true));
+    const [sets, setSets] = useState(4);
+    const [restBetweenSets, setRestBetweenSets] = useState(formatTimeSeconds(30, true));
 
-    const handleTextChange = (setter: (value: string) => void) => (text: string) => {
-        const numericValue = text.replace(/[^0-9]/g, '');
-        setter(numericValue);
-    };
+    const [setter, setSetter] = useState<any>();
+    const [currentVal, setCurrentVal] = useState<any>();
+
+    const handleTouched = (currentValues: string | number, fnSetter: Function) => {
+        setModalVisible(true)
+        setSetter(() => (val: string) => fnSetter(val))
+        setCurrentVal(currentValues)
+    }
 
     const handleClickStart = () => {
         setSent(true);
@@ -27,6 +35,21 @@ export default function NewInterval({ db }: { db: any }) {
     return (
         <ScrollView style={containers.main}>
             <StatusBar />
+            <Modal
+                animationType="none"
+                transparent={true}
+                visible={modalVisible}
+                onRequestClose={() => {
+                    setModalVisible(!modalVisible);
+                }}>
+                {
+                    /^\d{2}:\d{2}:\d{2}$/.test(currentVal) ? (
+                        <TimeSelector currentValue={currentVal} setter={setter} setModalVisible={setModalVisible} />
+                    ) : (
+                        <NumberSelector currentValue={currentVal} setter={setter} setModalVisible={setModalVisible} />
+                    )
+                }
+            </Modal>
             {sent ? (
                 <Countdown
                     prepTime={prepTime}
@@ -38,59 +61,47 @@ export default function NewInterval({ db }: { db: any }) {
                 />
             ) : (
                 <>
-                    <View style={styles.create}>
-                        <Text>Preparación</Text>
-                        <TextInput
-                            value={prepTime}
-                            onChangeText={handleTextChange(setPrepTime)}
-                            keyboardType="numeric"
-                        />
-                    </View>
+                    <TouchableOpacity onPress={() => handleTouched(prepTime, setPrepTime)}>
+                        <View style={styles.create}>
+                            <Text>Preparación</Text>
+                            <Text>{prepTime}</Text>
+                        </View>
+                    </TouchableOpacity>
 
-                    <View style={styles.create}>
-                        <Text>Series</Text>
-                        <TextInput
-                            value={series}
-                            onChangeText={handleTextChange(setSeries)}
-                            keyboardType="numeric"
-                        />
-                    </View>
+                    <TouchableOpacity onPress={() => handleTouched(series, setSeries)}>
+                        <View style={styles.create}>
+                            <Text>Series</Text>
+                            <Text>{series}</Text>
+                        </View>
+                    </TouchableOpacity>
 
-                    <View style={styles.create}>
-                        <Text>Activo</Text>
-                        <TextInput
-                            value={activeTime}
-                            onChangeText={handleTextChange(setActiveTime)}
-                            keyboardType="numeric"
-                        />
-                    </View>
+                    <TouchableOpacity onPress={() => handleTouched(activeTime, setActiveTime)}>
+                        <View style={styles.create}>
+                            <Text>Activo</Text>
+                            <Text>{activeTime}</Text>
+                        </View>
+                    </TouchableOpacity>
 
-                    <View style={styles.create}>
-                        <Text>Descanso</Text>
-                        <TextInput
-                            value={restTime}
-                            onChangeText={handleTextChange(setRestTime)}
-                            keyboardType="numeric"
-                        />
-                    </View>
+                    <TouchableOpacity onPress={() => handleTouched(restTime, setRestTime)}>
+                        <View style={styles.create}>
+                            <Text>Descanso</Text>
+                            <Text>{restTime}</Text>
+                        </View>
+                    </TouchableOpacity>
 
-                    <View style={styles.create}>
-                        <Text>Sets</Text>
-                        <TextInput
-                            value={sets}
-                            onChangeText={handleTextChange(setSets)}
-                            keyboardType="numeric"
-                        />
-                    </View>
+                    <TouchableOpacity onPress={() => handleTouched(sets, setSets)}>
+                        <View style={styles.create}>
+                            <Text>Sets</Text>
+                            <Text>{sets}</Text>
+                        </View>
+                    </TouchableOpacity>
 
-                    <View style={styles.create}>
-                        <Text>Descanso entre Sets</Text>
-                        <TextInput
-                            value={restBetweenSets}
-                            onChangeText={handleTextChange(setRestBetweenSets)}
-                            keyboardType="numeric"
-                        />
-                    </View>
+                    <TouchableOpacity onPress={() => handleTouched(restBetweenSets, setRestBetweenSets)}>
+                        <View style={styles.create}>
+                            <Text>Descanso entre sets</Text>
+                            <Text>{restBetweenSets}</Text>
+                        </View>
+                    </TouchableOpacity>
 
                     <Button
                         title="Create Interval Timer"

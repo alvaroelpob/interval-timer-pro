@@ -1,13 +1,25 @@
 import type { ArrayDB, NewArrayDB, Workout } from "./types";
 
-function formatTime(totalSeconds: number, withHours?: boolean): string {
+function formatTime(hours: number, minutes: number, seconds: number): string {
+    const formattedHours = hours.toString().padStart(2, '0')
+    const formattedMinutes = minutes.toString().padStart(2, '0')
+    const formattedSeconds = seconds.toString().padStart(2, '0')
+    return `${formattedHours}:${formattedMinutes}:${formattedSeconds}`
+}
+
+function timeToSeconds(time: string) {
+    const [hours, minutes, seconds] = time.split(':').map(Number);
+    return (hours * 60 + minutes) * 60 + seconds;
+}
+
+function formatTimeSeconds(totalSeconds: number, withHours?: boolean): string {
     const hours = Math.floor(totalSeconds / 3600);
     const minutes = Math.floor((totalSeconds % 3600) / 60);
     const seconds = totalSeconds % 60;
 
     const time = [];
 
-    if (withHours) {
+    if (withHours || hours) {
         const formattedHours = hours < 10 ? `0${hours}` : `${hours}`;
         time.push(formattedHours);
     }
@@ -42,13 +54,13 @@ function normalizer(arrayDB: ArrayDB): NewArrayDB {
         const newObject = {
             id: id,
             name: name,
-            prepTime: formatTime(prepTime),
-            activeTime: formatTime(activeTime),
-            restTime: formatTime(restTime),
-            restBetweenSets: formatTime(restBetweenSets),
+            prepTime: formatTimeSeconds(prepTime),
+            activeTime: formatTimeSeconds(activeTime),
+            restTime: formatTimeSeconds(restTime),
+            restBetweenSets: formatTimeSeconds(restBetweenSets),
             series: series,
             sets: sets,
-            totalTime: formatTime(calcTotalTime(workout), true)
+            totalTime: formatTimeSeconds(calcTotalTime(workout), true)
         }
 
         newArray.push(newObject)
@@ -58,4 +70,4 @@ function normalizer(arrayDB: ArrayDB): NewArrayDB {
 }
 
 export default normalizer;
-export { formatTime, calcTotalTime };
+export { formatTimeSeconds, calcTotalTime, formatTime, timeToSeconds };
