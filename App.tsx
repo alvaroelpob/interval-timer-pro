@@ -2,7 +2,7 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { NavigationContainer } from '@react-navigation/native';
 import { useState, useEffect } from 'react'
 import { ArrayDB } from './utils/types';
-import * as SQLite from 'expo-sqlite'
+import { openDatabase, Database } from 'expo-sqlite';
 
 /* Components */
 import Newinterval from './components/newinterval';
@@ -16,7 +16,7 @@ import Gear from './assets/svg/gear';
 
 
 export default function App() {
-  const [db, setDb] = useState(SQLite.openDatabase('workouts.db'));
+  const [db, setDb] = useState<Database>(openDatabase('workouts.db'));
   const [workouts, setWorkouts] = useState<ArrayDB>([]);
 
   const Tab = createBottomTabNavigator();
