@@ -2,9 +2,13 @@ import { StatusBar, View, Text, Button } from 'react-native';
 import { useState, useEffect } from 'react'
 import containers from '../StyleSheets/containers';
 import styles from '../StyleSheets/styles';
-import { formatTime, calcTotalTime } from '../utils/normalizer';
+import { formatTimeSeconds, calcTotalTime, timeToSeconds } from '../utils/normalizer';
 
 export default function Countdown({ name, prepTime, activeTime, restTime, restBetweenSets, series, sets }: any) {
+    prepTime = timeToSeconds(prepTime)
+    activeTime = timeToSeconds(activeTime)
+    restTime = timeToSeconds(restTime)
+    restBetweenSets = timeToSeconds(restBetweenSets)
 
     const totalTime = calcTotalTime({ id: true, name: name ? name : "Untitled", prepTime, activeTime, restTime, restBetweenSets, series, sets })
 
@@ -62,12 +66,12 @@ export default function Countdown({ name, prepTime, activeTime, restTime, restBe
 
             <View style={containers.timeleft}>
                 <Text>Tiempo restante</Text>
-                <Text>{formatTime(totalTimeRemaining)}</Text>
+                <Text>{formatTimeSeconds(totalTimeRemaining)}</Text>
             </View>
 
             <View style={containers.countdown}>
                 <Text style={styles.timerstate}>{timerState}</Text>
-                <Text style={styles.countdown}>{timeRemaining}</Text>
+                <Text style={styles.countdown}>{formatTimeSeconds(timeRemaining)}</Text>
             </View>
 
 
