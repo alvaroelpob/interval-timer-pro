@@ -2,22 +2,22 @@ import React, { useState } from 'react';
 import { StatusBar, View, Text, TextInput, Button, ScrollView, Modal, TouchableOpacity } from 'react-native';
 import containers from '../StyleSheets/containers';
 import styles from '../StyleSheets/newinterval';
-import { formatTimeSeconds } from '../utils/normalizer';
+import { Database } from 'expo-sqlite';
 
 import TimeSelector from './timeselector';
 import NumberSelector from './numberselector'
 import Countdown from './countdown';
 
-export default function NewInterval({ db }: { db: any }) {
+export default function NewInterval({ db }: { db: Database }) {
     const [renderCountdown, setRenderCountdown] = useState(false);
     const [modalVisible, setModalVisible] = useState(false);
 
-    const [prepTime, setPrepTime] = useState("00:00:05");
-    const [series, setSeries] = useState(5);
-    const [activeTime, setActiveTime] = useState("00:00:10");
-    const [restTime, setRestTime] = useState("00:00:25");
-    const [sets, setSets] = useState(2);
-    const [restBetweenSets, setRestBetweenSets] = useState("00:01:00");
+    const [prepTime, setPrepTime] = useState<string>("00:00:05");
+    const [series, setSeries] = useState<number>(5);
+    const [activeTime, setActiveTime] = useState<string>("00:00:10");
+    const [restTime, setRestTime] = useState<string>("00:00:25");
+    const [sets, setSets] = useState<number>(2);
+    const [restBetweenSets, setRestBetweenSets] = useState<string>("00:01:00");
 
     const [setter, setSetter] = useState<Function>(() => { });
     const [currentVal, setCurrentVal] = useState<string>("");
