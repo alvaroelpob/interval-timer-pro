@@ -20,8 +20,6 @@ export default function Countdown({ name, prepTime, activeTime, restTime, restBe
     restTime = timeToSeconds(restTime)
     restBetweenSets = timeToSeconds(restBetweenSets)
 
-    setShowNav(false)
-
     const totalTime = calcTotalTime({ id: true, name: name ? name : "Untitled", prepTime, activeTime, restTime, restBetweenSets, series, sets })
 
     const [timerState, setTimerState] = useState('Preparación')
@@ -100,6 +98,8 @@ export default function Countdown({ name, prepTime, activeTime, restTime, restBe
     }, []);
 
     useEffect(() => {
+        setShowNav(false);
+
         (async () => {
             if (!longBeepSound._loaded) await longBeepSound.loadAsync(long_beep);
             if (!shortBeepSound._loaded) await shortBeepSound.loadAsync(short_beep);
