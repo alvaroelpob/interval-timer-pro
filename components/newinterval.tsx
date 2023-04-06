@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { StatusBar, View, Text, Button, ScrollView, Modal, TouchableOpacity } from 'react-native';
-import { useRoute, RouteProp } from '@react-navigation/native';
+import { useRoute, RouteProp, useIsFocused } from '@react-navigation/native';
 import { normalizeDate } from '../utils/normalizer';
 import { WorkoutFormated } from '../utils/types';
 
@@ -15,6 +15,7 @@ import Countdown from './countdown';
 
 export default function NewInterval() {
     const route: RouteProp<{ params: { interval: WorkoutFormated } }, 'params'> = useRoute();
+    const isFocused = useIsFocused();
     const interval = route.params?.interval;
 
     const [renderCountdown, setRenderCountdown] = useState(false);
@@ -40,6 +41,12 @@ export default function NewInterval() {
             setRestBetweenSets(normalizeDate(interval.restBetweenSets));
         }
     }, [interval]);
+
+    useEffect(() => {
+        if (!isFocused && renderCountdown) {
+            setRenderCountdown(false);
+        }
+    }, [isFocused]);
 
     const handleTouched = (currentValues: string | number, fnSetter: Function) => {
         setModalVisible(true)
