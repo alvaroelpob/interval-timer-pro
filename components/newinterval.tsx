@@ -110,7 +110,7 @@ export default function NewInterval() {
 
                         <TouchableOpacity onPress={() => handleTouched(activeTime, setActiveTime)}>
                             <View style={styles.create}>
-                                <Text>Activo</Text>
+                                <Text>Ejercitar</Text>
                                 <Text>{activeTime}</Text>
                             </View>
                         </TouchableOpacity>

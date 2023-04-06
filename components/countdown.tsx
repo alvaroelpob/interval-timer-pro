@@ -65,7 +65,7 @@ export default function Countdown({ name, prepTime, activeTime, restTime, restBe
                 setSerie(0)
                 setSetNumber(prevSetNumber => prevSetNumber + 1)
             } else {
-                if (timerState == "Activo") {
+                if (timerState == "Ejercitar") {
                     (async () => {
                         await shortBeepSound.replayAsync();
                     })();
@@ -77,7 +77,7 @@ export default function Countdown({ name, prepTime, activeTime, restTime, restBe
                         await longBeepSound.replayAsync();
                     })();
 
-                    setTimerState('Activo')
+                    setTimerState('Ejercitar')
                     setTimeRemaining(activeTime)
                     setSerie(prevSerie => prevSerie + 1)
                 }
