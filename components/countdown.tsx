@@ -1,8 +1,18 @@
 import { View, Text, Button, BackHandler } from 'react-native';
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
+import { Audio } from 'expo-av';
 import containers from '../StyleSheets/containers';
 import styles from '../StyleSheets/styles';
 import { formatTimeSeconds, calcTotalTime, timeToSeconds } from '../utils/normalizer';
+
+/* Sounds */
+const whistle = require('../assets/sounds/Others/whistle');
+const long_beep = require('../assets/sounds/Beeps/long_beep');
+const short_beep = require('../assets/sounds/Beeps/medium_beep');
+const congrats = require('../assets/sounds/Others/congrats');
+
+const longBeepSound = new Audio.Sound();
+const shortBeepSound = new Audio.Sound();
 
 export default function Countdown({ name, prepTime, activeTime, restTime, restBetweenSets, series, sets, setRenderCountdown }: any) {
     prepTime = timeToSeconds(prepTime)
@@ -37,17 +47,36 @@ export default function Countdown({ name, prepTime, activeTime, restTime, restBe
 
             if (serie == series) {
                 if (setNumber == sets) {
-                    return setTimerState("End of Training")
+                    (async () => {
+                        const { sound } = await Audio.Sound.createAsync(congrats);
+                        await sound.playAsync();
+                    })();
+
+                    setTimerState("¡Has terminado!");
+                    return
                 }
-                setTimerState('Descanso')
+
+                (async () => {
+                    await shortBeepSound.replayAsync();
+                })();
+
+                setTimerState('Descanso');
                 setTimeRemaining(restBetweenSets)
                 setSerie(0)
                 setSetNumber(prevSetNumber => prevSetNumber + 1)
             } else {
                 if (timerState == "Activo") {
+                    (async () => {
+                        await shortBeepSound.replayAsync();
+                    })();
+
                     setTimerState('Descanso')
                     setTimeRemaining(restTime)
                 } else {
+                    (async () => {
+                        await longBeepSound.replayAsync();
+                    })();
+
                     setTimerState('Activo')
                     setTimeRemaining(activeTime)
                     setSerie(prevSerie => prevSerie + 1)
@@ -68,12 +97,25 @@ export default function Countdown({ name, prepTime, activeTime, restTime, restBe
         return () => backHandler.remove();
     }, []);
 
+    useEffect(() => {
+        (async () => {
+            if (!longBeepSound._loaded) await longBeepSound.loadAsync(long_beep);
+            if (!shortBeepSound._loaded) await shortBeepSound.loadAsync(short_beep);
+        })();
+    }, [])
+
     const handleBackPress = () => {
         setRenderCountdown(false)
         return true
     }
 
     const handleTogglePause = () => {
+        if (buttonText === "Iniciar") {
+            (async () => {
+                const { sound } = await Audio.Sound.createAsync(whistle);
+                await sound.playAsync();
+            })();
+        }
         setIsRunning(isRunning => !isRunning);
         setButtonText(buttonText => isRunning ? 'Reaunudar' : 'Pausar');
     }
