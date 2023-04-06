@@ -1,14 +1,22 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { StatusBar, View, Text, Button, ScrollView, Modal, TouchableOpacity } from 'react-native';
+import { useRoute, RouteProp } from '@react-navigation/native';
+import { normalizeDate } from '../utils/normalizer';
+import { WorkoutFormated } from '../utils/types';
+
+/* Styles */
 import containers from '../StyleSheets/containers';
 import styles from '../StyleSheets/newinterval';
-import { Database } from 'expo-sqlite';
 
+/* Components */
 import TimeSelector from './timeselector';
 import NumberSelector from './numberselector'
 import Countdown from './countdown';
 
-export default function NewInterval({ db }: { db: Database }) {
+export default function NewInterval() {
+    const route: RouteProp<{ params: { interval: WorkoutFormated } }, 'params'> = useRoute();
+    const interval = route.params?.interval;
+
     const [renderCountdown, setRenderCountdown] = useState(false);
     const [modalVisible, setModalVisible] = useState(false);
 
@@ -21,6 +29,17 @@ export default function NewInterval({ db }: { db: Database }) {
 
     const [setter, setSetter] = useState<Function>(() => { });
     const [currentVal, setCurrentVal] = useState<string>("");
+
+    useEffect(() => {
+        if (interval) {
+            setPrepTime(normalizeDate(interval.prepTime));
+            setSeries(interval.series);
+            setActiveTime(normalizeDate(interval.activeTime));
+            setRestTime(normalizeDate(interval.restTime));
+            setSets(interval.sets);
+            setRestBetweenSets(normalizeDate(interval.restBetweenSets));
+        }
+    }, [interval]);
 
     const handleTouched = (currentValues: string | number, fnSetter: Function) => {
         setModalVisible(true)

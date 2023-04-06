@@ -31,3 +31,15 @@ export type Workout = {
     series: number;
     sets: number;
 };
+
+export type WorkoutFormated = {
+    id: number;
+    name: string;
+    prepTime: string;
+    activeTime: string;
+    restTime: string;
+    restBetweenSets: string;
+    series: number;
+    sets: number;
+    totalTime: string;
+};

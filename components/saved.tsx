@@ -1,8 +1,9 @@
-import { View, Text, ScrollView } from "react-native";
+import { View, Text, ScrollView, TouchableOpacity } from "react-native";
 import styles from '../StyleSheets/saved'
 import containers from '../StyleSheets/containers';
 import normalizer from "../utils/normalizer";
-import { ArrayDB } from "../utils/types";
+import { ArrayDB, WorkoutFormated } from "../utils/types";
+import { NavigationProp, useNavigation } from "@react-navigation/native";
 
 /* Icons */
 import Clock from "../assets/svg/clock";
@@ -12,12 +13,19 @@ import RepeatSnooze from "../assets/svg/repeatsnooze";
 
 export default function Saved({ workouts }: { workouts: ArrayDB }) {
     const normalized = normalizer(workouts)
+    const navigation = useNavigation<NavigationProp<ReactNavigation.RootParamList>>()
+
+    const startCountdown = (interval: WorkoutFormated) => {
+        navigation.navigate('Crear' as never, {
+            interval: interval,
+        } as never)
+    }
 
     return (
         <ScrollView style={containers.main}>
             {
                 normalized.map(interval => (
-                    <View key={interval.id} style={styles.item}>
+                    <TouchableOpacity key={interval.id} style={styles.item} onPress={() => startCountdown(interval)}>
                         <View style={styles.header}>
                             <Text style={styles.headertext}>{interval.name}</Text>
                         </View>
@@ -51,7 +59,7 @@ export default function Saved({ workouts }: { workouts: ArrayDB }) {
                             <Text style={styles.textinfo}>Sets: {interval.sets}</Text>
                         </View>
                         <Text style={styles.textinfo}>Total time: {interval.totalTime}</Text>
-                    </View>
+                    </TouchableOpacity>
                 ))
             }
         </ScrollView>

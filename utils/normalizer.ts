@@ -1,5 +1,29 @@
 import type { ArrayDB, NewArrayDB, Workout } from "./types";
 
+function normalizeDate(time: string): string {
+    const parts = time.split(':');
+    let hours = 0, minutes = 0, seconds = 0;
+
+    if (parts.length === 2) {
+        // Format is mm:ss
+        minutes = parseInt(parts[0]);
+        seconds = parseInt(parts[1]);
+    } else if (parts.length === 3) {
+        // Format is hh:mm:ss
+        hours = parseInt(parts[0]);
+        minutes = parseInt(parts[1]);
+        seconds = parseInt(parts[2]);
+    }
+
+    // Pad each component with a leading zero if necessary
+    const pad = (num: number) => num.toString().padStart(2, '0');
+    const formattedHours = pad(hours);
+    const formattedMinutes = pad(minutes);
+    const formattedSeconds = pad(seconds);
+
+    return `${formattedHours}:${formattedMinutes}:${formattedSeconds}`;
+}
+
 function formatTime(hours: number, minutes: number, seconds: number): string {
     const formattedHours = hours.toString().padStart(2, '0')
     const formattedMinutes = minutes.toString().padStart(2, '0')
@@ -70,4 +94,4 @@ function normalizer(arrayDB: ArrayDB): NewArrayDB {
 }
 
 export default normalizer;
-export { formatTimeSeconds, calcTotalTime, formatTime, timeToSeconds };
+export { formatTimeSeconds, calcTotalTime, formatTime, timeToSeconds, normalizeDate };
