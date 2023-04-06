@@ -1,5 +1,5 @@
 import { View, Text, Button, BackHandler } from 'react-native';
-import { useState, useEffect, useRef } from 'react'
+import { useState, useEffect } from 'react'
 import { Audio } from 'expo-av';
 import containers from '../StyleSheets/containers';
 import styles from '../StyleSheets/styles';
