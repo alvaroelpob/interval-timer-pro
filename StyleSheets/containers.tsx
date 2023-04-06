@@ -16,7 +16,9 @@ const containers = StyleSheet.create({
     timeleft: {
         display: 'flex',
         flexDirection: 'column',
-        alignSelf: 'center'
+        alignItems: 'center',
+        alignSelf: 'center',
+        marginTop: 2
     },
     countdown: {
         display: 'flex',
@@ -28,6 +30,11 @@ const containers = StyleSheet.create({
         flexDirection: 'row',
         alignSelf: 'center',
         columnGap: 40
+    },
+    subinfo: {
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center'
     },
     wheelpicker: {
         flexDirection: 'row',

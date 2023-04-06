@@ -76,30 +76,30 @@ export default function Countdown({ name, prepTime, activeTime, restTime, restBe
     const handleTogglePause = () => {
         setIsRunning(isRunning => !isRunning);
         setButtonText(buttonText => isRunning ? 'Reaunudar' : 'Pausar');
-      }
+    }
 
     return (
         <View style={containers.timer}>
 
             <View style={containers.timeleft}>
-                <Text>Tiempo restante</Text>
-                <Text>{formatTimeSeconds(totalTimeRemaining)}</Text>
+                <Text style={{ color: '#FFFFFF' }}>Tiempo restante</Text>
+                <Text style={{ color: '#FFFFFF' }}>{formatTimeSeconds(totalTimeRemaining)}</Text>
             </View>
 
             <View style={containers.countdown}>
-                <Text style={styles.timerstate}>{timerState}</Text>
-                <Text style={styles.countdown}>{formatTimeSeconds(timeRemaining)}</Text>
+                <Text style={[{ color: '#FFFFFF' }, styles.timerstate]}>{timerState}</Text>
+                <Text style={[{ color: '#FFFFFF' }, styles.countdown]}>{formatTimeSeconds(timeRemaining)}</Text>
             </View>
 
 
             <View style={containers.timerinfo}>
-                <View>
-                    <Text>Serie</Text>
-                    <Text>{serie}/{series}</Text>
+                <View style={containers.subinfo}>
+                    <Text style={{ color: '#FFFFFF' }}>Serie</Text>
+                    <Text style={{ color: '#FFFFFF' }}>{serie}/{series}</Text>
                 </View>
-                <View>
-                    <Text>Set</Text>
-                    <Text>{setNumber}/{sets}</Text>
+                <View style={containers.subinfo}>
+                    <Text style={{ color: '#FFFFFF' }}>Set</Text>
+                    <Text style={{ color: '#FFFFFF' }}>{setNumber}/{sets}</Text>
                 </View>
             </View>
 
