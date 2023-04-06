@@ -1,7 +1,11 @@
 import { Database } from "expo-sqlite";
 import { Button, View } from "react-native";
+import { WorkoutFormated } from "../utils/types";
+import { useNavigation, NavigationProp } from "@react-navigation/native";
 
 export default function Settings({ db, setWorkouts }: { db: Database, setWorkouts: Function }) {
+
+  const navigation = useNavigation<NavigationProp<ReactNavigation.RootParamList>>()
 
   function addTrainings() {
     db.transaction(tx => {
@@ -70,10 +74,26 @@ export default function Settings({ db, setWorkouts }: { db: Database, setWorkout
     setWorkouts([]);
   }
 
+  function makeFastCountdown() {
+    navigation.navigate('Crear' as never, {
+      interval: {
+        id: 1,
+        name: "Test training",
+        prepTime: "00:00:03",
+        activeTime: "00:00:02",
+        restTime: "00:00:03",
+        restBetweenSets: "00:00:04",
+        series: 2,
+        sets: 2
+      }
+    } as never)
+  }
+
   return (
     <View>
       <Button title='Add testing trainings' onPress={addTrainings}></Button>
       <Button title='Drop trainings' onPress={dropTrainings}></Button>
+      <Button title='Make fast countdown' onPress={makeFastCountdown}></Button>
     </View>
   );
 }
