@@ -14,11 +14,13 @@ const congrats = require('../assets/sounds/Others/congrats');
 const longBeepSound = new Audio.Sound();
 const shortBeepSound = new Audio.Sound();
 
-export default function Countdown({ name, prepTime, activeTime, restTime, restBetweenSets, series, sets, setRenderCountdown }: any) {
+export default function Countdown({ name, prepTime, activeTime, restTime, restBetweenSets, series, sets, setRenderCountdown, setShowNav }: any) {
     prepTime = timeToSeconds(prepTime)
     activeTime = timeToSeconds(activeTime)
     restTime = timeToSeconds(restTime)
     restBetweenSets = timeToSeconds(restBetweenSets)
+
+    setShowNav(false)
 
     const totalTime = calcTotalTime({ id: true, name: name ? name : "Untitled", prepTime, activeTime, restTime, restBetweenSets, series, sets })
 
@@ -106,6 +108,7 @@ export default function Countdown({ name, prepTime, activeTime, restTime, restBe
 
     const handleBackPress = () => {
         setRenderCountdown(false)
+        setShowNav(true)
         return true
     }
 
@@ -120,8 +123,18 @@ export default function Countdown({ name, prepTime, activeTime, restTime, restBe
         setButtonText(buttonText => isRunning ? 'Reaunudar' : 'Pausar');
     }
 
+    const getBgColor = (): string => {
+        const equalities: { [key: string]: string; } = {
+            "Preparación": "#0076be",
+            "Ejercitar": "#de2b00",
+            "Descanso": "#017a10",
+            "¡Has terminado!": "#212121"
+        }
+        return equalities[timerState]
+    }
+
     return (
-        <View style={containers.timer}>
+        <View style={[{ backgroundColor: getBgColor() }, containers.timer]}>
 
             <View style={containers.timeleft}>
                 <Text style={{ color: '#FFFFFF' }}>Tiempo restante</Text>

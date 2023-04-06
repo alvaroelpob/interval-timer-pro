@@ -13,7 +13,7 @@ import TimeSelector from './timeselector';
 import NumberSelector from './numberselector'
 import Countdown from './countdown';
 
-export default function NewInterval() {
+export default function NewInterval({ setShowNav }: { setShowNav: Function }) {
     const route: RouteProp<{ params: { interval: WorkoutFormated } }, 'params'> = useRoute();
     const isFocused = useIsFocused();
     const interval = route.params?.interval;
@@ -71,6 +71,7 @@ export default function NewInterval() {
                         series={series}
                         sets={sets}
                         setRenderCountdown={setRenderCountdown}
+                        setShowNav={setShowNav}
                     />
                 ) : (
 

@@ -18,6 +18,7 @@ import Gear from './assets/svg/gear';
 export default function App() {
   const [db, setDb] = useState<Database>(openDatabase('workouts.db'));
   const [workouts, setWorkouts] = useState<ArrayDB>([]);
+  const [showNav, setShowNav] = useState<boolean>(true)
 
   const Tab = createBottomTabNavigator();
 
@@ -49,6 +50,10 @@ export default function App() {
     <NavigationContainer>
       <Tab.Navigator
         screenOptions={({ route }) => ({
+          headerShown: showNav,
+          tabBarStyle: {
+            display: showNav ? undefined : "none",
+          },
           tabBarIcon: ({ focused, color, size }) => {
 
             if (route.name === 'Crear') {
@@ -58,10 +63,9 @@ export default function App() {
             } else if (route.name === "Configuración") {
               return <Gear gray={!focused} />
             }
-
           },
         })}>
-        <Tab.Screen name="Crear" children={() => <Newinterval />} />
+        <Tab.Screen name="Crear" children={() => <Newinterval setShowNav={setShowNav} />} />
         <Tab.Screen name="Guardados" children={() => <Saved workouts={workouts} />} />
         <Tab.Screen name="Configuración" children={() => <Settings db={db} setWorkouts={setWorkouts} />} />
       </Tab.Navigator>
