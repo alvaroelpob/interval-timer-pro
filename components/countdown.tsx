@@ -303,7 +303,7 @@ export default function Countdown({ name, prepTime, activeTime, restTime, restBe
                         <Backward disabled={backwardDisabled} />
                     </TouchableOpacity>
 
-                    <TouchableOpacity onPress={handleTogglePause} disabled={controlsDisabled}>
+                    <TouchableOpacity onPress={handleTogglePause} disabled={controlsDisabled || ended}>
                         {
                             isRunning ? (
                                 <Pause disabled={controlsDisabled} />
