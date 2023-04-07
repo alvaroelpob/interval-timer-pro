@@ -6,7 +6,7 @@ import containers from '../StyleSheets/containers';
 
 const hoursArray = Array.from({ length: 24 }, (_, i) => i);
 const minutesArray = Array.from({ length: 60 }, (_, i) => i);
-const secondsArray = Array.from({ length: 60 }, (_, i) => i).filter(num => num !== 0);
+const secondsArray = Array.from({ length: 60 }, (_, i) => i);
 
 type Props = {
     currentValue: string;
@@ -22,6 +22,9 @@ export default function TimeSelector({ currentValue, setter, setModalVisible }: 
     const [seconds, setSeconds] = useState(+importedTime[2]);
 
     const saveTime = () => {
+        if (seconds === 0 && minutes === 0 && hours === 0) {
+            return
+        }
         setter(formatTime(hours, minutes, seconds));
         setModalVisible(false);
     }
@@ -51,7 +54,7 @@ export default function TimeSelector({ currentValue, setter, setModalVisible }: 
                     selectedStyle={{ borderColor: '#202124', borderWidth: 2 }}
                     height={200}
                     width={100}
-                    initialSelectedIndex={seconds - 1} // Seconds is 1 forward index = value ([0] === [1])
+                    initialSelectedIndex={seconds}
                     items={secondsArray.map(number => ({ label: `${number}`, value: number }))}
                     onChange={({ item }) => setSeconds(item.value)}
                 />
