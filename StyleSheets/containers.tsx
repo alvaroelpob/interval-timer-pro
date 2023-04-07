@@ -12,6 +12,13 @@ const containers = StyleSheet.create({
         flex: 1,
         flexDirection: 'column'
     },
+    header: {
+        display: 'flex',
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'space-around',
+        marginTop: 15
+    },
     timeleft: {
         display: 'flex',
         flexDirection: 'column',

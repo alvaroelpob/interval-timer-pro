@@ -11,6 +11,10 @@ import Pause from '../assets/svg/controls/pause';
 import Backward from '../assets/svg/controls/backward';
 import Forward from '../assets/svg/controls/forward';
 import Repeat from '../assets/svg/controls/repeat';
+import On from '../assets/svg/controls/on';
+import Off from '../assets/svg/controls/off';
+import Lock from '../assets/svg/controls/lock';
+import Unlock from '../assets/svg/controls/unlock';
 
 /* Sounds */
 const whistle = require('../assets/sounds/Others/whistle');
@@ -39,9 +43,12 @@ export default function Countdown({ name, prepTime, activeTime, restTime, restBe
     const [isRunning, setIsRunning] = useState(true)
     const [ended, setEnded] = useState(false);
 
+    const [allDisabled, setAllDisabled] = useState(false)
     const [controlsDisabled, setControlsDisabled] = useState(false)
     const [backwardDisabled, setBackwardDisabled] = useState(true);
     const [forwardDisabled, setForwardDisabled] = useState(false);
+
+    const [sound, setSound] = useState(true)
 
     const [totalTimeRemaining, setTotalTimeRemaining] = useState(totalTime)
 
@@ -62,19 +69,27 @@ export default function Countdown({ name, prepTime, activeTime, restTime, restBe
         }
 
         if (timeRemaining === 3) {
-            (async () => {
-                await shortBeepSound.replayAsync();
-            })();
+            if (sound) {
+                (async () => {
+                    await shortBeepSound.replayAsync();
+                })();
+            }
         }
         if (timeRemaining === 2) {
-            (async () => {
-                await shortBeepSound.replayAsync();
-            })();
+            if (sound) {
+                (async () => {
+                    await shortBeepSound.replayAsync();
+                })();
+            }
+
         }
         if (timeRemaining === 1) {
-            (async () => {
-                await shortBeepSound.replayAsync();
-            })();
+            if (sound) {
+                (async () => {
+                    await shortBeepSound.replayAsync();
+                })();
+            }
+
         }
 
         if (timeRemaining === 0) {
@@ -82,18 +97,22 @@ export default function Countdown({ name, prepTime, activeTime, restTime, restBe
 
             if (serie == series) {
                 if (setNumber == sets) {
-                    (async () => {
-                        const { sound } = await Audio.Sound.createAsync(congrats);
-                        await sound.playAsync();
-                    })();
+                    if (sound) {
+                        (async () => {
+                            const { sound } = await Audio.Sound.createAsync(congrats);
+                            await sound.playAsync();
+                        })();
+                    }
+
                     setEnded(true);
                     setTimerState("¡Has terminado!");
                     return
                 }
-
-                (async () => {
-                    await mediumBeepSound.replayAsync();
-                })();
+                if (sound) {
+                    (async () => {
+                        await mediumBeepSound.replayAsync();
+                    })();
+                }
 
                 setTimerState('Descanso');
                 setTimeRemaining(restBetweenSets)
@@ -101,16 +120,19 @@ export default function Countdown({ name, prepTime, activeTime, restTime, restBe
                 setSetNumber(prevSetNumber => prevSetNumber + 1)
             } else {
                 if (timerState == "Ejercitar") {
-                    (async () => {
-                        await mediumBeepSound.replayAsync();
-                    })();
-
+                    if (sound) {
+                        (async () => {
+                            await mediumBeepSound.replayAsync();
+                        })();
+                    }
                     setTimerState('Descanso')
                     setTimeRemaining(restTime)
                 } else {
-                    (async () => {
-                        await longBeepSound.replayAsync();
-                    })();
+                    if (sound) {
+                        (async () => {
+                            await longBeepSound.replayAsync();
+                        })();
+                    }
 
                     setTimerState('Ejercitar')
                     setTimeRemaining(activeTime)
@@ -174,9 +196,11 @@ export default function Countdown({ name, prepTime, activeTime, restTime, restBe
 
         /* Backward from "Ejercitar" moving set */
         if (serie === 1 && timerState === "Ejercitar") {
-            (async () => {
-                await mediumBeepSound.replayAsync();
-            })();
+            if (sound) {
+                (async () => {
+                    await mediumBeepSound.replayAsync();
+                })();
+            }
 
             setTimeRemaining(restBetweenSets);
             setTotalTimeRemaining(prevTTR => prevTTR + restBetweenSets + (activeTime - timeRemaining));
@@ -187,9 +211,11 @@ export default function Countdown({ name, prepTime, activeTime, restTime, restBe
 
         /* Backward from "Descanso" moving set */
         if (serie === 0 && timerState === "Descanso") {
-            (async () => {
-                await longBeepSound.replayAsync();
-            })();
+            if (sound) {
+                (async () => {
+                    await longBeepSound.replayAsync();
+                })();
+            }
 
             setTimeRemaining(activeTime);
             setTotalTimeRemaining(prevTTR => prevTTR + activeTime + (restBetweenSets - timeRemaining));
@@ -201,9 +227,11 @@ export default function Countdown({ name, prepTime, activeTime, restTime, restBe
 
         /* Backward from "Ejercitar" */
         if (timerState === "Ejercitar") {
-            (async () => {
-                await mediumBeepSound.replayAsync();
-            })();
+            if (sound) {
+                (async () => {
+                    await mediumBeepSound.replayAsync();
+                })();
+            }
 
             setTimeRemaining(restTime);
             setTotalTimeRemaining(prevTTR => prevTTR + restTime + (activeTime - timeRemaining));
@@ -214,9 +242,11 @@ export default function Countdown({ name, prepTime, activeTime, restTime, restBe
 
         /* Backward from "Descanso" */
         if (timerState === "Descanso") {
-            (async () => {
-                await longBeepSound.replayAsync();
-            })();
+            if (sound) {
+                (async () => {
+                    await longBeepSound.replayAsync();
+                })();
+            }
 
             setTimeRemaining(activeTime);
             setTotalTimeRemaining(prevTTR => prevTTR + activeTime + (restTime - timeRemaining));
@@ -226,9 +256,11 @@ export default function Countdown({ name, prepTime, activeTime, restTime, restBe
 
         /* Backward from finish */
         if (timerState === "¡Has terminado!") {
-            (async () => {
-                await longBeepSound.replayAsync();
-            })();
+            if (sound) {
+                (async () => {
+                    await longBeepSound.replayAsync();
+                })();
+            }
 
             setTimeRemaining(activeTime);
             setTotalTimeRemaining(prevTTR => prevTTR + activeTime);
@@ -257,6 +289,14 @@ export default function Countdown({ name, prepTime, activeTime, restTime, restBe
         setTotalTimeRemaining(totalTime);
     }
 
+    const handleToggleSound = () => {
+        setSound(sound => !sound);
+    };
+
+    const handleToggleControls = () => {
+        setAllDisabled(ds => !ds)
+    }
+
     const getBgColor = (): string => {
         const equalities: { [key: string]: string; } = {
             "Preparación": "#0076be",
@@ -270,9 +310,31 @@ export default function Countdown({ name, prepTime, activeTime, restTime, restBe
     return (
         <View style={[{ backgroundColor: getBgColor() }, containers.timer]}>
             <View style={containers.countdowninfo}>
-                <View style={containers.timeleft}>
-                    <Text style={{ color: '#FFFFFF' }}>Tiempo restante</Text>
-                    <Text style={{ color: '#FFFFFF' }}>{formatTimeSeconds(totalTimeRemaining)}</Text>
+
+                <View style={containers.header}>
+
+                    <TouchableOpacity onPress={handleToggleControls}>
+                        {
+                            allDisabled ? (
+                                <Lock />
+                            ) : (
+                                <Unlock />
+                            )
+                        }
+                    </TouchableOpacity>
+
+                    <Text style={{ color: '#FFFFFF', fontSize: 45 }}>{formatTimeSeconds(totalTimeRemaining)}</Text>
+
+                    <TouchableOpacity onPress={handleToggleSound} disabled={allDisabled}>
+                        {
+                            sound ? (
+                                <On disabled={allDisabled} />
+                            ) : (
+                                <Off disabled={allDisabled} />
+                            )
+                        }
+                    </TouchableOpacity>
+
                 </View>
 
                 <View style={containers.countdown}>
@@ -299,16 +361,16 @@ export default function Countdown({ name, prepTime, activeTime, restTime, restBe
 
                 <View style={containers.controls}>
 
-                    <TouchableOpacity onPress={handleGoBackward} disabled={backwardDisabled}>
-                        <Backward disabled={backwardDisabled} />
+                    <TouchableOpacity onPress={handleGoBackward} disabled={allDisabled || backwardDisabled}>
+                        <Backward disabled={allDisabled || backwardDisabled} />
                     </TouchableOpacity>
 
-                    <TouchableOpacity onPress={handleTogglePause} disabled={controlsDisabled || ended}>
+                    <TouchableOpacity onPress={handleTogglePause} disabled={allDisabled || controlsDisabled || ended}>
                         {
                             isRunning ? (
-                                <Pause disabled={controlsDisabled} />
+                                <Pause disabled={allDisabled || controlsDisabled} />
                             ) : (
-                                <Play disabled={controlsDisabled} />
+                                <Play disabled={allDisabled || controlsDisabled} />
                             )
                         }
                     </TouchableOpacity>
@@ -318,8 +380,8 @@ export default function Countdown({ name, prepTime, activeTime, restTime, restBe
                                 <Repeat />
                             </TouchableOpacity>
                         ) : (
-                            <TouchableOpacity onPress={handleGoForward} disabled={forwardDisabled}>
-                                <Forward disabled={forwardDisabled} />
+                            <TouchableOpacity onPress={handleGoForward} disabled={allDisabled || forwardDisabled}>
+                                <Forward disabled={allDisabled || forwardDisabled} />
                             </TouchableOpacity>
                         )
                     }
