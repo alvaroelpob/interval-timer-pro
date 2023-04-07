@@ -1,9 +1,15 @@
-import { View, Text, Button, BackHandler } from 'react-native';
+import { View, Text, BackHandler, TouchableOpacity } from 'react-native';
 import { useState, useEffect } from 'react'
 import { Audio } from 'expo-av';
 import containers from '../StyleSheets/containers';
 import styles from '../StyleSheets/styles';
 import { formatTimeSeconds, calcTotalTime, timeToSeconds } from '../utils/normalizer';
+
+/* Icons */
+import Play from '../assets/svg/controls/play';
+import Pause from '../assets/svg/controls/pause';
+import Backward from '../assets/svg/controls/backward';
+import Forward from '../assets/svg/controls/forward';
 
 /* Sounds */
 const whistle = require('../assets/sounds/Others/whistle');
@@ -27,8 +33,11 @@ export default function Countdown({ name, prepTime, activeTime, restTime, restBe
     const [serie, setSerie] = useState(0)
     const [setNumber, setSetNumber] = useState(1)
 
-    const [isRunning, setIsRunning] = useState(false)
-    const [buttonText, setButtonText] = useState('Iniciar');
+    const [isRunning, setIsRunning] = useState(true)
+
+    const [controlsDisabled, setControlsDisabled] = useState(false)
+    const [backwardDisabled, setBackwardDisabled] = useState(true);
+    const [forwardDisabled, setForwardDisabled] = useState(false);
 
     const [totalTimeRemaining, setTotalTimeRemaining] = useState(totalTime)
 
@@ -42,6 +51,12 @@ export default function Countdown({ name, prepTime, activeTime, restTime, restBe
             }, 1000);
         }
 
+        if (timerState !== "Preparación") {
+            setBackwardDisabled(false)
+        } else {
+            setBackwardDisabled(true)
+        }
+
         if (timeRemaining === 0) {
             clearInterval(intervalId);
 
@@ -51,7 +66,7 @@ export default function Countdown({ name, prepTime, activeTime, restTime, restBe
                         const { sound } = await Audio.Sound.createAsync(congrats);
                         await sound.playAsync();
                     })();
-
+                    setForwardDisabled(true);
                     setTimerState("¡Has terminado!");
                     return
                 }
@@ -99,10 +114,18 @@ export default function Countdown({ name, prepTime, activeTime, restTime, restBe
 
     useEffect(() => {
         setShowNav(false);
+        (async () => {
+            const { sound } = await Audio.Sound.createAsync(whistle);
+            await sound.playAsync();
+        })();
 
         (async () => {
-            if (!longBeepSound._loaded) await longBeepSound.loadAsync(long_beep);
-            if (!shortBeepSound._loaded) await shortBeepSound.loadAsync(short_beep);
+            try {
+                if (!longBeepSound._loaded) await longBeepSound.loadAsync(long_beep);
+                if (!shortBeepSound._loaded) await shortBeepSound.loadAsync(short_beep);
+            } catch (error) {
+                console.log('Failed to load audio files', error);
+            }
         })();
     }, [])
 
@@ -113,14 +136,72 @@ export default function Countdown({ name, prepTime, activeTime, restTime, restBe
     }
 
     const handleTogglePause = () => {
-        if (buttonText === "Iniciar") {
-            (async () => {
-                const { sound } = await Audio.Sound.createAsync(whistle);
-                await sound.playAsync();
-            })();
-        }
         setIsRunning(isRunning => !isRunning);
-        setButtonText(buttonText => isRunning ? 'Reaunudar' : 'Pausar');
+    }
+
+    const handleGoBackward = () => {
+        if (timerState === "Preparación") return;
+
+        if (serie === 1 && setNumber === 1 && timerState === "Ejercitar") {
+            setTimeRemaining(prepTime);
+            setTimerState("Preparación");
+            setSerie(prevS => prevS - 1);
+            return;
+        }
+        if (serie === 1 && timerState === "Ejercitar") {
+            (async () => {
+                await shortBeepSound.replayAsync();
+            })();
+
+            setTimeRemaining(restBetweenSets);
+            setTimerState("Descanso");
+            setSerie(prevS => prevS - 1);
+            return;
+        }
+        if (serie === 0 && timerState === "Descanso") {
+            (async () => {
+                await longBeepSound.replayAsync();
+            })();
+
+            setTimeRemaining(activeTime);
+            setTimerState("Ejercitar");
+            setSerie(series);
+            setSetNumber(prevSet => prevSet - 1);
+            return;
+        }
+        if (timerState === "Ejercitar") {
+            (async () => {
+                await shortBeepSound.replayAsync();
+            })();
+
+            setTimeRemaining(restTime);
+            setTimerState("Descanso");
+            setSerie(prevS => prevS - 1);
+            return;
+        }
+        if (timerState === "Descanso") {
+            (async () => {
+                await longBeepSound.replayAsync();
+            })();
+
+            setTimeRemaining(activeTime);
+            setTimerState("Ejercitar");
+            return;
+        }
+        if (timerState === "¡Has terminado!") {
+            (async () => {
+                await longBeepSound.replayAsync();
+            })();
+            
+            setTimeRemaining(activeTime);
+            setTimerState("Ejercitar");
+            setForwardDisabled(false)
+            return;
+        }
+    };
+
+    const handleGoForward = () => {
+        setTimeRemaining(0)
     }
 
     const getBgColor = (): string => {
@@ -135,31 +216,56 @@ export default function Countdown({ name, prepTime, activeTime, restTime, restBe
 
     return (
         <View style={[{ backgroundColor: getBgColor() }, containers.timer]}>
+            <View style={containers.countdowninfo}>
+                <View style={containers.timeleft}>
+                    <Text style={{ color: '#FFFFFF' }}>Tiempo restante</Text>
+                    <Text style={{ color: '#FFFFFF' }}>{formatTimeSeconds(totalTimeRemaining)}</Text>
+                </View>
 
-            <View style={containers.timeleft}>
-                <Text style={{ color: '#FFFFFF' }}>Tiempo restante</Text>
-                <Text style={{ color: '#FFFFFF' }}>{formatTimeSeconds(totalTimeRemaining)}</Text>
+                <View style={containers.countdown}>
+                    <Text style={[{ color: '#FFFFFF' }, styles.timerstate]}>{timerState}</Text>
+                    <Text style={[{ color: '#FFFFFF' }, styles.countdown]}>{formatTimeSeconds(timeRemaining)}</Text>
+                </View>
             </View>
 
-            <View style={containers.countdown}>
-                <Text style={[{ color: '#FFFFFF' }, styles.timerstate]}>{timerState}</Text>
-                <Text style={[{ color: '#FFFFFF' }, styles.countdown]}>{formatTimeSeconds(timeRemaining)}</Text>
-            </View>
 
 
             <View style={containers.timerinfo}>
-                <View style={containers.subinfo}>
-                    <Text style={{ color: '#FFFFFF' }}>Serie</Text>
-                    <Text style={{ color: '#FFFFFF' }}>{serie}/{series}</Text>
+
+                <View style={containers.setsseries}>
+                    <View style={containers.subinfo}>
+                        <Text style={{ color: '#FFFFFF' }}>Serie</Text>
+                        <Text style={{ color: '#FFFFFF' }}>{serie}/{series}</Text>
+                    </View>
+                    <View style={containers.subinfo}>
+                        <Text style={{ color: '#FFFFFF' }}>Set</Text>
+                        <Text style={{ color: '#FFFFFF' }}>{setNumber}/{sets}</Text>
+                    </View>
                 </View>
-                <View style={containers.subinfo}>
-                    <Text style={{ color: '#FFFFFF' }}>Set</Text>
-                    <Text style={{ color: '#FFFFFF' }}>{setNumber}/{sets}</Text>
+
+
+                <View style={containers.controls}>
+
+                    <TouchableOpacity onPress={handleGoBackward} disabled={backwardDisabled}>
+                        <Backward disabled={backwardDisabled} />
+                    </TouchableOpacity>
+
+                    <TouchableOpacity onPress={handleTogglePause} disabled={controlsDisabled}>
+                        {
+                            isRunning ? (
+                                <Pause disabled={controlsDisabled} />
+                            ) : (
+                                <Play disabled={controlsDisabled} />
+                            )
+                        }
+                    </TouchableOpacity>
+
+                    <TouchableOpacity onPress={handleGoForward} disabled={forwardDisabled}>
+                        <Forward disabled={forwardDisabled} />
+                    </TouchableOpacity>
+
                 </View>
             </View>
-
-            <Button title={buttonText} onPress={handleTogglePause} />
-
         </View>
     );
 }

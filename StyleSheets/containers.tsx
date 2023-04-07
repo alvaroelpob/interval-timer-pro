@@ -10,8 +10,7 @@ const containers = StyleSheet.create({
     timer: {
         display: 'flex',
         flex: 1,
-        flexDirection: 'column',
-        justifyContent: 'space-between',
+        flexDirection: 'column'
     },
     timeleft: {
         display: 'flex',
@@ -25,16 +24,28 @@ const containers = StyleSheet.create({
         flexDirection: 'column',
         alignSelf: 'center'
     },
-    timerinfo: {
+    countdowninfo: {
+        height: "55%",
         display: 'flex',
-        flexDirection: 'row',
-        alignSelf: 'center',
-        columnGap: 40
+        flexDirection: 'column',
+        justifyContent: 'space-between',
+    },
+    timerinfo: {
+        height: "45%",
+        display: 'flex',
+        flexDirection: 'column',
+        justifyContent: 'space-around',
+        alignItems: 'center',
     },
     subinfo: {
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center'
+    },
+    setsseries: {
+        display: 'flex',
+        flexDirection: 'row',
+        columnGap: 40
     },
     wheelpicker: {
         flexDirection: 'row',
@@ -43,6 +54,15 @@ const containers = StyleSheet.create({
         justifyContent: 'space-around',
         flexWrap: 'nowrap',
         rowGap: 5
+    },
+    controls: {
+        alignSelf: 'center',
+        width: "100%",
+        display: 'flex',
+        flexDirection: 'row',
+        justifyContent: 'space-around',
+        flexWrap: 'nowrap',
+        marginBottom: '10%'
     }
 });
 
