@@ -2,9 +2,9 @@ import { StyleSheet } from 'react-native';
 
 const newinterval = StyleSheet.create({
     create: {
-        width: '94%',
+        marginHorizontal: 10,
+        marginVertical: 10,
         height: 50,
-        margin: '3%',
         padding: 5,
         backgroundColor: '#D1D647',
         borderRadius: 10
@@ -17,10 +17,19 @@ const newinterval = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center'
     },
-    modalView: {
-        backgroundColor: '#fff',
-        padding: 20,
+    button: {
+        backgroundColor: '#5AA9DD',
+        padding: 10,
         borderRadius: 10,
+        alignItems: 'center',
+        justifyContent: 'center',
+        marginTop: 15,
+        marginHorizontal: 10,
+    },
+    text: {
+        color: "#FFFFFF",
+        fontWeight: 'bold',
+        fontSize: 20,
     },
 });
 

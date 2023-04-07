@@ -141,10 +141,10 @@ export default function NewInterval({ setShowNav }: { setShowNav: Function }) {
                             ) : null
                         }
 
-                        <Button
-                            title="Create Interval Timer"
-                            onPress={handleClickStart}
-                        />
+                        <TouchableOpacity onPress={handleClickStart} style={styles.button}>
+                            <Text style={styles.text}>Create Interval Timer</Text>
+                        </TouchableOpacity>
+
                     </ScrollView>
                 )
             }
