@@ -15,10 +15,12 @@ import Repeat from '../assets/svg/controls/repeat';
 /* Sounds */
 const whistle = require('../assets/sounds/Others/whistle');
 const long_beep = require('../assets/sounds/Beeps/long_beep');
-const short_beep = require('../assets/sounds/Beeps/medium_beep');
+const medium_beep = require('../assets/sounds/Beeps/medium_beep');
+const short_beep = require('../assets/sounds/Beeps/short_beep');
 const congrats = require('../assets/sounds/Others/congrats');
 
 const longBeepSound = new Audio.Sound();
+const mediumBeepSound = new Audio.Sound();
 const shortBeepSound = new Audio.Sound();
 
 export default function Countdown({ name, prepTime, activeTime, restTime, restBetweenSets, series, sets, setRenderCountdown, setShowNav }: any) {
@@ -59,6 +61,22 @@ export default function Countdown({ name, prepTime, activeTime, restTime, restBe
             setBackwardDisabled(true)
         }
 
+        if (timeRemaining === 3) {
+            (async () => {
+                await shortBeepSound.replayAsync();
+            })();
+        }
+        if (timeRemaining === 2) {
+            (async () => {
+                await shortBeepSound.replayAsync();
+            })();
+        }
+        if (timeRemaining === 1) {
+            (async () => {
+                await shortBeepSound.replayAsync();
+            })();
+        }
+
         if (timeRemaining === 0) {
             clearInterval(intervalId);
 
@@ -74,7 +92,7 @@ export default function Countdown({ name, prepTime, activeTime, restTime, restBe
                 }
 
                 (async () => {
-                    await shortBeepSound.replayAsync();
+                    await mediumBeepSound.replayAsync();
                 })();
 
                 setTimerState('Descanso');
@@ -84,7 +102,7 @@ export default function Countdown({ name, prepTime, activeTime, restTime, restBe
             } else {
                 if (timerState == "Ejercitar") {
                     (async () => {
-                        await shortBeepSound.replayAsync();
+                        await mediumBeepSound.replayAsync();
                     })();
 
                     setTimerState('Descanso')
@@ -124,6 +142,7 @@ export default function Countdown({ name, prepTime, activeTime, restTime, restBe
         (async () => {
             try {
                 if (!longBeepSound._loaded) await longBeepSound.loadAsync(long_beep);
+                if (!mediumBeepSound._loaded) await mediumBeepSound.loadAsync(medium_beep);
                 if (!shortBeepSound._loaded) await shortBeepSound.loadAsync(short_beep);
             } catch (error) {
                 console.log('Failed to load audio files', error);
@@ -156,7 +175,7 @@ export default function Countdown({ name, prepTime, activeTime, restTime, restBe
         /* Backward from "Ejercitar" moving set */
         if (serie === 1 && timerState === "Ejercitar") {
             (async () => {
-                await shortBeepSound.replayAsync();
+                await mediumBeepSound.replayAsync();
             })();
 
             setTimeRemaining(restBetweenSets);
@@ -183,7 +202,7 @@ export default function Countdown({ name, prepTime, activeTime, restTime, restBe
         /* Backward from "Ejercitar" */
         if (timerState === "Ejercitar") {
             (async () => {
-                await shortBeepSound.replayAsync();
+                await mediumBeepSound.replayAsync();
             })();
 
             setTimeRemaining(restTime);
