@@ -142,57 +142,73 @@ export default function Countdown({ name, prepTime, activeTime, restTime, restBe
     const handleGoBackward = () => {
         if (timerState === "Preparación") return;
 
+        /* Backward from "Preparación" */
         if (serie === 1 && setNumber === 1 && timerState === "Ejercitar") {
             setTimeRemaining(prepTime);
+            setTotalTimeRemaining(prevTTR => prevTTR + prepTime + (activeTime - timeRemaining));
             setTimerState("Preparación");
             setSerie(prevS => prevS - 1);
             return;
         }
+
+        /* Backward from "Ejercitar" moving set */
         if (serie === 1 && timerState === "Ejercitar") {
             (async () => {
                 await shortBeepSound.replayAsync();
             })();
 
             setTimeRemaining(restBetweenSets);
+            setTotalTimeRemaining(prevTTR => prevTTR + restBetweenSets + (activeTime - timeRemaining));
             setTimerState("Descanso");
             setSerie(prevS => prevS - 1);
             return;
         }
+
+        /* Backward from "Descanso" moving set */
         if (serie === 0 && timerState === "Descanso") {
             (async () => {
                 await longBeepSound.replayAsync();
             })();
 
             setTimeRemaining(activeTime);
+            setTotalTimeRemaining(prevTTR => prevTTR + activeTime + (restBetweenSets - timeRemaining));
             setTimerState("Ejercitar");
             setSerie(series);
             setSetNumber(prevSet => prevSet - 1);
             return;
         }
+
+        /* Backward from "Ejercitar" */
         if (timerState === "Ejercitar") {
             (async () => {
                 await shortBeepSound.replayAsync();
             })();
 
             setTimeRemaining(restTime);
+            setTotalTimeRemaining(prevTTR => prevTTR + restTime + (activeTime - timeRemaining));
             setTimerState("Descanso");
             setSerie(prevS => prevS - 1);
             return;
         }
+
+        /* Backward from "Descanso" */
         if (timerState === "Descanso") {
             (async () => {
                 await longBeepSound.replayAsync();
             })();
 
             setTimeRemaining(activeTime);
+            setTotalTimeRemaining(prevTTR => prevTTR + activeTime + (restTime - timeRemaining));
             setTimerState("Ejercitar");
             return;
         }
+
+        /* Backward from finish */
         if (timerState === "¡Has terminado!") {
             (async () => {
                 await longBeepSound.replayAsync();
             })();
-            
+
             setTimeRemaining(activeTime);
             setTimerState("Ejercitar");
             setForwardDisabled(false)
@@ -201,7 +217,8 @@ export default function Countdown({ name, prepTime, activeTime, restTime, restBe
     };
 
     const handleGoForward = () => {
-        setTimeRemaining(0)
+        setTimeRemaining(0);
+        setTotalTimeRemaining(prevTTR => prevTTR - timeRemaining);
     }
 
     const getBgColor = (): string => {
