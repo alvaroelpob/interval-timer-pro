@@ -130,12 +130,16 @@ export default function NewInterval({ setShowNav }: { setShowNav: Function }) {
                             </View>
                         </TouchableOpacity>
 
-                        <TouchableOpacity onPress={() => handleTouched(restBetweenSets, setRestBetweenSets)}>
-                            <View style={styles.create}>
-                                <Text>Descanso entre sets</Text>
-                                <Text>{restBetweenSets}</Text>
-                            </View>
-                        </TouchableOpacity>
+                        {
+                            sets > 1 ? (
+                                <TouchableOpacity onPress={() => handleTouched(restBetweenSets, setRestBetweenSets)}>
+                                    <View style={styles.create}>
+                                        <Text>Descanso entre sets</Text>
+                                        <Text>{restBetweenSets}</Text>
+                                    </View>
+                                </TouchableOpacity>
+                            ) : null
+                        }
 
                         <Button
                             title="Create Interval Timer"
