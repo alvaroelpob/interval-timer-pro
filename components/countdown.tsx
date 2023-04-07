@@ -10,6 +10,7 @@ import Play from '../assets/svg/controls/play';
 import Pause from '../assets/svg/controls/pause';
 import Backward from '../assets/svg/controls/backward';
 import Forward from '../assets/svg/controls/forward';
+import Repeat from '../assets/svg/controls/repeat';
 
 /* Sounds */
 const whistle = require('../assets/sounds/Others/whistle');
@@ -34,6 +35,7 @@ export default function Countdown({ name, prepTime, activeTime, restTime, restBe
     const [setNumber, setSetNumber] = useState(1)
 
     const [isRunning, setIsRunning] = useState(true)
+    const [ended, setEnded] = useState(false);
 
     const [controlsDisabled, setControlsDisabled] = useState(false)
     const [backwardDisabled, setBackwardDisabled] = useState(true);
@@ -66,7 +68,7 @@ export default function Countdown({ name, prepTime, activeTime, restTime, restBe
                         const { sound } = await Audio.Sound.createAsync(congrats);
                         await sound.playAsync();
                     })();
-                    setForwardDisabled(true);
+                    setEnded(true);
                     setTimerState("¡Has terminado!");
                     return
                 }
@@ -213,6 +215,7 @@ export default function Countdown({ name, prepTime, activeTime, restTime, restBe
             setTotalTimeRemaining(prevTTR => prevTTR + activeTime);
             setTimerState("Ejercitar");
             setForwardDisabled(false)
+            setEnded(false);
             return;
         }
     };
@@ -220,6 +223,19 @@ export default function Countdown({ name, prepTime, activeTime, restTime, restBe
     const handleGoForward = () => {
         setTimeRemaining(0);
         setTotalTimeRemaining(prevTTR => prevTTR - timeRemaining);
+    }
+
+    const handleRepeat = () => {
+        setIsRunning(false);
+        setEnded(false);
+        setTimerState('Preparación');
+        setTimeRemaining(prepTime);
+        setSerie(0);
+        setSetNumber(1);
+        setControlsDisabled(false);
+        setBackwardDisabled(true);
+        setForwardDisabled(false);
+        setTotalTimeRemaining(totalTime);
     }
 
     const getBgColor = (): string => {
@@ -277,13 +293,21 @@ export default function Countdown({ name, prepTime, activeTime, restTime, restBe
                             )
                         }
                     </TouchableOpacity>
+                    {
+                        ended ? (
+                            <TouchableOpacity onPress={handleRepeat}>
+                                <Repeat />
+                            </TouchableOpacity>
+                        ) : (
+                            <TouchableOpacity onPress={handleGoForward} disabled={forwardDisabled}>
+                                <Forward disabled={forwardDisabled} />
+                            </TouchableOpacity>
+                        )
+                    }
 
-                    <TouchableOpacity onPress={handleGoForward} disabled={forwardDisabled}>
-                        <Forward disabled={forwardDisabled} />
-                    </TouchableOpacity>
 
                 </View>
             </View>
-        </View>
+        </View >
     );
 }
