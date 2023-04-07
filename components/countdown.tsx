@@ -210,6 +210,7 @@ export default function Countdown({ name, prepTime, activeTime, restTime, restBe
             })();
 
             setTimeRemaining(activeTime);
+            setTotalTimeRemaining(prevTTR => prevTTR + activeTime);
             setTimerState("Ejercitar");
             setForwardDisabled(false)
             return;
