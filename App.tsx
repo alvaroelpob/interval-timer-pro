@@ -13,6 +13,7 @@ import Settings from './components/settings';
 import Plus from './assets/svg/plus';
 import Bookmark from './assets/svg/bookmark';
 import Gear from './assets/svg/gear';
+import { Text } from 'react-native';
 
 
 export default function App() {
@@ -53,22 +54,44 @@ export default function App() {
           headerShown: showNav,
           tabBarStyle: {
             display: showNav ? undefined : "none",
+            backgroundColor: '#010101',
+            borderTopColor: "none"
           },
+
           tabBarIcon: ({ focused, color, size }) => {
 
             if (route.name === 'Crear') {
-              return <Plus gray={!focused} />
+              return <Plus focused={focused} />
             } else if (route.name === 'Guardados') {
-              return <Bookmark gray={!focused} />
+              return <Bookmark focused={focused} />
             } else if (route.name === "Configuración") {
-              return <Gear gray={!focused} />
+              return <Gear focused={focused} />
             }
           },
+
+          tabBarLabel: ({ focused, color }) => {
+
+            if (route.name === 'Crear') {
+              return <Text style={{ color: "#FFFFFF" }}>Crear</Text>
+            } else if (route.name === 'Guardados') {
+              return <Text style={{ color: "#FFFFFF" }}>Guardados</Text>
+            } else if (route.name === "Configuración") {
+              return <Text style={{ color: "#FFFFFF" }}>Configuración</Text>
+            }
+          },
+
+          headerStyle: {
+            backgroundColor: '#010101',
+          },
+
+          headerTitleStyle: {
+            color: "#FFFFFF"
+          }
         })}>
         <Tab.Screen name="Crear" children={() => <Newinterval setShowNav={setShowNav} />} />
         <Tab.Screen name="Guardados" children={() => <Saved workouts={workouts} />} />
         <Tab.Screen name="Configuración" children={() => <Settings db={db} setWorkouts={setWorkouts} />} />
       </Tab.Navigator>
-    </NavigationContainer>
+    </NavigationContainer >
   );
 }
