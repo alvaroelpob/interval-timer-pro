@@ -1,6 +1,5 @@
 import { Database } from "expo-sqlite";
 import { Button, View } from "react-native";
-import { WorkoutFormated } from "../utils/types";
 import { useNavigation, NavigationProp } from "@react-navigation/native";
 
 export default function Settings({ db, setWorkouts }: { db: Database, setWorkouts: Function }) {
@@ -79,10 +78,10 @@ export default function Settings({ db, setWorkouts }: { db: Database, setWorkout
       interval: {
         id: 1,
         name: "Test training",
-        prepTime: "00:00:03",
-        activeTime: "00:00:02",
-        restTime: "00:00:03",
-        restBetweenSets: "00:00:04",
+        prepTime: "00:00:05",
+        activeTime: "00:00:05",
+        restTime: "00:00:05",
+        restBetweenSets: "00:00:05",
         series: 2,
         sets: 2
       }
