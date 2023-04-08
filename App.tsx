@@ -10,7 +10,7 @@ import Saved from './components/saved';
 import Settings from './components/settings';
 
 /* Icons */
-import Plus from './assets/svg/plus';
+import Plus from './assets/svg/circleplus';
 import Bookmark from './assets/svg/bookmark';
 import Gear from './assets/svg/gear';
 import { Text } from 'react-native';
