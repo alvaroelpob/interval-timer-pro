@@ -1,19 +1,21 @@
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { NavigationContainer } from '@react-navigation/native';
+import { Text } from 'react-native';
 import { useState, useEffect } from 'react'
 import { ArrayDB } from './utils/types';
 import { openDatabase, Database } from 'expo-sqlite';
+import normalizer from './utils/normalizer';
 
 /* Components */
 import Newinterval from './components/newinterval';
 import Saved from './components/saved';
 import Settings from './components/settings';
+import Creator from './components/creator';
 
 /* Icons */
 import Plus from './assets/svg/circleplus';
 import Bookmark from './assets/svg/bookmark';
 import Gear from './assets/svg/gear';
-import { Text } from 'react-native';
 
 
 export default function App() {
@@ -89,8 +91,10 @@ export default function App() {
           }
         })}>
         <Tab.Screen name="Crear" children={() => <Newinterval setShowNav={setShowNav} />} />
-        <Tab.Screen name="Guardados" children={() => <Saved workouts={workouts} />} />
+        <Tab.Screen name="Guardados" children={() => <Saved workouts={normalizer(workouts)} />} />
         <Tab.Screen name="Configuración" children={() => <Settings db={db} setWorkouts={setWorkouts} />} />
+        
+        <Tab.Screen name="Creating" children={() => <Creator />} />
       </Tab.Navigator>
     </NavigationContainer >
   );
