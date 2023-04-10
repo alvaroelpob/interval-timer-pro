@@ -84,6 +84,25 @@ export default function App() {
             borderTopColor: "none"
           },
 
+          tabBarVisibilityAnimationConfig: {
+            show: {
+              animation: 'timing',
+              config: {
+                duration: 1
+              }
+            },
+            hide: {
+              animation: 'timing',
+              config: {
+                duration: 1
+              }
+            },
+          },
+
+          keyboardHidesTabBar: true,
+
+          tabBarHideOnKeyboard: true,
+
           tabBarIcon: ({ focused, color, size }) => {
 
             if (route.name === 'Crear') {
@@ -153,6 +172,6 @@ export default function App() {
         <Tab.Screen name="Guardados" children={() => <Saved db={db} workouts={normalizer(workouts)} setWorkouts={setWorkouts} searchQuery={searchQuery} />} />
         <Tab.Screen name="Configuración" children={() => <Settings db={db} setWorkouts={setWorkouts} />} />
       </Tab.Navigator>
-    </NavigationContainer>
+    </NavigationContainer >
   );
 }
