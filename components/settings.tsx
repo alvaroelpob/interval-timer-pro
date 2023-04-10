@@ -1,6 +1,7 @@
 import { Database } from "expo-sqlite";
 import { Button, View } from "react-native";
 import { useNavigation, NavigationProp } from "@react-navigation/native";
+import containers from "../StyleSheets/containers";
 
 export default function Settings({ db, setWorkouts }: { db: Database, setWorkouts: Function }) {
 
@@ -89,7 +90,7 @@ export default function Settings({ db, setWorkouts }: { db: Database, setWorkout
   }
 
   return (
-    <View>
+    <View style={containers.main}>
       <Button title='Add testing trainings' onPress={addTrainings}></Button>
       <Button title='Drop trainings' onPress={dropTrainings}></Button>
       <Button title='Make fast countdown' onPress={makeFastCountdown}></Button>
