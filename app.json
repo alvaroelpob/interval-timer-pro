@@ -22,6 +22,7 @@
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#161616"
       },
+      "softwareKeyboardLayoutMode": "pan",
       "package": "com.newalvaro9.intervaltimerpro"
     },
     "extra": {
