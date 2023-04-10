@@ -40,6 +40,11 @@ const saved = StyleSheet.create({
         borderBottomWidth: 1,
         marginBottom: 4
     },
+    line2: {
+        borderBottomColor: '#5AA9DD',
+        borderBottomWidth: 2,
+        marginBottom: 4
+    },
     header: {
         display: 'flex',
         flexDirection: 'row',
@@ -47,6 +52,18 @@ const saved = StyleSheet.create({
     },
     headertext: {
         fontSize: 24
+    },
+    pagination: {
+        flexDirection: 'row',
+        justifyContent: 'center',
+        alignItems: 'center',
+        marginVertical: 10,
+    },
+    pageButton: {
+        marginHorizontal: 10,
+        padding: 5,
+        borderRadius: 5,
+        backgroundColor: '#ccc',
     }
 });
 

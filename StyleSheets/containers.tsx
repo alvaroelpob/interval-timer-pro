@@ -70,7 +70,15 @@ const containers = StyleSheet.create({
         justifyContent: 'space-around',
         flexWrap: 'nowrap',
         marginBottom: '10%'
-    }
+    },
+    empty: {
+        flex: 1,
+        display: 'flex',
+        flexDirection: 'column',
+        rowGap: 10,
+        justifyContent: 'center',
+        alignItems: 'center'
+    },
 });
 
 export default containers;

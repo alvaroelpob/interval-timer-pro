@@ -1,6 +1,6 @@
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { NavigationContainer } from '@react-navigation/native';
-import { Text } from 'react-native';
+import { View, Text, TouchableOpacity, TextInput, BackHandler } from 'react-native';
 import { useState, useEffect } from 'react'
 import { ArrayDB } from './utils/types';
 import { openDatabase, Database } from 'expo-sqlite';
@@ -10,18 +10,22 @@ import normalizer from './utils/normalizer';
 import Newinterval from './components/newinterval';
 import Saved from './components/saved';
 import Settings from './components/settings';
-import Creator from './components/creator';
 
 /* Icons */
 import Plus from './assets/svg/circleplus';
 import Bookmark from './assets/svg/bookmark';
 import Gear from './assets/svg/gear';
+import Lupa from './assets/svg/lupa';
+import Close from './assets/svg/close';
 
 
 export default function App() {
   const [db, setDb] = useState<Database>(openDatabase('workouts.db'));
   const [workouts, setWorkouts] = useState<ArrayDB>([]);
   const [showNav, setShowNav] = useState<boolean>(true)
+  const [openSearch, setOpenSearch] = useState<boolean>(false)
+  const [searchQuery, setSearchQuery] = useState<string>("")
+
 
   const Tab = createBottomTabNavigator();
 
@@ -49,6 +53,26 @@ export default function App() {
     });
 
   }, [db]);
+
+  useEffect(() => {
+    const backHandler = BackHandler.addEventListener(
+      'hardwareBackPress',
+      handleBackPress
+    );
+
+    return () => backHandler.remove();
+  }, []);
+
+  const handleBackPress = () => {
+    setSearchQuery("")
+    setOpenSearch(false)
+    return true
+  }
+
+  const handleSearch = () => {
+    setOpenSearch(prev => !prev)
+  }
+
   return (
     <NavigationContainer>
       <Tab.Navigator
@@ -88,14 +112,47 @@ export default function App() {
 
           headerTitleStyle: {
             color: "#FFFFFF"
-          }
-        })}>
+          },
+
+          headerRight: () => {
+            if (route.name === "Guardados" && openSearch) {
+              return (
+                <View style={{ flexDirection: "row", alignItems: "center" }}>
+                  <TextInput
+                    style={{ flex: 1, color: "#FFFFFF" }}
+                    placeholder="Buscar..."
+                    placeholderTextColor="#FFFFFF"
+                    autoFocus={true}
+                    onBlur={handleSearch}
+                    value={searchQuery}
+                    onChangeText={(text) => setSearchQuery(text)}
+                  />
+
+                  <TouchableOpacity onPress={handleSearch} style={{ marginRight: 20 }}>
+                    <Close />
+                  </TouchableOpacity>
+                </View>
+              );
+            } else if (route.name === "Guardados") {
+              return (
+                <TouchableOpacity onPress={handleSearch} style={{ marginRight: 20 }}>
+                  <Lupa />
+                </TouchableOpacity>
+              );
+            } else {
+              return null;
+            }
+          },
+
+          headerTitle: openSearch ? "" : route.name,
+
+          headerBackTitleVisible: false,
+        })}
+      >
         <Tab.Screen name="Crear" children={() => <Newinterval setShowNav={setShowNav} />} />
-        <Tab.Screen name="Guardados" children={() => <Saved workouts={normalizer(workouts)} />} />
+        <Tab.Screen name="Guardados" children={() => <Saved db={db} workouts={normalizer(workouts)} setWorkouts={setWorkouts} searchQuery={searchQuery} />} />
         <Tab.Screen name="Configuración" children={() => <Settings db={db} setWorkouts={setWorkouts} />} />
-        
-        <Tab.Screen name="Creating" children={() => <Creator />} />
       </Tab.Navigator>
-    </NavigationContainer >
+    </NavigationContainer>
   );
 }

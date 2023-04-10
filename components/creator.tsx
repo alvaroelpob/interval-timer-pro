@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import { StatusBar, View, Text, ScrollView, Modal, TouchableOpacity, BackHandler } from 'react-native';
-import { RouteProp, useRoute } from '@react-navigation/native';
+import { StatusBar, View, Text, ScrollView, Modal, TouchableOpacity, BackHandler, TextInput } from 'react-native';
+import { useHeaderHeight } from '@react-navigation/elements';
+import { Database } from 'expo-sqlite';
+import { timeToSeconds } from '../utils/normalizer';
 
 /* Styles */
 import containers from '../StyleSheets/containers';
@@ -10,9 +12,12 @@ import styles from '../StyleSheets/newinterval';
 import TimeSelector from './timeselector';
 import NumberSelector from './numberselector'
 
-export default function Creator() {
+export default function Creator({ db, setCreatingModal, setWorkouts }: { db: Database, setCreatingModal: Function, setWorkouts: Function }) {
+    const headerHeight = useHeaderHeight();
+
     const [modalVisible, setModalVisible] = useState(false);
 
+    const [name, setName] = useState<string>("")
     const [prepTime, setPrepTime] = useState<string>("00:00:00");
     const [series, setSeries] = useState<number>(1);
     const [activeTime, setActiveTime] = useState<string>("00:00:00");
@@ -43,14 +48,56 @@ export default function Creator() {
     }
 
     const handleClickStart = () => {
+        if (
+            name.length === 0 ||
+            prepTime === "00:00:00" ||
+            activeTime === "00:00:00" ||
+            restTime === "00:00:00" ||
+            (sets !== 1 && restBetweenSets === "00:00:00")
+        ) {
+            return
+        }
 
+        db.transaction(tx => {
+            tx.executeSql(`
+              CREATE TABLE IF NOT EXISTS workouts (
+                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                name TEXT,
+                prepTime INTEGER,
+                activeTime INTEGER,
+                restTime INTEGER,
+                restBetweenSets INTEGER,
+                series INTEGER,
+                sets INTEGER
+              )
+            `);
+
+            tx.executeSql(`
+                INSERT INTO workouts (name, prepTime, activeTime, restTime, restBetweenSets, series, sets) VALUES (?, ?, ?, ?, ?, ?, ?)
+            `, [name, timeToSeconds(prepTime), timeToSeconds(activeTime), timeToSeconds(restTime), timeToSeconds(restBetweenSets), series, sets],
+                (txObj, resultSet) => {
+                    setWorkouts((prev: any) => [...prev, {
+                        id: resultSet.insertId,
+                        name: name,
+                        prepTime: timeToSeconds(prepTime),
+                        activeTime: timeToSeconds(activeTime),
+                        restTime: timeToSeconds(restTime),
+                        restBetweenSets: timeToSeconds(restBetweenSets),
+                        series: series,
+                        sets: sets
+                    }])
+                },
+                (txObj, error) => { console.log(error); return false }
+            );
+        });
+
+        setCreatingModal(false)
     }
 
 
     return (
-        <View style={containers.main}>
+        <View style={[{ marginTop: headerHeight, paddingTop: 10 }, containers.main]}>
             <StatusBar />
-
 
             <ScrollView>
 
@@ -71,6 +118,15 @@ export default function Creator() {
                         }
                     </View>
                 </Modal>
+
+                <View style={styles.create}>
+                    <Text>Nombre</Text>
+                    <TextInput
+                        onChangeText={(text) => setName(text)}
+                        style={{ marginBottom: 20 }}
+                        cursorColor="#000000"
+                    />
+                </View>
 
                 <TouchableOpacity onPress={() => handleTouched(prepTime, setPrepTime)}>
                     <View style={styles.create}>
