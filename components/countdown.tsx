@@ -36,7 +36,7 @@ export default function Countdown({ name, prepTime, activeTime, restTime, restBe
     restTime = timeToSeconds(restTime)
     restBetweenSets = timeToSeconds(restBetweenSets)
 
-    const totalTime = calcTotalTime({ id: true, name: name ? name : "Untitled", prepTime, activeTime, restTime, restBetweenSets, series, sets })
+    const totalTime = calcTotalTime({ name: name ? name : "Untitled", prepTime, activeTime, restTime, restBetweenSets, series, sets })
 
     const [timerState, setTimerState] = useState('Preparación')
     const [timeRemaining, setTimeRemaining] = useState(prepTime)

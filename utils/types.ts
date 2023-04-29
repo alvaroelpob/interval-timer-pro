@@ -22,7 +22,7 @@ export type NewArrayDB = Array<{
 }>;
 
 export type Workout = {
-    id: number | true;
+    id?: number;
     name: string;
     prepTime: number;
     activeTime: number;
