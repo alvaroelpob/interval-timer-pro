@@ -4,6 +4,7 @@ import { Audio } from 'expo-av';
 import containers from '../StyleSheets/containers';
 import styles from '../StyleSheets/styles';
 import { formatTimeSeconds, calcTotalTime, timeToSeconds } from '../utils/normalizer';
+import { useKeepAwake } from 'expo-keep-awake';
 
 /* Icons */
 import Play from '../assets/svg/controls/play';
@@ -28,6 +29,8 @@ const mediumBeepSound = new Audio.Sound();
 const shortBeepSound = new Audio.Sound();
 
 export default function Countdown({ name, prepTime, activeTime, restTime, restBetweenSets, series, sets, setRenderCountdown, setShowNav }: any) {
+    useKeepAwake();
+
     prepTime = timeToSeconds(prepTime)
     activeTime = timeToSeconds(activeTime)
     restTime = timeToSeconds(restTime)
