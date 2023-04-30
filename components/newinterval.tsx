@@ -97,35 +97,35 @@ export default function NewInterval({ setShowNav }: { setShowNav: Function }) {
 
                         <TouchableOpacity onPress={() => handleTouched(prepTime, setPrepTime)}>
                             <View style={styles.create}>
-                                <Text>Preparación</Text>
+                                <Text style={styles.label}>Preparación</Text>
                                 <Text>{prepTime}</Text>
                             </View>
                         </TouchableOpacity>
 
                         <TouchableOpacity onPress={() => handleTouched(series, setSeries)}>
                             <View style={styles.create}>
-                                <Text>Series</Text>
+                                <Text style={styles.label}>Series</Text>
                                 <Text>{series}</Text>
                             </View>
                         </TouchableOpacity>
 
                         <TouchableOpacity onPress={() => handleTouched(activeTime, setActiveTime)}>
                             <View style={styles.create}>
-                                <Text>Ejercitar</Text>
+                                <Text style={styles.label}>Ejercitar</Text>
                                 <Text>{activeTime}</Text>
                             </View>
                         </TouchableOpacity>
 
                         <TouchableOpacity onPress={() => handleTouched(restTime, setRestTime)}>
                             <View style={styles.create}>
-                                <Text>Descanso</Text>
+                                <Text style={styles.label}>Descanso</Text>
                                 <Text>{restTime}</Text>
                             </View>
                         </TouchableOpacity>
 
                         <TouchableOpacity onPress={() => handleTouched(sets, setSets)}>
                             <View style={styles.create}>
-                                <Text>Sets</Text>
+                                <Text style={styles.label}>Sets</Text>
                                 <Text>{sets}</Text>
                             </View>
                         </TouchableOpacity>
@@ -134,7 +134,7 @@ export default function NewInterval({ setShowNav }: { setShowNav: Function }) {
                             sets > 1 ? (
                                 <TouchableOpacity onPress={() => handleTouched(restBetweenSets, setRestBetweenSets)}>
                                     <View style={styles.create}>
-                                        <Text>Descanso entre sets</Text>
+                                        <Text style={styles.label}>Descanso entre sets</Text>
                                         <Text>{restBetweenSets}</Text>
                                     </View>
                                 </TouchableOpacity>

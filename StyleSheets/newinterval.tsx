@@ -2,12 +2,18 @@ import { StyleSheet } from 'react-native';
 
 const newinterval = StyleSheet.create({
     create: {
-        marginHorizontal: 10,
+        display: 'flex',
+        flexDirection: 'column',
+        marginHorizontal: 13,
         marginVertical: 10,
-        height: 50,
+        height: 55,
         padding: 5,
         backgroundColor: '#D1D647',
         borderRadius: 10
+    },
+    label: {
+        color: '#000000',
+        fontSize: 18,
     },
     modalContainer: {
         flex: 1,
@@ -24,7 +30,7 @@ const newinterval = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'center',
         marginTop: 15,
-        marginHorizontal: 10,
+        marginHorizontal: 13,
     },
     text: {
         color: "#FFFFFF",
