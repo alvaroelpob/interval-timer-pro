@@ -1,8 +1,12 @@
-import React, { useState, useEffect } from 'react';
-import { StatusBar, View, Text, ScrollView, Modal, TouchableOpacity } from 'react-native';
+import React, { useState, useEffect, useRef } from 'react';
+import { StatusBar, View, Text, ScrollView, Modal, TouchableOpacity, Animated, TextInput } from 'react-native';
 import { useRoute, RouteProp, useIsFocused } from '@react-navigation/native';
 import { normalizeDate } from '../utils/normalizer';
 import { WorkoutFormated } from '../utils/types';
+
+/* Utils */
+import isYoutubeLink from '../utils/isYoutubeLink';
+import getVideoId from '../utils/getVideoID';
 
 /* Styles */
 import containers from '../StyleSheets/containers';
@@ -27,9 +31,21 @@ export default function NewInterval({ setShowNav }: { setShowNav: Function }) {
     const [restTime, setRestTime] = useState<string>("00:00:25");
     const [sets, setSets] = useState<number>(2);
     const [restBetweenSets, setRestBetweenSets] = useState<string>("00:01:00");
+    const [link, setLink] = useState<string>("");
 
     const [setter, setSetter] = useState<Function>(() => { });
     const [currentVal, setCurrentVal] = useState<string>("");
+
+    const shakeAnimationLink = useRef(new Animated.Value(0)).current;
+
+    const shakeAnimation = () => {
+        Animated.sequence([
+            Animated.timing(shakeAnimationLink, { toValue: 10, duration: 100, useNativeDriver: true }),
+            Animated.timing(shakeAnimationLink, { toValue: -10, duration: 100, useNativeDriver: true }),
+            Animated.timing(shakeAnimationLink, { toValue: 10, duration: 100, useNativeDriver: true }),
+            Animated.timing(shakeAnimationLink, { toValue: 0, duration: 100, useNativeDriver: true })
+        ]).start();
+    };
 
     useEffect(() => {
         if (interval) {
@@ -55,6 +71,7 @@ export default function NewInterval({ setShowNav }: { setShowNav: Function }) {
     }
 
     const handleClickStart = () => {
+        if (link.length > 0 && !isYoutubeLink(link)) return shakeAnimation();
         setRenderCountdown(true);
     };
 
@@ -70,6 +87,7 @@ export default function NewInterval({ setShowNav }: { setShowNav: Function }) {
                         restBetweenSets={restBetweenSets}
                         series={series}
                         sets={sets}
+                        link={getVideoId(link)}
                         setRenderCountdown={setRenderCountdown}
                         setShowNav={setShowNav}
                     />
@@ -97,28 +115,28 @@ export default function NewInterval({ setShowNav }: { setShowNav: Function }) {
 
                         <TouchableOpacity onPress={() => handleTouched(prepTime, setPrepTime)}>
                             <View style={styles.create}>
-                                <Text style={styles.label}>Preparación</Text>
+                                <Text style={styles.label}>Preparación*</Text>
                                 <Text style={styles.labeltext}>{prepTime}</Text>
                             </View>
                         </TouchableOpacity>
 
                         <TouchableOpacity onPress={() => handleTouched(series, setSeries)}>
                             <View style={styles.create}>
-                                <Text style={styles.label}>Series</Text>
+                                <Text style={styles.label}>Series*</Text>
                                 <Text style={styles.labeltext}>{series}</Text>
                             </View>
                         </TouchableOpacity>
 
                         <TouchableOpacity onPress={() => handleTouched(activeTime, setActiveTime)}>
                             <View style={styles.create}>
-                                <Text style={styles.label}>Ejercitar</Text>
+                                <Text style={styles.label}>Ejercitar*</Text>
                                 <Text style={styles.labeltext}>{activeTime}</Text>
                             </View>
                         </TouchableOpacity>
 
                         <TouchableOpacity onPress={() => handleTouched(restTime, setRestTime)}>
                             <View style={styles.create}>
-                                <Text style={styles.label}>Descanso</Text>
+                                <Text style={styles.label}>Descanso*</Text>
                                 <Text style={styles.labeltext}>{restTime}</Text>
                             </View>
                         </TouchableOpacity>
@@ -134,12 +152,21 @@ export default function NewInterval({ setShowNav }: { setShowNav: Function }) {
                             sets > 1 ? (
                                 <TouchableOpacity onPress={() => handleTouched(restBetweenSets, setRestBetweenSets)}>
                                     <View style={styles.create}>
-                                        <Text style={styles.label}>Descanso entre sets</Text>
+                                        <Text style={styles.label}>Descanso entre sets*</Text>
                                         <Text style={styles.labeltext}>{restBetweenSets}</Text>
                                     </View>
                                 </TouchableOpacity>
                             ) : null
                         }
+
+                        <Animated.View style={[styles.createWinput, { transform: [{ translateX: shakeAnimationLink }] }]}>
+                            <Text style={styles.label}>Video</Text>
+                            <TextInput
+                                onChangeText={(text) => setLink(text)}
+                                style={styles.input}
+                                cursorColor="#000000"
+                            />
+                        </Animated.View>
 
                         <TouchableOpacity onPress={handleClickStart} style={styles.button}>
                             <Text style={styles.text}>Start Interval Timer</Text>

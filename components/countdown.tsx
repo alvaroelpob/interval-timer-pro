@@ -1,10 +1,15 @@
 import { View, Text, BackHandler, TouchableOpacity } from 'react-native';
 import { useState, useEffect } from 'react'
 import { Audio } from 'expo-av';
-import containers from '../StyleSheets/containers';
-import styles from '../StyleSheets/styles';
 import { formatTimeSeconds, calcTotalTime, timeToSeconds } from '../utils/normalizer';
 import { useKeepAwake } from 'expo-keep-awake';
+
+/* Styles */
+import containers from '../StyleSheets/containers';
+import styles from '../StyleSheets/styles';
+
+/* Components */
+import YoutubePlayer from './youtubeplayer';
 
 /* Icons */
 import Play from '../assets/svg/controls/play';
@@ -28,7 +33,7 @@ const longBeepSound = new Audio.Sound();
 const mediumBeepSound = new Audio.Sound();
 const shortBeepSound = new Audio.Sound();
 
-export default function Countdown({ name, prepTime, activeTime, restTime, restBetweenSets, series, sets, setRenderCountdown, setShowNav }: any) {
+export default function Countdown({ name, prepTime, activeTime, restTime, restBetweenSets, series, sets, link, setRenderCountdown, setShowNav }: any) {
     useKeepAwake();
 
     prepTime = timeToSeconds(prepTime)
@@ -54,6 +59,8 @@ export default function Countdown({ name, prepTime, activeTime, restTime, restBe
     const [sound, setSound] = useState(true)
 
     const [totalTimeRemaining, setTotalTimeRemaining] = useState(totalTime)
+
+    const [videoID, setVideoID] = useState('tJsez4p71k0')
 
     useEffect(() => {
         let intervalId: string | number | NodeJS.Timeout | undefined;
@@ -339,6 +346,10 @@ export default function Countdown({ name, prepTime, activeTime, restTime, restBe
                     </TouchableOpacity>
 
                 </View>
+                
+                {link && (
+                    <YoutubePlayer videoID={link}></YoutubePlayer>
+                )}
 
                 <View style={containers.countdown}>
                     <Text style={[{ color: '#FFFFFF' }, styles.timerstate]}>{timerState}</Text>

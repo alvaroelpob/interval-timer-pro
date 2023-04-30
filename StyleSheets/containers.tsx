@@ -41,7 +41,8 @@ const containers = StyleSheet.create({
         height: "45%",
         display: 'flex',
         flexDirection: 'column',
-        justifyContent: 'space-around',
+        justifyContent: 'space-evenly',
+        rowGap: 55,
         alignItems: 'center',
     },
     subinfo: {
