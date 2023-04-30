@@ -15,6 +15,10 @@ const newinterval = StyleSheet.create({
         color: '#000000',
         fontSize: 18,
     },
+    labeltext: {
+        marginRight: 10,
+        fontSize: 25
+    },
     modalContainer: {
         flex: 1,
         width: '100%',
