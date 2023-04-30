@@ -3,13 +3,38 @@ import { StyleSheet } from 'react-native';
 const newinterval = StyleSheet.create({
     create: {
         display: 'flex',
-        flexDirection: 'column',
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        alignItems: 'center',
         marginHorizontal: 13,
         marginVertical: 10,
-        height: 55,
+        height: 45,
         padding: 5,
         backgroundColor: '#D1D647',
         borderRadius: 10
+    },
+    createWinput: {
+        display: 'flex',
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        columnGap: 50,
+        alignItems: 'center',
+        marginHorizontal: 13,
+        marginVertical: 10,
+        width: 'auto',
+        height: 45,
+        padding: 5,
+        backgroundColor: '#D1D647',
+        borderRadius: 10
+    },
+    input: {
+        width: '100%',
+        flex: 1,
+        borderRadius: 10,
+        paddingLeft: 5,
+        borderColor: '#000',
+        borderWidth: 1,
+        backgroundColor: '#D1D647',
     },
     label: {
         color: '#000000',
