@@ -1,5 +1,5 @@
-import { StatusBar, View, Text, ScrollView, Modal, TouchableOpacity, BackHandler, TextInput } from 'react-native';
 import { useState, useEffect, useRef } from 'react';
+import { StatusBar, View, Text, ScrollView, Modal, TouchableOpacity, BackHandler, TextInput, Animated } from 'react-native';
 import { useHeaderHeight } from '@react-navigation/elements';
 import { Database } from 'expo-sqlite';
 import { timeToSeconds } from '../utils/normalizer';
@@ -28,6 +28,12 @@ export default function Creator({ db, setCreatingModal, setWorkouts }: { db: Dat
     const [setter, setSetter] = useState<Function>(() => { });
     const [currentVal, setCurrentVal] = useState<string>("");
 
+    const shakeAnimationName = useRef(new Animated.Value(0)).current;
+    const shakeAnimationPrepTime = useRef(new Animated.Value(0)).current;
+    const shakeAnimationActiveTime = useRef(new Animated.Value(0)).current;
+    const shakeAnimationRestTime = useRef(new Animated.Value(0)).current;
+    const shakeAnimationRestBetweenSets = useRef(new Animated.Value(0)).current;
+
     useEffect(() => {
         const backHandler = BackHandler.addEventListener(
             'hardwareBackPress',
@@ -36,6 +42,15 @@ export default function Creator({ db, setCreatingModal, setWorkouts }: { db: Dat
 
         return () => backHandler.remove();
     }, []);
+
+    const shakeAnimation = (component: Animated.Value) => {
+        Animated.sequence([
+            Animated.timing(component, { toValue: 10, duration: 100, useNativeDriver: true }),
+            Animated.timing(component, { toValue: -10, duration: 100, useNativeDriver: true }),
+            Animated.timing(component, { toValue: 10, duration: 100, useNativeDriver: true }),
+            Animated.timing(component, { toValue: 0, duration: 100, useNativeDriver: true })
+        ]).start();
+    };
 
     const handleBackPress = () => {
         return true
@@ -48,15 +63,15 @@ export default function Creator({ db, setCreatingModal, setWorkouts }: { db: Dat
     }
 
     const handleClickStart = () => {
-        if (
-            name.length === 0 ||
-            prepTime === "00:00:00" ||
-            activeTime === "00:00:00" ||
-            restTime === "00:00:00" ||
-            (sets !== 1 && restBetweenSets === "00:00:00")
-        ) {
-            return
-        }
+        if (name.length === 0) return shakeAnimation(shakeAnimationName);
+
+        if (prepTime === "00:00:00") return shakeAnimation(shakeAnimationPrepTime);
+
+        if (activeTime === "00:00:00") return shakeAnimation(shakeAnimationActiveTime);
+
+        if (restTime === "00:00:00") return shakeAnimation(shakeAnimationRestTime);
+
+        if (sets !== 1 && restBetweenSets === "00:00:00") return shakeAnimation(shakeAnimationRestBetweenSets);
 
         db.transaction(tx => {
             tx.executeSql(`
@@ -119,60 +134,58 @@ export default function Creator({ db, setCreatingModal, setWorkouts }: { db: Dat
                     </View>
                 </Modal>
 
-                <View style={styles.create}>
+                <Animated.View style={[styles.createWinput, { transform: [{ translateX: shakeAnimationName }] }]}>
                     <Text style={styles.label}>Nombre</Text>
                     <TextInput
                         onChangeText={(text) => setName(text)}
-                        style={{ marginBottom: 20 }}
+                        style={styles.input}
                         cursorColor="#000000"
                     />
-                </View>
+                </Animated.View>
 
                 <TouchableOpacity onPress={() => handleTouched(prepTime, setPrepTime)}>
-                    <View style={styles.create}>
+                    <Animated.View style={[styles.create, { transform: [{ translateX: shakeAnimationPrepTime }] }]}>
                         <Text style={styles.label}>Preparación</Text>
-                        <Text>{prepTime}</Text>
-                    </View>
+                        <Text style={styles.labeltext}>{prepTime}</Text>
+                    </Animated.View>
                 </TouchableOpacity>
 
                 <TouchableOpacity onPress={() => handleTouched(series, setSeries)}>
                     <View style={styles.create}>
                         <Text style={styles.label}>Series</Text>
-                        <Text>{series}</Text>
+                        <Text style={styles.labeltext}>{series}</Text>
                     </View>
                 </TouchableOpacity>
 
                 <TouchableOpacity onPress={() => handleTouched(activeTime, setActiveTime)}>
-                    <View style={styles.create}>
+                    <Animated.View style={[styles.create, { transform: [{ translateX: shakeAnimationActiveTime }] }]}>
                         <Text style={styles.label}>Ejercitar</Text>
-                        <Text>{activeTime}</Text>
-                    </View>
+                        <Text style={styles.labeltext}>{activeTime}</Text>
+                    </Animated.View>
                 </TouchableOpacity>
 
                 <TouchableOpacity onPress={() => handleTouched(restTime, setRestTime)}>
-                    <View style={styles.create}>
+                    <Animated.View style={[styles.create, { transform: [{ translateX: shakeAnimationRestTime }] }]}>
                         <Text style={styles.label}>Descanso</Text>
-                        <Text>{restTime}</Text>
-                    </View>
+                        <Text style={styles.labeltext}>{restTime}</Text>
+                    </Animated.View>
                 </TouchableOpacity>
 
                 <TouchableOpacity onPress={() => handleTouched(sets, setSets)}>
                     <View style={styles.create}>
                         <Text style={styles.label}>Sets</Text>
-                        <Text>{sets}</Text>
+                        <Text style={styles.labeltext}>{sets}</Text>
                     </View>
                 </TouchableOpacity>
 
-                {
-                    sets > 1 ? (
-                        <TouchableOpacity onPress={() => handleTouched(restBetweenSets, setRestBetweenSets)}>
-                            <View style={styles.create}>
-                                <Text>Descanso entre sets</Text>
-                                <Text>{restBetweenSets}</Text>
-                            </View>
-                        </TouchableOpacity>
-                    ) : null
-                }
+                {sets > 1 && (
+                    <TouchableOpacity onPress={() => handleTouched(restBetweenSets, setRestBetweenSets)}>
+                        <Animated.View style={[styles.create, { transform: [{ translateX: shakeAnimationRestBetweenSets }] }]}>
+                            <Text>Descanso entre sets</Text>
+                            <Text style={styles.labeltext}>{restBetweenSets}</Text>
+                        </Animated.View>
+                    </TouchableOpacity>
+                )}
 
                 <TouchableOpacity onPress={handleClickStart} style={styles.button}>
                     <Text style={styles.text}>Create Interval Timer</Text>
