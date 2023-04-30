@@ -119,7 +119,7 @@ export default function Saved({ db, workouts, setWorkouts, searchQuery }: { db: 
                                     >
                                         <Text>{'<'}</Text>
                                     </TouchableOpacity>
-
+                                    <Text style={{ color: '#fff' }}>{page}/{Math.ceil(workouts.length / ITEMS_PER_PAGE)}</Text>
                                     <TouchableOpacity
                                         style={styles.pageButton}
                                         disabled={workouts.length <= page * ITEMS_PER_PAGE}
