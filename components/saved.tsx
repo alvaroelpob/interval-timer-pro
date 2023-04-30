@@ -18,7 +18,7 @@ import Plus from "../assets/svg/plus";
 import Creator from "./creator";
 import Sad from "../assets/svg/sad";
 
-export default function Saved({ db, workouts, setWorkouts, searchQuery }: { db: Database, workouts: NewArrayDB, setWorkouts: Function, searchQuery: string }) {
+export default function Saved({ db, workouts, setWorkouts, setShowSearch, searchQuery }: { db: Database, workouts: NewArrayDB, setWorkouts: Function, setShowSearch: React.Dispatch<React.SetStateAction<boolean>>, searchQuery: string }) {
     const navigation = useNavigation<NavigationProp<ReactNavigation.RootParamList>>()
     const [creatingModal, setCreatingModal] = useState(false);
     const [page, setPage] = useState(1);
@@ -31,6 +31,7 @@ export default function Saved({ db, workouts, setWorkouts, searchQuery }: { db: 
 
     const handleCreateInterval = () => {
         setCreatingModal(true);
+        setShowSearch(false)
     };
 
     const renderWorkoutItem = ({ item: interval, index }: { item: WorkoutFormated, index: number }) => {
@@ -88,6 +89,7 @@ export default function Saved({ db, workouts, setWorkouts, searchQuery }: { db: 
                 transparent={true}
                 visible={creatingModal}
                 onRequestClose={() => {
+                    setShowSearch(prev => !prev)
                     setCreatingModal(!creatingModal);
                 }}>
                 <Creator db={db} setCreatingModal={setCreatingModal} setWorkouts={setWorkouts} />

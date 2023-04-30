@@ -22,7 +22,10 @@ import Close from './assets/svg/close';
 export default function App() {
   const [db, setDb] = useState<Database>(openDatabase('workouts.db'));
   const [workouts, setWorkouts] = useState<ArrayDB>([]);
+
   const [showNav, setShowNav] = useState<boolean>(true)
+  const [showSearch, setShowSearch] = useState<boolean>(true);
+
   const [openSearch, setOpenSearch] = useState<boolean>(false)
   const [searchQuery, setSearchQuery] = useState<string>("")
 
@@ -152,7 +155,7 @@ export default function App() {
                   </TouchableOpacity>
                 </View>
               );
-            } else if (route.name === "Guardados") {
+            } else if (route.name === "Guardados" && showSearch) {
               return (
                 <TouchableOpacity onPress={handleSearch} style={{ marginRight: 20 }}>
                   <Lupa />
@@ -169,7 +172,7 @@ export default function App() {
         })}
       >
         <Tab.Screen name="Crear" children={() => <Newinterval setShowNav={setShowNav} />} />
-        <Tab.Screen name="Guardados" children={() => <Saved db={db} workouts={normalizer(workouts)} setWorkouts={setWorkouts} searchQuery={searchQuery} />} />
+        <Tab.Screen name="Guardados" children={() => <Saved db={db} workouts={normalizer(workouts)} setWorkouts={setWorkouts} setShowSearch={setShowSearch} searchQuery={searchQuery} />} />
         <Tab.Screen name="Configuración" children={() => <Settings db={db} setWorkouts={setWorkouts} />} />
       </Tab.Navigator>
     </NavigationContainer >
