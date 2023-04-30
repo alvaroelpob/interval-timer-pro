@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from 'react';
 import { StatusBar, View, Text, ScrollView, Modal, TouchableOpacity, BackHandler, TextInput } from 'react-native';
+import { useState, useEffect, useRef } from 'react';
 import { useHeaderHeight } from '@react-navigation/elements';
 import { Database } from 'expo-sqlite';
 import { timeToSeconds } from '../utils/normalizer';

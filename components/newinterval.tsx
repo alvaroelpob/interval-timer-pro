@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { StatusBar, View, Text, Button, ScrollView, Modal, TouchableOpacity } from 'react-native';
+import { StatusBar, View, Text, ScrollView, Modal, TouchableOpacity } from 'react-native';
 import { useRoute, RouteProp, useIsFocused } from '@react-navigation/native';
 import { normalizeDate } from '../utils/normalizer';
 import { WorkoutFormated } from '../utils/types';
