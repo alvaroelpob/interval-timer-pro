@@ -19,7 +19,15 @@ import Plus from "../assets/svg/plus";
 import Creator from "../components/creator";
 import Sad from "../assets/svg/sad";
 
-export default function Saved({ db, workouts, setWorkouts, setShowSearch, searchQuery }: { db: Database, workouts: NewArrayDB, setWorkouts: Function, setShowSearch: React.Dispatch<React.SetStateAction<boolean>>, searchQuery: string }) {
+type Props = {
+    db: Database,
+    workouts: NewArrayDB,
+    setWorkouts: Function,
+    setShowSearch: React.Dispatch<React.SetStateAction<boolean>>,
+    searchQuery: string
+}
+
+export default function Saved({ db, workouts, setWorkouts, setShowSearch, searchQuery }: Props) {
     const navigation = useNavigation<NavigationProp<ReactNavigation.RootParamList>>()
     const [creatingModal, setCreatingModal] = useState(false);
     const [page, setPage] = useState(1);
