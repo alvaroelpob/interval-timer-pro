@@ -36,14 +36,18 @@ export default function NewInterval({ setShowNav }: { setShowNav: Function }) {
     const [setter, setSetter] = useState<Function>(() => { });
     const [currentVal, setCurrentVal] = useState<string>("");
 
+    const shakeAnimationPrepTime = useRef(new Animated.Value(0)).current;
+    const shakeAnimationActiveTime = useRef(new Animated.Value(0)).current;
+    const shakeAnimationRestTime = useRef(new Animated.Value(0)).current;
+    const shakeAnimationRestBetweenSets = useRef(new Animated.Value(0)).current;
     const shakeAnimationLink = useRef(new Animated.Value(0)).current;
 
-    const shakeAnimation = () => {
+    const shakeAnimation = (component: Animated.Value) => {
         Animated.sequence([
-            Animated.timing(shakeAnimationLink, { toValue: 10, duration: 100, useNativeDriver: true }),
-            Animated.timing(shakeAnimationLink, { toValue: -10, duration: 100, useNativeDriver: true }),
-            Animated.timing(shakeAnimationLink, { toValue: 10, duration: 100, useNativeDriver: true }),
-            Animated.timing(shakeAnimationLink, { toValue: 0, duration: 100, useNativeDriver: true })
+            Animated.timing(component, { toValue: 10, duration: 100, useNativeDriver: true }),
+            Animated.timing(component, { toValue: -10, duration: 100, useNativeDriver: true }),
+            Animated.timing(component, { toValue: 10, duration: 100, useNativeDriver: true }),
+            Animated.timing(component, { toValue: 0, duration: 100, useNativeDriver: true })
         ]).start();
     };
 
@@ -71,7 +75,15 @@ export default function NewInterval({ setShowNav }: { setShowNav: Function }) {
     }
 
     const handleClickStart = () => {
-        if (link.length > 0 && !isYoutubeLink(link)) return shakeAnimation();
+        if (prepTime === "00:00:00") return shakeAnimation(shakeAnimationPrepTime);
+
+        if (activeTime === "00:00:00") return shakeAnimation(shakeAnimationActiveTime);
+
+        if (restTime === "00:00:00") return shakeAnimation(shakeAnimationRestTime);
+
+        if (sets !== 1 && restBetweenSets === "00:00:00") return shakeAnimation(shakeAnimationRestBetweenSets);
+
+        if (link.length > 0 && !isYoutubeLink(link)) return shakeAnimation(shakeAnimationLink);
         setRenderCountdown(true);
     };
 
@@ -114,10 +126,10 @@ export default function NewInterval({ setShowNav }: { setShowNav: Function }) {
                         </Modal>
 
                         <TouchableOpacity onPress={() => handleTouched(prepTime, setPrepTime)}>
-                            <View style={styles.create}>
+                            <Animated.View style={[styles.create, { transform: [{ translateX: shakeAnimationPrepTime }] }]}>
                                 <Text style={styles.label}>Preparación*</Text>
                                 <Text style={styles.labeltext}>{prepTime}</Text>
-                            </View>
+                            </Animated.View>
                         </TouchableOpacity>
 
                         <TouchableOpacity onPress={() => handleTouched(series, setSeries)}>
@@ -128,17 +140,17 @@ export default function NewInterval({ setShowNav }: { setShowNav: Function }) {
                         </TouchableOpacity>
 
                         <TouchableOpacity onPress={() => handleTouched(activeTime, setActiveTime)}>
-                            <View style={styles.create}>
+                            <Animated.View style={[styles.create, { transform: [{ translateX: shakeAnimationActiveTime }] }]}>
                                 <Text style={styles.label}>Ejercitar*</Text>
                                 <Text style={styles.labeltext}>{activeTime}</Text>
-                            </View>
+                            </Animated.View>
                         </TouchableOpacity>
 
                         <TouchableOpacity onPress={() => handleTouched(restTime, setRestTime)}>
-                            <View style={styles.create}>
+                            <Animated.View style={[styles.create, { transform: [{ translateX: shakeAnimationRestTime }] }]}>
                                 <Text style={styles.label}>Descanso*</Text>
                                 <Text style={styles.labeltext}>{restTime}</Text>
-                            </View>
+                            </Animated.View>
                         </TouchableOpacity>
 
                         <TouchableOpacity onPress={() => handleTouched(sets, setSets)}>
@@ -148,16 +160,14 @@ export default function NewInterval({ setShowNav }: { setShowNav: Function }) {
                             </View>
                         </TouchableOpacity>
 
-                        {
-                            sets > 1 ? (
-                                <TouchableOpacity onPress={() => handleTouched(restBetweenSets, setRestBetweenSets)}>
-                                    <View style={styles.create}>
-                                        <Text style={styles.label}>Descanso entre sets*</Text>
-                                        <Text style={styles.labeltext}>{restBetweenSets}</Text>
-                                    </View>
-                                </TouchableOpacity>
-                            ) : null
-                        }
+                        {sets > 1 && (
+                            <TouchableOpacity onPress={() => handleTouched(restBetweenSets, setRestBetweenSets)}>
+                                <Animated.View style={[styles.create, { transform: [{ translateX: shakeAnimationRestBetweenSets }] }]}>
+                                    <Text style={styles.label}>Descanso entre sets*</Text>
+                                    <Text style={styles.labeltext}>{restBetweenSets}</Text>
+                                </Animated.View>
+                            </TouchableOpacity>
+                        )}
 
                         <Animated.View style={[styles.createWinput, { transform: [{ translateX: shakeAnimationLink }] }]}>
                             <Text style={styles.label}>Video</Text>

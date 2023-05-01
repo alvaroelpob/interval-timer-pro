@@ -22,9 +22,6 @@ export default function TimeSelector({ currentValue, setter, setModalVisible }: 
     const [seconds, setSeconds] = useState(+importedTime[2]);
 
     const saveTime = () => {
-        if (seconds === 0 && minutes === 0 && hours === 0) {
-            return
-        }
         setter(formatTime(hours, minutes, seconds));
         setModalVisible(false);
     }
@@ -57,7 +54,7 @@ export default function TimeSelector({ currentValue, setter, setModalVisible }: 
                     containerStyle={{ width: 80 }}
                 />
             </View>
-            
+
             <TouchableOpacity onPress={saveTime} style={containers.button}>
                 <Text>Guardar</Text>
             </TouchableOpacity>
