@@ -28,7 +28,7 @@ export default function NumberSelector({ currentValue, setter, setModalVisible }
                     options={numberArray}
                     selectedIndicatorStyle={{ borderRadius: 0, borderTopColor: '#393939', borderBottomColor: '#393939', borderTopWidth: 2, borderBottomWidth: 2, backgroundColor: 'none' }}
                     itemTextStyle={{ fontSize: 23, width: 35, textAlign: 'center', color: '#cfcfcf' }}
-                    onChange={(index) => setNumber(index)}
+                    onChange={(index) => setNumber(index + 1)}
                     containerStyle={{ width: 90 }}
                 />
             </View>
