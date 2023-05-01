@@ -55,17 +55,25 @@ const containers = StyleSheet.create({
         flexDirection: 'row',
         columnGap: 40
     },
-    wheelpicker: {
-        flexDirection: 'row',
-        backgroundColor: '#fff',
-        alignItems: 'center',
+    modal: {
+        display: 'flex',
+        flexDirection: 'column',
         justifyContent: 'space-around',
+        alignItems: 'center',
         flexWrap: 'nowrap',
-        rowGap: 5
+        width: '80%',
+        backgroundColor: '#0d0d0d',
+        padding: 15,
+        borderRadius: 20,
+        borderWidth: 1,
+        borderColor: '#a492b9cc'
+    },
+    wheelpickers: {
+        display: 'flex',
+        flexDirection: 'row',
     },
     controls: {
         alignSelf: 'center',
-        width: "100%",
         display: 'flex',
         flexDirection: 'row',
         justifyContent: 'space-around',
@@ -79,6 +87,16 @@ const containers = StyleSheet.create({
         rowGap: 10,
         justifyContent: 'center',
         alignItems: 'center'
+    },
+    button: {
+        backgroundColor: '#5AA9DD',
+        width: '100%',
+        padding: 10,
+        borderRadius: 10,
+        alignItems: 'center',
+        justifyContent: 'center',
+        marginTop: 15,
+        marginHorizontal: 13,
     },
 });
 

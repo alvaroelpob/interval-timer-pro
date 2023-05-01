@@ -1,12 +1,12 @@
 import { useState } from 'react';
-import { Button, View } from 'react-native';
-import WheelPickerExpo from 'react-native-wheel-picker-expo';
+import { TouchableOpacity, View, Text } from 'react-native';
+import WheelPicker from 'react-native-wheely';
 import { formatTime } from '../utils/normalizer';
 import containers from '../StyleSheets/containers';
 
-const hoursArray = Array.from({ length: 24 }, (_, i) => i);
-const minutesArray = Array.from({ length: 60 }, (_, i) => i);
-const secondsArray = Array.from({ length: 60 }, (_, i) => i);
+const hoursArray = Array.from({ length: 24 }, (_, i) => i.toString());
+const minutesArray = Array.from({ length: 60 }, (_, i) => i.toString());
+const secondsArray = Array.from({ length: 60 }, (_, i) => i.toString());
 
 type Props = {
     currentValue: string;
@@ -30,38 +30,37 @@ export default function TimeSelector({ currentValue, setter, setModalVisible }: 
     }
 
     return (
-        <>
-            <View style={containers.wheelpicker}>
-                <WheelPickerExpo
-                    selectedStyle={{ borderColor: '#202124', borderWidth: 2 }}
-                    height={200}
-                    width={100}
-                    initialSelectedIndex={hours}
-                    items={hoursArray.map(number => ({ label: `${number}`, value: number }))}
-                    onChange={({ item }) => setHours(item.value)}
+        <View style={containers.modal}>
+            <View style={[containers.wheelpickers]}>
+                <WheelPicker
+                    selectedIndex={hours}
+                    options={hoursArray}
+                    selectedIndicatorStyle={{ borderRadius: 0, borderTopColor: '#393939', borderBottomColor: '#393939', borderTopWidth: 2, borderBottomWidth: 2, backgroundColor: 'none' }}
+                    itemTextStyle={{ fontSize: 22, width: 30, textAlign: 'center', color: '#cfcfcf' }}
+                    onChange={(index) => setHours(index)}
+                    containerStyle={{ width: 80 }}
                 />
-
-                <WheelPickerExpo
-                    selectedStyle={{ borderColor: '#202124', borderWidth: 2 }}
-                    height={200}
-                    width={100}
-                    initialSelectedIndex={minutes}
-                    items={minutesArray.map(number => ({ label: `${number}`, value: number }))}
-                    onChange={({ item }) => setMinutes(item.value)}
+                <WheelPicker
+                    selectedIndex={minutes}
+                    options={minutesArray}
+                    selectedIndicatorStyle={{ borderRadius: 0, borderTopColor: '#393939', borderBottomColor: '#393939', borderTopWidth: 2, borderBottomWidth: 2, backgroundColor: 'none' }}
+                    itemTextStyle={{ fontSize: 22, width: 30, textAlign: 'center', color: '#cfcfcf' }}
+                    onChange={(index) => setMinutes(index)}
+                    containerStyle={{ width: 80 }}
                 />
-
-                <WheelPickerExpo
-                    selectedStyle={{ borderColor: '#202124', borderWidth: 2 }}
-                    height={200}
-                    width={100}
-                    initialSelectedIndex={seconds}
-                    items={secondsArray.map(number => ({ label: `${number}`, value: number }))}
-                    onChange={({ item }) => setSeconds(item.value)}
+                <WheelPicker
+                    selectedIndex={seconds}
+                    options={secondsArray}
+                    selectedIndicatorStyle={{ borderRadius: 0, borderTopColor: '#393939', borderBottomColor: '#393939', borderTopWidth: 2, borderBottomWidth: 2, backgroundColor: 'none' }}
+                    itemTextStyle={{ fontSize: 22, width: 30, textAlign: 'center', color: '#cfcfcf' }}
+                    onChange={(index) => setSeconds(index)}
+                    containerStyle={{ width: 80 }}
                 />
-
-                <Button title='Save time' onPress={saveTime}></Button>
-
             </View>
-        </>
+            
+            <TouchableOpacity onPress={saveTime} style={containers.button}>
+                <Text>Guardar</Text>
+            </TouchableOpacity>
+        </View>
     );
 }

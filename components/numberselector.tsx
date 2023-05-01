@@ -1,9 +1,9 @@
 import { useState } from 'react';
-import { Button, View } from 'react-native';
-import WheelPickerExpo from 'react-native-wheel-picker-expo';
+import { TouchableOpacity, View, Text } from 'react-native';
+import WheelPicker from 'react-native-wheely';
 import containers from '../StyleSheets/containers';
 
-const numberArray = Array.from({ length: 100 }, (_, i) => i).filter(num => num !== 0);
+const numberArray = Array.from({ length: 100 }, (_, i) => i.toString()).slice(1);
 
 type Props = {
     currentValue: string;
@@ -21,20 +21,21 @@ export default function NumberSelector({ currentValue, setter, setModalVisible }
     };
 
     return (
-        <>
-            <View style={containers.wheelpicker}>
-                <WheelPickerExpo
-                    selectedStyle={{ borderColor: '#202124', borderWidth: 2 }}
-                    height={200}
-                    width={100}
-                    initialSelectedIndex={number - 1}
-                    items={numberArray.map(number => ({ label: `${number}`, value: number }))}
-                    onChange={({ item }) => setNumber(item.value)}
+        <View style={containers.modal}>
+            <View style={containers.wheelpickers}>
+                <WheelPicker
+                    selectedIndex={number - 1 >= 0 ? number - 1 : 0}
+                    options={numberArray}
+                    selectedIndicatorStyle={{ borderRadius: 0, borderTopColor: '#393939', borderBottomColor: '#393939', borderTopWidth: 2, borderBottomWidth: 2, backgroundColor: 'none' }}
+                    itemTextStyle={{ fontSize: 23, width: 35, textAlign: 'center', color: '#cfcfcf' }}
+                    onChange={(index) => setNumber(index)}
+                    containerStyle={{ width: 90 }}
                 />
-
-                <Button title='Save' onPress={saveNumber}></Button>
-
             </View>
-        </>
+            
+            <TouchableOpacity onPress={saveNumber} style={containers.button}>
+                <Text>Guardar</Text>
+            </TouchableOpacity>
+        </View>
     );
 }
