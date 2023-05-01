@@ -12,7 +12,7 @@ import styles from '../StyleSheets/newinterval';
 import TimeSelector from './timeselector';
 import NumberSelector from './numberselector'
 
-export default function Creator({ db, setCreatingModal, setWorkouts }: { db: Database, setCreatingModal: Function, setWorkouts: Function }) {
+export default function Creator({ workoutsDB, setCreatingModal, setWorkouts }: { workoutsDB: Database, setCreatingModal: Function, setWorkouts: Function }) {
     const headerHeight = useHeaderHeight();
 
     const [modalVisible, setModalVisible] = useState(false);
@@ -73,7 +73,7 @@ export default function Creator({ db, setCreatingModal, setWorkouts }: { db: Dat
 
         if (sets !== 1 && restBetweenSets === "00:00:00") return shakeAnimation(shakeAnimationRestBetweenSets);
 
-        db.transaction(tx => {
+        workoutsDB.transaction(tx => {
             tx.executeSql(`
               CREATE TABLE IF NOT EXISTS workouts (
                 id INTEGER PRIMARY KEY AUTOINCREMENT,

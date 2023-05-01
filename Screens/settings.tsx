@@ -1,72 +1,39 @@
 import { Database } from "expo-sqlite";
-import { Button, View } from "react-native";
-import { useNavigation, NavigationProp } from "@react-navigation/native";
+import { ScrollView, View, Text, Switch, TouchableOpacity } from "react-native";
+
+import styles from '../StyleSheets/settings'
 import containers from "../StyleSheets/containers";
+import { useState } from "react";
+import ArrowRight from "../assets/svg/arrowright";
 
-export default function Settings({ db, setWorkouts }: { db: Database, setWorkouts: Function }) {
+import { SettingsT } from "../utils/types"
 
-  const navigation = useNavigation<NavigationProp<ReactNavigation.RootParamList>>()
+type Props = {
+  workoutsDB: Database;
+  setWorkouts: Function;
+  settings: SettingsT;
+  setSettings: React.Dispatch<React.SetStateAction<SettingsT>>;
+}
 
-  function addTrainings() {
-    db.transaction(tx => {
-      tx.executeSql(`
-        CREATE TABLE IF NOT EXISTS workouts (
-          id INTEGER PRIMARY KEY AUTOINCREMENT,
-          name TEXT,
-          prepTime INTEGER,
-          activeTime INTEGER,
-          restTime INTEGER,
-          restBetweenSets INTEGER,
-          series INTEGER,
-          sets INTEGER
-        )
-      `);
+export default function Settings({ workoutsDB, setWorkouts, settings, setSettings }: Props) {
+  const [volume, setVolume] = useState<boolean>(settings.volume === 1 ? true : false);
+  const [vibration, setVibration] = useState<boolean>(settings.volume === 1 ? true : false);
 
-      tx.executeSql(`
-        INSERT INTO workouts (name, prepTime, activeTime, restTime, restBetweenSets, series, sets) VALUES
-          ('Entrenamiento 1', 5, 8, 25, 60, 7, 4),
-          ('Entrenamiento 2', 10, 12, 30, 90, 5, 3),
-          ('Entrenamiento 3', 7, 10, 20, 45, 8, 5),
-          ('Entrenamiento 4', 8, 15, 30, 90, 6, 4),
-          ('Entrenamiento 5', 6, 12, 15, 30, 10, 3),
-          ('Entrenamiento 6', 5, 20, 45, 120, 4, 5),
-          ('Entrenamiento 7', 5, 12, 30, 90, 6, 4),
-          ('Entrenamiento 8', 10, 20, 45, 120, 4, 5),
-          ('Entrenamiento 9', 7, 15, 20, 60, 8, 3),
-          ('Entrenamiento 10', 8, 10, 30, 90, 4, 4),
-          ('Entrenamiento 11', 5, 15, 20, 45, 10, 3),
-          ('Entrenamiento 12', 10, 12, 45, 120, 6, 5),
-          ('Entrenamiento 13', 5, 8, 20, 60, 8, 4),
-          ('Entrenamiento 14', 7, 18, 30, 90, 5, 3),         
-          ('Entrenamiento 15', 10, 12, 45, 120, 6, 5),
-          ('Entrenamiento 16', 5, 10, 20, 60, 10, 3),
-          ('Entrenamiento 17', 7, 12, 30, 90, 8, 4),
-          ('Entrenamiento 18', 8, 15, 45, 120, 6, 5),
-          ('Entrenamiento 19', 7, 10, 20, 45, 8, 3),
-          ('Entrenamiento 20', 8, 12, 30, 90, 6, 4),
-          ('Entrenamiento 21', 6, 15, 25, 60, 10, 3),
-          ('Entrenamiento 22', 9, 18, 40, 120, 4, 5),
-          ('Entrenamiento 23', 5, 8, 15, 30, 12, 3),
-          ('Entrenamiento 24', 6, 12, 20, 60, 8, 4);
-      `, [],
-        (txObj, resultSet) => {
-          tx.executeSql(`
-            SELECT * FROM workouts
-          `, [],
-            (txObj, result) => {
-              setWorkouts(result.rows._array);
-            },
-            (txObj, error) => { console.log(error); return false }
-          );
-        },
-        (txObj, error) => { console.log(error); return false }
-      );
-    });
+  const toggleSwitch = (setting: string) => {
+    switch (setting) {
+      case 'volume':
+        setVolume(prev => !prev);
+        setSettings(previous => { return { ...previous, volume: { ...previous }.volume === 1 ? 0 : 1 } })
+        break
+      case 'vibration':
+        setVibration(prev => !prev);
+        setSettings(previous => { return { ...previous, vibration: { ...previous }.vibration === 1 ? 0 : 1 } })
+        break
+    }
   }
 
-
-  function dropTrainings() {
-    db.transaction((tx: any) => {
+  const dropTrainings = () => {
+    workoutsDB.transaction((tx: any) => {
       tx.executeSql(`
         DELETE FROM workouts
       `);
@@ -74,26 +41,41 @@ export default function Settings({ db, setWorkouts }: { db: Database, setWorkout
     setWorkouts([]);
   }
 
-  function makeFastCountdown() {
-    navigation.navigate('Crear' as never, {
-      interval: {
-        id: 1,
-        name: "Test training",
-        prepTime: "00:00:05",
-        activeTime: "00:00:05",
-        restTime: "00:00:05",
-        restBetweenSets: "00:00:05",
-        series: 2,
-        sets: 2
-      }
-    } as never)
-  }
-
   return (
-    <View style={containers.main}>
-      <Button title='Add testing trainings' onPress={addTrainings}></Button>
-      <Button title='Drop trainings' onPress={dropTrainings}></Button>
-      <Button title='Make fast countdown' onPress={makeFastCountdown}></Button>
-    </View>
+    <ScrollView style={containers.main}>
+      <View style={styles.boxes}>
+        <View style={styles.box}>
+          <View style={styles.subbox}>
+            <Text style={styles.setting}>Volumen</Text>
+            <Switch
+              trackColor={{ false: '#767577', true: '#e47474' }}
+              thumbColor={volume ? '#ef4234' : '#f4f3f4'}
+              onValueChange={() => toggleSwitch('volume')}
+              value={volume}
+            />
+          </View>
+
+          <View style={styles.separator}></View>
+
+          <View style={styles.subbox}>
+            <Text style={styles.setting}>Vibración</Text>
+            <Switch
+              trackColor={{ false: '#767577', true: '#e47474' }}
+              thumbColor={vibration ? '#ef4234' : '#f4f3f4'}
+              onValueChange={() => toggleSwitch('vibration')}
+              value={vibration}
+            />
+          </View>
+        </View>
+        <View style={styles.box}>
+          <View style={styles.subbox}>
+            <Text style={styles.setting}>Eliminar entrenamientos</Text>
+            <TouchableOpacity onPress={dropTrainings}>
+              <ArrowRight />
+            </TouchableOpacity>
+          </View>
+        </View>
+      </View>
+    </ScrollView>
   );
 }

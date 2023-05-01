@@ -2,7 +2,7 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { NavigationContainer } from '@react-navigation/native';
 import { View, Text, TouchableOpacity, TextInput, BackHandler } from 'react-native';
 import { useState, useEffect } from 'react'
-import { ArrayDB } from './utils/types';
+import { ArrayDB, SettingsT } from './utils/types';
 import { openDatabase, Database } from 'expo-sqlite';
 import normalizer from './utils/normalizer';
 
@@ -20,8 +20,11 @@ import Close from './assets/svg/close';
 
 
 export default function App() {
-  const [db, setDb] = useState<Database>(openDatabase('workouts.db'));
+  const [workoutsDB] = useState<Database>(openDatabase('workouts.db'));
+  const [settingsDB] = useState<Database>(openDatabase('settings.db'));
+
   const [workouts, setWorkouts] = useState<ArrayDB>([]);
+  const [settings, setSettings] = useState<SettingsT>({ volume: 1, vibration: 1 });
 
   const [showNav, setShowNav] = useState<boolean>(true)
   const [showSearch, setShowSearch] = useState<boolean>(true);
@@ -33,7 +36,33 @@ export default function App() {
   const Tab = createBottomTabNavigator();
 
   useEffect(() => {
-    db.transaction(tx => {
+    settingsDB.transaction(tx => {
+      tx.executeSql(`
+        CREATE TABLE IF NOT EXISTS settings (
+          volume INTEGER DEFAULT 1,
+          vibration INTEGER DEFAULT 1
+        );
+        INSERT INTO settings (volume, vibration)
+        SELECT 1, 1
+        WHERE NOT EXISTS (SELECT * FROM settings);
+        `, [],
+
+        (txObj, resultSet) => {
+          txObj.executeSql('SELECT * FROM settings', [], (_, resultSet) => {
+            setSettings(resultSet.rows._array[0])
+          });
+        },
+        (txObj, error) => {
+          console.log(error);
+          return false;
+        }
+      );
+    });
+  }, [settingsDB]);
+
+
+  useEffect(() => {
+    workoutsDB.transaction(tx => {
       tx.executeSql(`
         CREATE TABLE IF NOT EXISTS workouts (
           id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -48,14 +77,18 @@ export default function App() {
       `);
     });
 
-    db.transaction(tx => {
+    workoutsDB.transaction(tx => {
       tx.executeSql('SELECT * FROM workouts', [],
         (txObj, resultSet) => setWorkouts(resultSet.rows._array),
         (txObj, error) => { console.log(error); return false }
       );
     });
 
-  }, [db]);
+  }, [workoutsDB]);
+
+  useEffect(() => {
+    console.log(settings)
+  }, [settings])
 
   useEffect(() => {
     const backHandler = BackHandler.addEventListener(
@@ -171,9 +204,37 @@ export default function App() {
           headerBackTitleVisible: false,
         })}
       >
-        <Tab.Screen name="Crear" children={() => <Newinterval setShowNav={setShowNav} />} />
-        <Tab.Screen name="Guardados" children={() => <Saved db={db} workouts={normalizer(workouts)} setWorkouts={setWorkouts} setShowSearch={setShowSearch} searchQuery={searchQuery} />} />
-        <Tab.Screen name="Configuración" children={() => <Settings db={db} setWorkouts={setWorkouts} />} />
+        <Tab.Screen
+          name="Crear"
+          children={() => (
+            <Newinterval
+              setShowNav={setShowNav}
+            />
+          )}
+        />
+        <Tab.Screen
+          name="Guardados"
+          children={() => (
+            <Saved
+              workoutsDB={workoutsDB}
+              workouts={normalizer(workouts)}
+              setWorkouts={setWorkouts}
+              setShowSearch={setShowSearch}
+              searchQuery={searchQuery}
+            />
+          )}
+        />
+        <Tab.Screen
+          name="Configuración"
+          children={() => (
+            <Settings
+              workoutsDB={workoutsDB}
+              setWorkouts={setWorkouts}
+              settings={settings}
+              setSettings={setSettings}
+            />
+          )}
+        />
       </Tab.Navigator>
     </NavigationContainer >
   );
