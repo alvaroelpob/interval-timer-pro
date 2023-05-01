@@ -1,7 +1,8 @@
 import { useState } from 'react';
 import { TouchableOpacity, View, Text } from 'react-native';
 import WheelPicker from 'react-native-wheely';
-import containers from '../StyleSheets/containers';
+
+import styles from '../StyleSheets/selectors';
 
 const numberArray = Array.from({ length: 100 }, (_, i) => i.toString()).slice(1);
 
@@ -21,8 +22,8 @@ export default function NumberSelector({ currentValue, setter, setModalVisible }
     };
 
     return (
-        <View style={containers.modal}>
-            <View style={containers.wheelpickers}>
+        <View style={styles.modal}>
+            <View style={styles.wheelpickers}>
                 <WheelPicker
                     selectedIndex={number - 1 >= 0 ? number - 1 : 0}
                     options={numberArray}
@@ -33,7 +34,7 @@ export default function NumberSelector({ currentValue, setter, setModalVisible }
                 />
             </View>
             
-            <TouchableOpacity onPress={saveNumber} style={containers.button}>
+            <TouchableOpacity onPress={saveNumber} style={styles.button}>
                 <Text>Guardar</Text>
             </TouchableOpacity>
         </View>

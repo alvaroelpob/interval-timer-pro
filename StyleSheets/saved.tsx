@@ -64,7 +64,15 @@ const saved = StyleSheet.create({
         padding: 5,
         borderRadius: 5,
         backgroundColor: '#ccc',
-    }
+    },
+    empty: {
+        flex: 1,
+        display: 'flex',
+        flexDirection: 'column',
+        rowGap: 10,
+        justifyContent: 'center',
+        alignItems: 'center'
+    },
 });
 
 export default saved;

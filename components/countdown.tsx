@@ -5,8 +5,7 @@ import { formatTimeSeconds, calcTotalTime, timeToSeconds } from '../utils/normal
 import { useKeepAwake } from 'expo-keep-awake';
 
 /* Styles */
-import containers from '../StyleSheets/containers';
-import styles from '../StyleSheets/styles';
+import styles from '../StyleSheets/countdown';
 
 /* Components */
 import YoutubePlayer from './youtubeplayer';
@@ -318,10 +317,10 @@ export default function Countdown({ name, prepTime, activeTime, restTime, restBe
     }
 
     return (
-        <View style={[{ backgroundColor: getBgColor() }, containers.timer]}>
-            <View style={containers.countdowninfo}>
+        <View style={[{ backgroundColor: getBgColor() }, styles.timer]}>
+            <View style={styles.countdowninfo}>
 
-                <View style={containers.header}>
+                <View style={styles.header}>
 
                     <TouchableOpacity onPress={handleToggleControls}>
                         {
@@ -333,7 +332,7 @@ export default function Countdown({ name, prepTime, activeTime, restTime, restBe
                         }
                     </TouchableOpacity>
 
-                    <Text style={{ color: '#FFFFFF', fontSize: 45 }}>{formatTimeSeconds(totalTimeRemaining)}</Text>
+                    <Text style={styles.totaltimeremaining}>{formatTimeSeconds(totalTimeRemaining)}</Text>
 
                     <TouchableOpacity onPress={handleToggleSound} disabled={allDisabled}>
                         {
@@ -351,29 +350,29 @@ export default function Countdown({ name, prepTime, activeTime, restTime, restBe
                     <YoutubePlayer videoID={link}></YoutubePlayer>
                 )}
 
-                <View style={containers.countdown}>
-                    <Text style={[{ color: '#FFFFFF' }, styles.timerstate]}>{timerState}</Text>
-                    <Text style={[{ color: '#FFFFFF' }, styles.countdown]}>{formatTimeSeconds(timeRemaining)}</Text>
+                <View style={styles.countdownContainer}>
+                    <Text style={styles.timerstate}>{timerState}</Text>
+                    <Text style={styles.countdown}>{formatTimeSeconds(timeRemaining)}</Text>
                 </View>
             </View>
 
 
 
-            <View style={containers.timerinfo}>
+            <View style={styles.timerinfo}>
 
-                <View style={containers.setsseries}>
-                    <View style={containers.subinfo}>
+                <View style={styles.setsseries}>
+                    <View style={styles.subinfo}>
                         <Text style={{ color: '#FFFFFF' }}>Serie</Text>
                         <Text style={{ color: '#FFFFFF' }}>{serie}/{series}</Text>
                     </View>
-                    <View style={containers.subinfo}>
+                    <View style={styles.subinfo}>
                         <Text style={{ color: '#FFFFFF' }}>Set</Text>
                         <Text style={{ color: '#FFFFFF' }}>{setNumber}/{sets}</Text>
                     </View>
                 </View>
 
 
-                <View style={containers.controls}>
+                <View style={styles.controls}>
 
                     <TouchableOpacity onPress={handleGoBackward} disabled={allDisabled || backwardDisabled}>
                         <Backward disabled={allDisabled || backwardDisabled} />

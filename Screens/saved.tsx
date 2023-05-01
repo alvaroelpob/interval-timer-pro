@@ -1,11 +1,12 @@
 import { View, Text, TouchableOpacity, Modal, FlatList, TextInput, ScrollView } from "react-native";
 import { useState, useCallback } from "react";
-import styles from '../StyleSheets/saved'
-import containers from '../StyleSheets/containers';
-import buttons from "../StyleSheets/buttons";
 import { NewArrayDB, WorkoutFormated } from "../utils/types";
 import { NavigationProp, useNavigation } from "@react-navigation/native";
 import { Database } from "expo-sqlite";
+
+import containers from '../StyleSheets/containers';
+import styles from '../StyleSheets/saved'
+import buttons from "../StyleSheets/buttons";
 
 const ITEMS_PER_PAGE = 10;
 
@@ -97,7 +98,7 @@ export default function Saved({ db, workouts, setWorkouts, setShowSearch, search
 
             {
                 workouts.length === 0 ? (
-                    <View style={containers.empty}>
+                    <View style={styles.empty}>
                         <Text style={{ color: "#FFFFFF" }}>No tienes ningún entrenamiento guardado.</Text>
                         <Sad />
                     </View>

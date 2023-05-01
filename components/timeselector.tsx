@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { TouchableOpacity, View, Text } from 'react-native';
 import WheelPicker from 'react-native-wheely';
 import { formatTime } from '../utils/normalizer';
-import containers from '../StyleSheets/containers';
+import styles from '../StyleSheets/selectors';
 
 const hoursArray = Array.from({ length: 24 }, (_, i) => i.toString());
 const minutesArray = Array.from({ length: 60 }, (_, i) => i.toString());
@@ -27,8 +27,8 @@ export default function TimeSelector({ currentValue, setter, setModalVisible }: 
     }
 
     return (
-        <View style={containers.modal}>
-            <View style={[containers.wheelpickers]}>
+        <View style={styles.modal}>
+            <View style={styles.wheelpickers}>
                 <WheelPicker
                     selectedIndex={hours}
                     options={hoursArray}
@@ -55,7 +55,7 @@ export default function TimeSelector({ currentValue, setter, setModalVisible }: 
                 />
             </View>
 
-            <TouchableOpacity onPress={saveTime} style={containers.button}>
+            <TouchableOpacity onPress={saveTime} style={styles.button}>
                 <Text>Guardar</Text>
             </TouchableOpacity>
         </View>
