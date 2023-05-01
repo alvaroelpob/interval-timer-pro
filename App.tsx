@@ -7,9 +7,9 @@ import { openDatabase, Database } from 'expo-sqlite';
 import normalizer from './utils/normalizer';
 
 /* Components */
-import Newinterval from './components/newinterval';
-import Saved from './components/saved';
-import Settings from './components/settings';
+import Newinterval from './Screens/newinterval';
+import Saved from './Screens/saved';
+import Settings from './Screens/settings';
 
 /* Icons */
 import Plus from './assets/svg/circleplus';

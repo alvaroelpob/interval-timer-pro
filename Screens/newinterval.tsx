@@ -13,9 +13,9 @@ import containers from '../StyleSheets/containers';
 import styles from '../StyleSheets/newinterval';
 
 /* Components */
-import TimeSelector from './timeselector';
-import NumberSelector from './numberselector'
-import Countdown from './countdown';
+import TimeSelector from '../components/timeselector';
+import NumberSelector from '../components/numberselector'
+import Countdown from '../components/countdown';
 
 export default function NewInterval({ setShowNav }: { setShowNav: Function }) {
     const route: RouteProp<{ params: { interval: WorkoutFormated } }, 'params'> = useRoute();

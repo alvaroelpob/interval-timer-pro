@@ -15,7 +15,7 @@ import Dumbbell from "../assets/svg/dumbbell";
 import Snooze from "../assets/svg/snooze";
 import RepeatSnooze from "../assets/svg/repeatsnooze";
 import Plus from "../assets/svg/plus";
-import Creator from "./creator";
+import Creator from "../components/creator";
 import Sad from "../assets/svg/sad";
 
 export default function Saved({ db, workouts, setWorkouts, setShowSearch, searchQuery }: { db: Database, workouts: NewArrayDB, setWorkouts: Function, setShowSearch: React.Dispatch<React.SetStateAction<boolean>>, searchQuery: string }) {
