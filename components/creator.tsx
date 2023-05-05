@@ -181,7 +181,7 @@ export default function Creator({ workoutsDB, setCreatingModal, setWorkouts }: {
                 {sets > 1 && (
                     <TouchableOpacity onPress={() => handleTouched(restBetweenSets, setRestBetweenSets)}>
                         <Animated.View style={[styles.create, { transform: [{ translateX: shakeAnimationRestBetweenSets }] }]}>
-                            <Text>Descanso entre sets</Text>
+                            <Text style={styles.label}>Descanso entre sets</Text>
                             <Text style={styles.labeltext}>{restBetweenSets}</Text>
                         </Animated.View>
                     </TouchableOpacity>
