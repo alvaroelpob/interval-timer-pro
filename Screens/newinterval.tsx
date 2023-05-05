@@ -16,6 +16,7 @@ import styles from '../StyleSheets/newinterval';
 import TimeSelector from '../components/timeselector';
 import NumberSelector from '../components/numberselector'
 import Countdown from '../components/countdown';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export default function NewInterval({ setShowNav }: { setShowNav: Function }) {
     const route: RouteProp<{ params: { interval: WorkoutFormated } }, 'params'> = useRoute();
@@ -35,6 +36,8 @@ export default function NewInterval({ setShowNav }: { setShowNav: Function }) {
 
     const [setter, setSetter] = useState<Function>(() => { });
     const [currentVal, setCurrentVal] = useState<string>("");
+
+    const [soundDisabled, setSoundDisabled] = useState<boolean>()
 
     const shakeAnimationPrepTime = useRef(new Animated.Value(0)).current;
     const shakeAnimationActiveTime = useRef(new Animated.Value(0)).current;
@@ -74,7 +77,7 @@ export default function NewInterval({ setShowNav }: { setShowNav: Function }) {
         setCurrentVal(`${currentValues}`)
     }
 
-    const handleClickStart = () => {
+    const handleClickStart = async () => {
         if (prepTime === "00:00:00") return shakeAnimation(shakeAnimationPrepTime);
 
         if (activeTime === "00:00:00") return shakeAnimation(shakeAnimationActiveTime);
@@ -84,6 +87,13 @@ export default function NewInterval({ setShowNav }: { setShowNav: Function }) {
         if (sets !== 1 && restBetweenSets === "00:00:00") return shakeAnimation(shakeAnimationRestBetweenSets);
 
         if (link.length > 0 && !isYoutubeLink(link)) return shakeAnimation(shakeAnimationLink);
+
+        const json = await AsyncStorage.getItem('volume');
+        if (json !== null) {
+            setSoundDisabled(JSON.parse(json));
+        } else {
+            setSoundDisabled(false);
+        } 
         setRenderCountdown(true);
     };
 
@@ -102,6 +112,7 @@ export default function NewInterval({ setShowNav }: { setShowNav: Function }) {
                         link={getVideoId(link)}
                         setRenderCountdown={setRenderCountdown}
                         setShowNav={setShowNav}
+                        soundDisabled={soundDisabled}
                     />
                 ) : (
 
@@ -126,7 +137,7 @@ export default function NewInterval({ setShowNav }: { setShowNav: Function }) {
                         </Modal>
 
                         <TouchableOpacity onPress={() => handleTouched(prepTime, setPrepTime)}>
-                            <Animated.View style={[styles.create, { transform: [{ translateX: shakeAnimationPrepTime }] }]}>
+                            <Animated.View style={[styles.create, { marginTop: 15, transform: [{ translateX: shakeAnimationPrepTime }] }]}>
                                 <Text style={styles.label}>Preparación*</Text>
                                 <Text style={styles.labeltext}>{prepTime}</Text>
                             </Animated.View>

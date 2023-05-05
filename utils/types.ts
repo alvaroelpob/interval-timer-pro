@@ -43,8 +43,3 @@ export type WorkoutFormated = {
     sets: number;
     totalTime: string;
 };
-
-export type SettingsT = {
-    volume: number;
-    vibration: number;
-}

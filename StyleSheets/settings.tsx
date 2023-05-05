@@ -5,14 +5,32 @@ const settings = StyleSheet.create({
         display: 'flex',
         flexDirection: 'column'
     },
+    header: {
+        marginLeft: 30,
+        marginVertical: 5,
+    },
+    headertext: {
+        marginTop: 10,
+        fontSize: 21,
+        color: '#ececec'
+    },
     box: {
+        display: 'flex',
+        flexDirection: 'column',
+        height: 'auto',
+        marginHorizontal: 18,
+        marginVertical: 7,
+        borderRadius: 20,
+        backgroundColor: '#1f1f1f',
+    },
+    dangerbox: {
         display: 'flex',
         flexDirection: 'column',
         height: 'auto',
         marginHorizontal: 18,
         marginVertical: 10,
         borderRadius: 20,
-        backgroundColor: '#1f1f1f',
+        backgroundColor: '#F32013',
     },
     subbox: {
         display: 'flex',
@@ -24,7 +42,7 @@ const settings = StyleSheet.create({
         height: 60,
     },
     setting: {
-        color: '#FFFFFF',
+        color: '#ececec',
     },
     separator: {
         borderBottomColor: '#0d0d0d',

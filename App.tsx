@@ -21,10 +21,8 @@ import Close from './assets/svg/close';
 
 export default function App() {
   const [workoutsDB] = useState<Database>(openDatabase('workouts.db'));
-  const [settingsDB] = useState<Database>(openDatabase('settings.db'));
 
   const [workouts, setWorkouts] = useState<ArrayDB>([]);
-  const [settings, setSettings] = useState<SettingsT>({ volume: 1, vibration: 1 });
 
   const [showNav, setShowNav] = useState<boolean>(true)
   const [showSearch, setShowSearch] = useState<boolean>(true);
@@ -34,32 +32,6 @@ export default function App() {
 
 
   const Tab = createBottomTabNavigator();
-
-  useEffect(() => {
-    settingsDB.transaction(tx => {
-      tx.executeSql(`
-        CREATE TABLE IF NOT EXISTS settings (
-          volume INTEGER DEFAULT 1,
-          vibration INTEGER DEFAULT 1
-        );
-        INSERT INTO settings (volume, vibration)
-        SELECT 1, 1
-        WHERE NOT EXISTS (SELECT * FROM settings);
-        `, [],
-
-        (txObj, resultSet) => {
-          txObj.executeSql('SELECT * FROM settings', [], (_, resultSet) => {
-            setSettings(resultSet.rows._array[0])
-          });
-        },
-        (txObj, error) => {
-          console.log(error);
-          return false;
-        }
-      );
-    });
-  }, [settingsDB]);
-
 
   useEffect(() => {
     workoutsDB.transaction(tx => {
@@ -85,10 +57,6 @@ export default function App() {
     });
 
   }, [workoutsDB]);
-
-  useEffect(() => {
-    console.log(settings)
-  }, [settings])
 
   useEffect(() => {
     const backHandler = BackHandler.addEventListener(
@@ -230,8 +198,6 @@ export default function App() {
             <Settings
               workoutsDB={workoutsDB}
               setWorkouts={setWorkouts}
-              settings={settings}
-              setSettings={setSettings}
             />
           )}
         />

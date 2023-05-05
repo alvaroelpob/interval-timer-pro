@@ -3,6 +3,7 @@ import { useState, useEffect } from 'react'
 import { Audio } from 'expo-av';
 import { formatTimeSeconds, calcTotalTime, timeToSeconds } from '../utils/normalizer';
 import { useKeepAwake } from 'expo-keep-awake';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 /* Styles */
 import styles from '../StyleSheets/countdown';
@@ -32,13 +33,14 @@ const longBeepSound = new Audio.Sound();
 const mediumBeepSound = new Audio.Sound();
 const shortBeepSound = new Audio.Sound();
 
-export default function Countdown({ name, prepTime, activeTime, restTime, restBetweenSets, series, sets, link, setRenderCountdown, setShowNav }: any) {
+export default function Countdown({ name, prepTime, activeTime, restTime, restBetweenSets, series, sets, link, setRenderCountdown, setShowNav, soundDisabled }: any) {
     useKeepAwake();
 
     prepTime = timeToSeconds(prepTime)
     activeTime = timeToSeconds(activeTime)
     restTime = timeToSeconds(restTime)
     restBetweenSets = timeToSeconds(restBetweenSets)
+    soundDisabled = !soundDisabled
 
     const totalTime = calcTotalTime({ name: name ? name : "Untitled", prepTime, activeTime, restTime, restBetweenSets, series, sets })
 
@@ -49,17 +51,14 @@ export default function Countdown({ name, prepTime, activeTime, restTime, restBe
 
     const [isRunning, setIsRunning] = useState(true)
     const [ended, setEnded] = useState(false);
-
     const [allDisabled, setAllDisabled] = useState(false)
     const [controlsDisabled, setControlsDisabled] = useState(false)
     const [backwardDisabled, setBackwardDisabled] = useState(true);
     const [forwardDisabled, setForwardDisabled] = useState(false);
 
-    const [sound, setSound] = useState(true)
+    const [sound, setSound] = useState(!soundDisabled)
 
     const [totalTimeRemaining, setTotalTimeRemaining] = useState(totalTime)
-
-    const [videoID, setVideoID] = useState('tJsez4p71k0')
 
     useEffect(() => {
         let intervalId: string | number | NodeJS.Timeout | undefined;
@@ -165,10 +164,12 @@ export default function Countdown({ name, prepTime, activeTime, restTime, restBe
 
     useEffect(() => {
         setShowNav(false);
-        (async () => {
-            const { sound } = await Audio.Sound.createAsync(whistle);
-            await sound.playAsync();
-        })();
+        if (sound) {
+            (async () => {
+                const { sound } = await Audio.Sound.createAsync(whistle);
+                await sound.playAsync();
+            })();
+        }
 
         (async () => {
             try {
@@ -334,18 +335,18 @@ export default function Countdown({ name, prepTime, activeTime, restTime, restBe
 
                     <Text style={styles.totaltimeremaining}>{formatTimeSeconds(totalTimeRemaining)}</Text>
 
-                    <TouchableOpacity onPress={handleToggleSound} disabled={allDisabled}>
+                    <TouchableOpacity onPress={handleToggleSound} disabled={allDisabled || soundDisabled}>
                         {
                             sound ? (
-                                <On disabled={allDisabled} />
+                                <On disabled={allDisabled || soundDisabled} />
                             ) : (
-                                <Off disabled={allDisabled} />
+                                <Off disabled={allDisabled || soundDisabled} />
                             )
                         }
                     </TouchableOpacity>
 
                 </View>
-                
+
                 {link && (
                     <YoutubePlayer videoID={link}></YoutubePlayer>
                 )}
