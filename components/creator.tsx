@@ -139,7 +139,7 @@ export default function Creator({ workoutsDB, setCreatingModal, setWorkouts }: {
                     <TextInput
                         onChangeText={(text) => setName(text)}
                         style={styles.input}
-                        cursorColor="#000000"
+                        cursorColor="#ececec"
                     />
                 </Animated.View>
 

@@ -185,7 +185,7 @@ export default function NewInterval({ setShowNav }: { setShowNav: Function }) {
                             <TextInput
                                 onChangeText={(text) => setLink(text)}
                                 style={styles.input}
-                                cursorColor="#000000"
+                                cursorColor="#ececec"
                             />
                         </Animated.View>
 

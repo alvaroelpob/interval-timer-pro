@@ -2,7 +2,7 @@ import { StyleSheet } from 'react-native';
 
 const containers = StyleSheet.create({
     main: {
-        backgroundColor: '#0d0d0d',
+        backgroundColor: '#111111',
         width: '100%',
         height: '100%',
     }
