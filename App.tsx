@@ -2,7 +2,7 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { NavigationContainer } from '@react-navigation/native';
 import { View, Text, TouchableOpacity, TextInput, BackHandler } from 'react-native';
 import { useState, useEffect } from 'react'
-import { ArrayDB, SettingsT } from './utils/types';
+import { ArrayDB } from './utils/types';
 import { openDatabase, Database } from 'expo-sqlite';
 import normalizer from './utils/normalizer';
 
