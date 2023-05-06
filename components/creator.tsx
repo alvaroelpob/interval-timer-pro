@@ -15,7 +15,7 @@ import NumberSelector from './numberselector'
 export default function Creator({ workoutsDB, setCreatingModal, setWorkouts }: { workoutsDB: Database, setCreatingModal: Function, setWorkouts: Function }) {
     const headerHeight = useHeaderHeight();
 
-    const [modalVisible, setModalVisible] = useState(false);
+    const [modalVisible, setModalVisible] = useState<boolean>(false);
 
     const [name, setName] = useState<string>("")
     const [prepTime, setPrepTime] = useState<string>("00:00:00");
@@ -28,11 +28,11 @@ export default function Creator({ workoutsDB, setCreatingModal, setWorkouts }: {
     const [setter, setSetter] = useState<Function>(() => { });
     const [currentVal, setCurrentVal] = useState<string>("");
 
-    const shakeAnimationName = useRef(new Animated.Value(0)).current;
-    const shakeAnimationPrepTime = useRef(new Animated.Value(0)).current;
-    const shakeAnimationActiveTime = useRef(new Animated.Value(0)).current;
-    const shakeAnimationRestTime = useRef(new Animated.Value(0)).current;
-    const shakeAnimationRestBetweenSets = useRef(new Animated.Value(0)).current;
+    const shakeAnimationName = useRef<Animated.Value>(new Animated.Value(0)).current;
+    const shakeAnimationPrepTime = useRef<Animated.Value>(new Animated.Value(0)).current;
+    const shakeAnimationActiveTime = useRef<Animated.Value>(new Animated.Value(0)).current;
+    const shakeAnimationRestTime = useRef<Animated.Value>(new Animated.Value(0)).current;
+    const shakeAnimationRestBetweenSets = useRef<Animated.Value>(new Animated.Value(0)).current;
 
     useEffect(() => {
         const backHandler = BackHandler.addEventListener(
