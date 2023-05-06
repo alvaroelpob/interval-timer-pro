@@ -1,12 +1,19 @@
-import { Database } from "expo-sqlite";
 import { ScrollView, View, Text, Switch, TouchableOpacity } from "react-native";
+import { useEffect, useState } from "react";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { StorageAccessFramework, readAsStringAsync, writeAsStringAsync } from 'expo-file-system';
+import { getDocumentAsync } from 'expo-document-picker';
 
+/* Types */
+import { Database } from "expo-sqlite";
+import { ArrayDB } from "../utils/types";
+
+/* Styles */
 import styles from '../StyleSheets/settings'
 import containers from "../StyleSheets/containers";
-import { useEffect, useState } from "react";
-import ArrowRight from "../assets/svg/arrowright";
 
-import AsyncStorage from "@react-native-async-storage/async-storage";
+/* Icons */
+import ArrowRight from "../assets/svg/arrowright";
 
 type Props = {
   workoutsDB: Database;
@@ -14,7 +21,7 @@ type Props = {
 }
 
 export default function Settings({ workoutsDB, setWorkouts }: Props) {
-  const [volume, setVolume] = useState<boolean>(false);
+  const [volume, setVolume] = useState<boolean>(true);
 
   useEffect(() => {
     const retrieveSettings = async () => {
@@ -31,6 +38,23 @@ export default function Settings({ workoutsDB, setWorkouts }: Props) {
     retrieveSettings();
   }, []);
 
+  const saveFile = async (data: ArrayDB) => {
+    const permissions = await StorageAccessFramework.requestDirectoryPermissionsAsync();
+    if (permissions.granted) {
+      // Get the directory uri that was approved
+      let directoryUri = permissions.directoryUri;
+      // Create file and pass it's SAF URI
+      await StorageAccessFramework.createFileAsync(directoryUri, "workoutsexport", "application/json").then(async (fileUri) => {
+        // Save data to newly created file
+        await writeAsStringAsync(fileUri, JSON.stringify(data), { encoding: "utf8" });
+      }).catch(error => {
+        console.log(error);
+      });
+    } else {
+      alert("You must allow permission to save.")
+    }
+  }
+
   const toggleSwitch = async (setting: string) => {
     switch (setting) {
       case 'volume':
@@ -41,12 +65,71 @@ export default function Settings({ workoutsDB, setWorkouts }: Props) {
     }
   };
 
-  const importTrainings = () => {
+  const importTrainings = async () => {
+    try {
+      const result = await getDocumentAsync({ type: 'application/json', copyToCacheDirectory: false });
+      if (result.type === 'success') {
+        const content = await readAsStringAsync(result.uri);
+        try {
+          const newWorkouts: ArrayDB = JSON.parse(content);
+          workoutsDB.transaction(tx => {
+            tx.executeSql(`
+              CREATE TABLE IF NOT EXISTS workouts (
+                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                name TEXT,
+                prepTime INTEGER,
+                activeTime INTEGER,
+                restTime INTEGER,
+                restBetweenSets INTEGER,
+                series INTEGER,
+                sets INTEGER
+              )
+            `);
+          });
 
+          newWorkouts.forEach(newWorkout => {
+            workoutsDB.transaction(tx => {
+              tx.executeSql(`
+                  INSERT INTO workouts (name, prepTime, activeTime, restTime, restBetweenSets, series, sets) VALUES (?, ?, ?, ?, ?, ?, ?)
+              `, [newWorkout.name, newWorkout.prepTime, newWorkout.activeTime, newWorkout.restTime, newWorkout.restBetweenSets, newWorkout.series, newWorkout.sets],
+                (txObj, resultSet) => {
+                  setWorkouts((prev: any) => [...prev, {
+                    id: resultSet.insertId,
+                    name: newWorkout.name,
+                    prepTime: newWorkout.prepTime,
+                    activeTime: newWorkout.activeTime,
+                    restTime: newWorkout.restTime,
+                    restBetweenSets: newWorkout.restBetweenSets,
+                    series: newWorkout.series,
+                    sets: newWorkout.sets
+                  }])
+                },
+                (txObj, error) => { console.log(error); return false }
+              );
+            });
+          })
+        } catch (err) {
+          alert("File must be a valid json")
+        }
+      }
+    } catch (error) {
+      console.log(error);
+    }
   }
 
   const exportTrainings = () => {
-
+    workoutsDB.transaction(tx => {
+      tx.executeSql('SELECT * FROM workouts', [],
+        (txObj, resultSet) => {
+          if (resultSet.rows._array.length === 0) {
+            alert("No workouts to export")
+          } else {
+            saveFile(resultSet.rows._array);
+          }
+        },
+        (txObj, error) => { console.log(error); return false }
+      );
+    });
   }
 
   const dropTrainings = () => {
