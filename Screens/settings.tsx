@@ -61,6 +61,7 @@ export default function Settings({ workoutsDB, setWorkouts }: Props) {
   const dropSettings = async () => {
     AsyncStorage.getAllKeys()
       .then(keys => AsyncStorage.multiRemove(keys));
+    setVolume(true);
   }
 
   return (

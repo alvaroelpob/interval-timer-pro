@@ -89,10 +89,10 @@ export default function NewInterval({ setShowNav }: { setShowNav: Function }) {
         if (link.length > 0 && !isYoutubeLink(link)) return shakeAnimation(shakeAnimationLink);
 
         const json = await AsyncStorage.getItem('volume');
-        if (json !== null) {
-            setSoundDisabled(JSON.parse(json));
+        if (json === null) {
+            setSoundDisabled(true);
         } else {
-            setSoundDisabled(false);
+            setSoundDisabled(JSON.parse(json));
         } 
         setRenderCountdown(true);
     };
