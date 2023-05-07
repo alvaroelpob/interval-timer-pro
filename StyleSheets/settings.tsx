@@ -48,6 +48,15 @@ const settings = StyleSheet.create({
         borderBottomColor: '#0d0d0d',
         borderBottomWidth: 1,
         marginBottom: 4,
+    },
+    color: {
+        color: '#ffffff'
+    },
+    setCX: {
+        display: 'flex',
+        flexDirection: 'row',
+        alignItems: 'center',
+        columnGap: 3
     }
 });
 

@@ -43,3 +43,15 @@ export type WorkoutFormated = {
     sets: number;
     totalTime: string;
 };
+
+export type BackgroundColors = {
+    prepTime: string;
+    activeTime: string;
+    restTime: string;
+}
+
+export const DEFAULT_COLORS: BackgroundColors = {
+    prepTime: "#0076BE",
+    activeTime: "#DE2B00",
+    restTime: "#017A10",
+}

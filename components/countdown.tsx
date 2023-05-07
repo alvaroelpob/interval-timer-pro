@@ -33,7 +33,7 @@ const longBeepSound = new Audio.Sound();
 const mediumBeepSound = new Audio.Sound();
 const shortBeepSound = new Audio.Sound();
 
-export default function Countdown({ name, prepTime, activeTime, restTime, restBetweenSets, series, sets, link, setRenderCountdown, setShowNav, soundDisabled }: any) {
+export default function Countdown({ name, prepTime, activeTime, restTime, restBetweenSets, series, sets, link, setRenderCountdown, setShowNav, soundDisabled, backgroundColors }: any) {
     useKeepAwake();
 
     prepTime = timeToSeconds(prepTime)
@@ -309,9 +309,9 @@ export default function Countdown({ name, prepTime, activeTime, restTime, restBe
 
     const getBgColor = (): string => {
         const equalities: { [key: string]: string; } = {
-            "Preparación": "#0076be",
-            "Ejercitar": "#de2b00",
-            "Descanso": "#017a10",
+            "Preparación": backgroundColors.prepTime,
+            "Ejercitar": backgroundColors.activeTime,
+            "Descanso": backgroundColors.restTime,
             "¡Has terminado!": "#212121"
         }
         return equalities[timerState]

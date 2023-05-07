@@ -1,10 +1,11 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { StatusBar, View, Text, ScrollView, Modal, TouchableOpacity, Animated, TextInput } from 'react-native';
 import { useRoute, RouteProp, useIsFocused } from '@react-navigation/native';
-import { normalizeDate } from '../utils/normalizer';
-import { WorkoutFormated } from '../utils/types';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { BackgroundColors, DEFAULT_COLORS, WorkoutFormated } from '../utils/types';
 
 /* Utils */
+import { normalizeDate } from '../utils/normalizer';
 import isYoutubeLink from '../utils/isYoutubeLink';
 import getVideoId from '../utils/getVideoID';
 
@@ -16,7 +17,6 @@ import styles from '../StyleSheets/newinterval';
 import TimeSelector from '../components/timeselector';
 import NumberSelector from '../components/numberselector'
 import Countdown from '../components/countdown';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export default function NewInterval({ setShowNav }: { setShowNav: Function }) {
     const route: RouteProp<{ params: { interval: WorkoutFormated } }, 'params'> = useRoute();
@@ -37,7 +37,8 @@ export default function NewInterval({ setShowNav }: { setShowNav: Function }) {
     const [setter, setSetter] = useState<Function>(() => { });
     const [currentVal, setCurrentVal] = useState<string>("");
 
-    const [soundDisabled, setSoundDisabled] = useState<boolean>()
+    const [soundDisabled, setSoundDisabled] = useState<boolean>(false)
+    const [backgroundColors, setBackgroundColors] = useState<BackgroundColors>(DEFAULT_COLORS)
 
     const shakeAnimationPrepTime = useRef(new Animated.Value(0)).current;
     const shakeAnimationActiveTime = useRef(new Animated.Value(0)).current;
@@ -88,12 +89,20 @@ export default function NewInterval({ setShowNav }: { setShowNav: Function }) {
 
         if (link.length > 0 && !isYoutubeLink(link)) return shakeAnimation(shakeAnimationLink);
 
-        const json = await AsyncStorage.getItem('volume');
-        if (json === null) {
+        const volumeSetting = await AsyncStorage.getItem('volume');
+        if (volumeSetting === null) {
             setSoundDisabled(true);
         } else {
-            setSoundDisabled(JSON.parse(json));
-        } 
+            setSoundDisabled(JSON.parse(volumeSetting));
+        }
+
+        const backgroundColorsSetting = await AsyncStorage.getItem('bgColors');
+        if (backgroundColorsSetting === null) {
+            setBackgroundColors(DEFAULT_COLORS)
+        } else {
+            setBackgroundColors(JSON.parse(backgroundColorsSetting));
+        }
+
         setRenderCountdown(true);
     };
 
@@ -113,6 +122,7 @@ export default function NewInterval({ setShowNav }: { setShowNav: Function }) {
                         setRenderCountdown={setRenderCountdown}
                         setShowNav={setShowNav}
                         soundDisabled={soundDisabled}
+                        backgroundColors={backgroundColors}
                     />
                 ) : (
 
