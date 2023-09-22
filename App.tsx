@@ -17,6 +17,7 @@ import Bookmark from './assets/svg/bookmark';
 import Gear from './assets/svg/gear';
 import Lupa from './assets/svg/lupa';
 import Close from './assets/svg/close';
+import { APPTHEME } from './lib/constants';
 
 
 export default function App() {
@@ -84,7 +85,7 @@ export default function App() {
           headerShown: showNav,
           tabBarStyle: {
             display: showNav ? undefined : "none",
-            backgroundColor: '#010101',
+            backgroundColor: APPTHEME.TABBAR,
             borderTopColor: "none"
           },
 
@@ -130,7 +131,7 @@ export default function App() {
           },
 
           headerStyle: {
-            backgroundColor: '#010101',
+            backgroundColor: APPTHEME.HEADER,
           },
 
           headerTitleStyle: {

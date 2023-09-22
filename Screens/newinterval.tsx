@@ -2,7 +2,8 @@ import React, { useState, useEffect, useRef } from 'react';
 import { StatusBar, View, Text, ScrollView, Modal, TouchableOpacity, Animated, TextInput } from 'react-native';
 import { useRoute, RouteProp, useIsFocused } from '@react-navigation/native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { BackgroundColors, DEFAULT_COLORS, WorkoutFormated } from '../utils/types';
+import { BackgroundColors, WorkoutFormated } from '../utils/types';
+import { APPTHEME } from '../lib/constants';
 
 /* Utils */
 import { normalizeDate } from '../utils/normalizer';
@@ -38,7 +39,7 @@ export default function NewInterval({ setShowNav }: { setShowNav: Function }) {
     const [currentVal, setCurrentVal] = useState<string>("");
 
     const [soundDisabled, setSoundDisabled] = useState<boolean>(false)
-    const [backgroundColors, setBackgroundColors] = useState<BackgroundColors>(DEFAULT_COLORS)
+    const [backgroundColors, setBackgroundColors] = useState<BackgroundColors>(APPTHEME.DEFAULT_COLORS)
 
     const shakeAnimationPrepTime = useRef(new Animated.Value(0)).current;
     const shakeAnimationActiveTime = useRef(new Animated.Value(0)).current;
@@ -98,7 +99,7 @@ export default function NewInterval({ setShowNav }: { setShowNav: Function }) {
 
         const backgroundColorsSetting = await AsyncStorage.getItem('bgColors');
         if (backgroundColorsSetting === null) {
-            setBackgroundColors(DEFAULT_COLORS)
+            setBackgroundColors(APPTHEME.DEFAULT_COLORS)
         } else {
             setBackgroundColors(JSON.parse(backgroundColorsSetting));
         }

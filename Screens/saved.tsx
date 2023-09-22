@@ -33,7 +33,7 @@ export default function Saved({ workoutsDB, workouts, setWorkouts, setShowSearch
     const [page, setPage] = useState(1);
 
     const startCountdown = (interval: WorkoutFormated) => {
-        navigation.navigate('Crear' as never, {
+        (navigation as any).navigate('Crear' as never, {
             interval: interval,
         } as never)
     };

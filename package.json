@@ -27,6 +27,7 @@
     "react-native-screens": "~3.20.0",
     "react-native-svg": "13.4.0",
     "react-native-webview": "11.26.0",
+    "react-native-wheel-color-picker": "^1.2.0",
     "react-native-wheely": "^0.6.0"
   },
   "devDependencies": {

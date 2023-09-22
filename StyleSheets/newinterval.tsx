@@ -1,4 +1,5 @@
 import { StyleSheet } from 'react-native';
+import { APPTHEME } from '../lib/constants';
 
 const newinterval = StyleSheet.create({
     create: {
@@ -11,7 +12,7 @@ const newinterval = StyleSheet.create({
         height: 55,
         paddingVertical: 7,
         paddingHorizontal: 13,
-        backgroundColor: '#1f1f1f',
+        backgroundColor: APPTHEME.SECONDARY,
         borderRadius: 15
     },
     createWinput: {
@@ -25,7 +26,7 @@ const newinterval = StyleSheet.create({
         height: 55,
         paddingVertical: 7,
         paddingHorizontal: 13,
-        backgroundColor: '#1f1f1f',
+        backgroundColor: APPTHEME.SECONDARY,
         borderRadius: 15
     },
     input: {
