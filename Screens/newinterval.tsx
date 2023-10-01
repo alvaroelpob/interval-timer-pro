@@ -97,7 +97,7 @@ export default function NewInterval({ setShowNav }: { setShowNav: Function }) {
             setSoundDisabled(JSON.parse(volumeSetting));
         }
 
-        const backgroundColorsSetting = await AsyncStorage.getItem('bgColors');
+        const backgroundColorsSetting = await AsyncStorage.getItem('backgroundColors');
         if (backgroundColorsSetting === null) {
             setBackgroundColors(APPTHEME.DEFAULT_COLORS)
         } else {

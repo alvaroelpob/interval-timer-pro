@@ -25,10 +25,15 @@ type Props = {
     setWorkouts: Function;
 }
 
+enum STATES {
+    PREPARATION = "Preparación",
+    REST = "Descanso",
+    ACTIVE = "Ejercitar"
+}
+
 export default function Settings({ workoutsDB, setWorkouts }: Props) {
     const [showPicker, setShowPicker] = useState<boolean>(false);
-    const [defaultBackgroundColor, setDefaultBackgroundColor] = useState<string>("");
-    const [editing, setEditing] = useState<string>("");
+    const [editing, setEditing] = useState<STATES>();
 
     const [volume, setVolume] = useState<boolean>(true);
     const [backgroundColors, setBackgroundColors] = useState<BackgroundColors>(APPTHEME.DEFAULT_COLORS);
@@ -37,12 +42,13 @@ export default function Settings({ workoutsDB, setWorkouts }: Props) {
         const retrieveSettings = async () => {
             try {
                 const savedVolume = await AsyncStorage.getItem('volume');
-                const savedBgColors = await AsyncStorage.getItem('bgColors');
+                const savedBgColors = await AsyncStorage.getItem('backgroundColors');
 
                 if (savedVolume !== null) {
                     setVolume(JSON.parse(savedVolume));
                 }
                 if (savedBgColors !== null) {
+                    console.log(savedBgColors)
                     setBackgroundColors(JSON.parse(savedBgColors));
                 }
             } catch (error) {
@@ -78,6 +84,10 @@ export default function Settings({ workoutsDB, setWorkouts }: Props) {
                 await AsyncStorage.setItem('volume', JSON.stringify(newVolume));
                 break;
         }
+    };
+
+    const saveBgColors = async () => {
+        await AsyncStorage.setItem('backgroundColors', JSON.stringify(backgroundColors));
     };
 
     const importTrainings = async () => {
@@ -163,7 +173,7 @@ export default function Settings({ workoutsDB, setWorkouts }: Props) {
         setBackgroundColors(APPTHEME.DEFAULT_COLORS);
     }
 
-    const SubBox = ({ text, color }: { text: string, color: string }) => {
+    const SubBox = ({ text, color }: { text: STATES, color: string }) => {
 
         const handleChangeColor = () => {
             setShowPicker(true);
@@ -190,12 +200,12 @@ export default function Settings({ workoutsDB, setWorkouts }: Props) {
                 visible={showPicker}
                 onRequestClose={() => {
                     setShowPicker(false);
-                    //TODO: Save to AsyncStorage the new colors if are different from previous
+                    saveBgColors()
                 }}
             >
                 <ColorPickerComponent
                     setShowPicker={setShowPicker}
-                    editing={editing}
+                    editing={editing as STATES}
                     backgroundColors={backgroundColors}
                     setBackgroundColors={setBackgroundColors}
                 />
@@ -220,6 +230,10 @@ export default function Settings({ workoutsDB, setWorkouts }: Props) {
                                 value={volume}
                             />
                         </View>
+
+                        <View style={styles.subbox}>
+                            <Text style={styles.setting}>Idioma</Text>
+                        </View>
                     </View>
 
                     {/******************************************************************/}
@@ -230,21 +244,21 @@ export default function Settings({ workoutsDB, setWorkouts }: Props) {
 
                     <View style={styles.box}>
                         <SubBox
-                            text="Preparación"
+                            text={STATES.PREPARATION}
                             color={backgroundColors.prepTime}
                         />
 
                         <View style={styles.separator}></View>
 
                         <SubBox
-                            text="Ejercitar"
+                            text={STATES.ACTIVE}
                             color={backgroundColors.activeTime}
                         />
 
                         <View style={styles.separator}></View>
 
                         <SubBox
-                            text="Descanso"
+                            text={STATES.REST}
                             color={backgroundColors.restTime}
                         />
                     </View>
