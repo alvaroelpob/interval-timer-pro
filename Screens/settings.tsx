@@ -205,6 +205,9 @@ export default function Settings({ workoutsDB, setWorkouts }: Props) {
             >
                 <ColorPickerComponent
                     setShowPicker={setShowPicker}
+                    editing={editing as STATES}
+                    backgroundColors={backgroundColors}
+                    setBackgroundColors={setBackgroundColors}
                 />
             </Modal>
 
