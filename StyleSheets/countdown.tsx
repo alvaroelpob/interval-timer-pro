@@ -35,7 +35,7 @@ const styles = StyleSheet.create({
         color: '#FFFFFF'
     },
     countdown: {
-        fontSize: 90,
+        fontSize: 999,
         marginTop: -17,
         alignSelf: 'center',
         color: '#FFFFFF'

@@ -353,7 +353,11 @@ export default function Countdown({ name, prepTime, activeTime, restTime, restBe
 
                 <View style={styles.countdownContainer}>
                     <Text style={styles.timerstate}>{timerState}</Text>
-                    <Text style={styles.countdown}>{formatTimeSeconds(timeRemaining)}</Text>
+                    <Text
+                        style={styles.countdown}
+                        adjustsFontSizeToFit={true}
+                        numberOfLines={1}
+                    >{formatTimeSeconds(timeRemaining)}</Text>
                 </View>
             </View>
 
