@@ -75,16 +75,16 @@ export default function Creator({ workoutsDB, setCreatingModal, setWorkouts }: {
 
         workoutsDB.transaction(tx => {
             tx.executeSql(`
-              CREATE TABLE IF NOT EXISTS workouts (
-                id INTEGER PRIMARY KEY AUTOINCREMENT,
-                name TEXT,
-                prepTime INTEGER,
-                activeTime INTEGER,
-                restTime INTEGER,
-                restBetweenSets INTEGER,
-                series INTEGER,
-                sets INTEGER
-              )
+                CREATE TABLE IF NOT EXISTS workouts (
+                    id INTEGER PRIMARY KEY AUTOINCREMENT,
+                    name TEXT,
+                    prepTime INTEGER,
+                    activeTime INTEGER,
+                    restTime INTEGER,
+                    restBetweenSets INTEGER,
+                    series INTEGER,
+                    sets INTEGER
+                )
             `);
 
             tx.executeSql(`

@@ -107,24 +107,24 @@ export default function Settings({ workoutsDB, setWorkouts }: Props) {
                     const newWorkouts: ArrayDB = JSON.parse(content);
                     workoutsDB.transaction(tx => {
                         tx.executeSql(`
-              CREATE TABLE IF NOT EXISTS workouts (
-                id INTEGER PRIMARY KEY AUTOINCREMENT,
-                name TEXT,
-                prepTime INTEGER,
-                activeTime INTEGER,
-                restTime INTEGER,
-                restBetweenSets INTEGER,
-                series INTEGER,
-                sets INTEGER
-              )
-            `);
+                            CREATE TABLE IF NOT EXISTS workouts (
+                                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                                name TEXT,
+                                prepTime INTEGER,
+                                activeTime INTEGER,
+                                restTime INTEGER,
+                                restBetweenSets INTEGER,
+                                series INTEGER,
+                                sets INTEGER
+                            )
+                        `);
                     });
 
                     newWorkouts.forEach(newWorkout => {
                         workoutsDB.transaction(tx => {
                             tx.executeSql(`
-                  INSERT INTO workouts (name, prepTime, activeTime, restTime, restBetweenSets, series, sets) VALUES (?, ?, ?, ?, ?, ?, ?)
-              `, [newWorkout.name, newWorkout.prepTime, newWorkout.activeTime, newWorkout.restTime, newWorkout.restBetweenSets, newWorkout.series, newWorkout.sets],
+                                INSERT INTO workouts (name, prepTime, activeTime, restTime, restBetweenSets, series, sets) VALUES (?, ?, ?, ?, ?, ?, ?)
+                            `, [newWorkout.name, newWorkout.prepTime, newWorkout.activeTime, newWorkout.restTime, newWorkout.restBetweenSets, newWorkout.series, newWorkout.sets],
                                 (txObj, resultSet) => {
                                     setWorkouts((prev: any) => [...prev, {
                                         id: resultSet.insertId,
