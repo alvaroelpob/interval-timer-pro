@@ -43,6 +43,7 @@ const settings = StyleSheet.create({
     },
     setting: {
         color: '#ececec',
+        fontSize: 14
     },
     separator: {
         borderBottomColor: '#0d0d0d',
@@ -57,7 +58,26 @@ const settings = StyleSheet.create({
         flexDirection: 'row',
         alignItems: 'center',
         columnGap: 3
-    }
+    },
+    dropdown: {
+        width: 100,
+        height: 50,
+        paddingHorizontal: 8,
+    },
+    selectedTextStyle: {
+        fontSize: 14,
+        color: "#FFFFFF"
+    },
+    item: {
+        padding: 15,
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+    },
+    textItem: {
+        flex: 1,
+        fontSize: 16,
+    },
 });
 
 export default settings;

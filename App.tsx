@@ -19,6 +19,10 @@ import Lupa from './assets/svg/lupa';
 import Close from './assets/svg/close';
 import { APPTHEME } from './lib/constants';
 
+/* i18next */
+import "./i18n/i18n.config";
+import { useTranslation } from "react-i18next";
+
 export default function App() {
     const [workoutsDB] = useState<Database>(openDatabase('workouts.db'));
 
@@ -30,7 +34,7 @@ export default function App() {
     const [openSearch, setOpenSearch] = useState<boolean>(false)
     const [searchQuery, setSearchQuery] = useState<string>("")
 
-
+    const { t } = useTranslation();
     const Tab = createBottomTabNavigator();
 
     useEffect(() => {
@@ -121,11 +125,11 @@ export default function App() {
                     tabBarLabel: ({ focused, color }) => {
 
                         if (route.name === 'Crear') {
-                            return <Text style={{ color: "#FFFFFF" }}>Crear</Text>
+                            return <Text style={{ color: "#FFFFFF" }}>{t("bottomBar.create")}</Text>
                         } else if (route.name === 'Guardados') {
-                            return <Text style={{ color: "#FFFFFF" }}>Guardados</Text>
+                            return <Text style={{ color: "#FFFFFF" }}>{t("bottomBar.saved")}</Text>
                         } else if (route.name === "Configuración") {
-                            return <Text style={{ color: "#FFFFFF" }}>Configuración</Text>
+                            return <Text style={{ color: "#FFFFFF" }}>{t("bottomBar.config")}</Text>
                         }
                     },
 

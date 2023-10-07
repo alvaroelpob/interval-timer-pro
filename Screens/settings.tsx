@@ -1,9 +1,11 @@
-import { ScrollView, View, Text, Switch, TouchableOpacity, Modal, Pressable, GestureResponderEvent } from "react-native";
-import { useEffect, useState } from "react";
+import { ScrollView, View, Text, Switch, TouchableOpacity, Modal, Pressable, GestureResponderEvent, ViewBase, StyleSheet } from "react-native";
+import { useEffect, useRef, useState } from "react";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { StorageAccessFramework, readAsStringAsync, writeAsStringAsync } from 'expo-file-system';
 import { getDocumentAsync } from 'expo-document-picker';
 import { APPTHEME } from "../lib/constants";
+import { Dropdown } from 'react-native-element-dropdown';
+
 /* Components */
 import ColorPickerComponent from "../components/colorpicker";
 import SquareColor from "../components/squarecolor";
@@ -18,7 +20,7 @@ import containers from "../StyleSheets/containers";
 
 /* Icons */
 import ArrowRight from "../assets/svg/arrowright";
-
+import i18n, { changeLanguage } from "i18next";
 
 type Props = {
     workoutsDB: Database;
@@ -30,6 +32,12 @@ enum STATES {
     REST = "Descanso",
     ACTIVE = "Ejercitar"
 }
+
+const availableLanguages = [
+    { label: "English", value: "en" },
+    { label: "Español", value: "es" },
+    { label: "Català", value: "ca" }
+];
 
 export default function Settings({ workoutsDB, setWorkouts }: Props) {
     const [showPicker, setShowPicker] = useState<boolean>(false);
@@ -191,6 +199,14 @@ export default function Settings({ workoutsDB, setWorkouts }: Props) {
         )
     };
 
+    const renderItem = (item: any) => {
+        return (
+            <View style={styles.item}>
+                <Text style={styles.textItem}>{item.label}</Text>
+            </View>
+        );
+    };
+
     return (
         <View style={containers.main}>
 
@@ -233,6 +249,20 @@ export default function Settings({ workoutsDB, setWorkouts }: Props) {
 
                         <View style={styles.subbox}>
                             <Text style={styles.setting}>Idioma</Text>
+                            <Dropdown
+                                style={styles.dropdown}
+                                selectedTextStyle={styles.selectedTextStyle}
+                                placeholderStyle={styles.selectedTextStyle}
+                                data={availableLanguages}
+                                maxHeight={200}
+                                labelField="label"
+                                valueField="value"
+                                placeholder={i18n.resolvedLanguage} // Display language instead of es/en/ca
+                                onChange={item => {
+                                    changeLanguage(item.value);
+                                }}
+                                renderItem={renderItem}
+                            />
                         </View>
                     </View>
 
