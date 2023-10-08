@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { TouchableOpacity, View, Text } from 'react-native';
 import WheelPicker from 'react-native-wheely';
+import { useTranslation } from 'react-i18next';
 
 import styles from '../StyleSheets/selectors';
 
@@ -15,6 +16,8 @@ type Props = {
 export default function NumberSelector({ currentValue, setter, setModalVisible }: Props) {
 
     const [number, setNumber] = useState(+currentValue);
+
+    const { t } = useTranslation();
 
     const saveNumber = () => {
         setter(number);
@@ -35,7 +38,7 @@ export default function NumberSelector({ currentValue, setter, setModalVisible }
             </View>
 
             <TouchableOpacity onPress={saveNumber} style={styles.button}>
-                <Text>Guardar</Text>
+                <Text>{t("save")}</Text>
             </TouchableOpacity>
         </View>
     );

@@ -3,6 +3,7 @@ import { TouchableOpacity, View, Text } from 'react-native';
 import WheelPicker from 'react-native-wheely';
 import { formatTime } from '../utils/normalizer';
 import styles from '../StyleSheets/selectors';
+import { useTranslation } from 'react-i18next';
 
 const hoursArray = Array.from({ length: 24 }, (_, i) => i.toString());
 const minutesArray = Array.from({ length: 60 }, (_, i) => i.toString());
@@ -20,6 +21,8 @@ export default function TimeSelector({ currentValue, setter, setModalVisible }: 
     const [hours, setHours] = useState(+importedTime[0]);
     const [minutes, setMinutes] = useState(+importedTime[1]);
     const [seconds, setSeconds] = useState(+importedTime[2]);
+
+    const { t } = useTranslation();
 
     const saveTime = () => {
         setter(formatTime(hours, minutes, seconds));
@@ -56,7 +59,7 @@ export default function TimeSelector({ currentValue, setter, setModalVisible }: 
             </View>
 
             <TouchableOpacity onPress={saveTime} style={styles.button}>
-                <Text>Guardar</Text>
+                <Text>{t("save")}</Text>
             </TouchableOpacity>
         </View>
     );

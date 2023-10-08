@@ -1,6 +1,8 @@
 {
     "start": "Començar",
     "search": "Cerca...",
+    "save": "Desar",
+    "totalTime": "Temps total:",
     "config": {
         "preferences": "Preferències",
         "volume": "Volum",
@@ -15,7 +17,8 @@
     "states": {
         "prep": "Preparació",
         "work": "Exercitar",
-        "rest": "Descans"
+        "rest": "Descans",
+        "end": "Has acabat!"
     },
     "bottomBar": {
         "create": "Crear",
@@ -23,12 +26,14 @@
         "config": "Configuració"
     },
     "inputs": {
+        "name": "Nom",
         "prep": "Preparació",
         "series": "Series",
         "work": "Exercitar",
         "rest": "Descans",
         "sets": "Sets",
         "restbtwsets": "Descans entre sets",
-        "video": "Video"
+        "video": "Video",
+        "create": "Crear"
     }
 }

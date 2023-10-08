@@ -18,6 +18,7 @@ import RepeatSnooze from "../assets/svg/repeatsnooze";
 import Plus from "../assets/svg/plus";
 import Creator from "../components/creator";
 import Sad from "../assets/svg/sad";
+import { useTranslation } from "react-i18next";
 
 type Props = {
     workoutsDB: Database,
@@ -31,6 +32,8 @@ export default function Saved({ workoutsDB, workouts, setWorkouts, setShowSearch
     const navigation = useNavigation<NavigationProp<ReactNavigation.RootParamList>>()
     const [creatingModal, setCreatingModal] = useState(false);
     const [page, setPage] = useState(1);
+
+    const { t } = useTranslation();
 
     const startCountdown = (interval: WorkoutFormated) => {
         (navigation as any).navigate('Crear' as never, {
@@ -83,10 +86,10 @@ export default function Saved({ workoutsDB, workouts, setWorkouts, setShowSearch
                 </View>
 
                 <View style={styles.infoelement}>
-                    <Text style={styles.textinfo}>Series: {interval.series}</Text>
-                    <Text style={styles.textinfo}>Sets: {interval.sets}</Text>
+                    <Text style={styles.textinfo}>{t("inputs.series")}: {interval.series}</Text>
+                    <Text style={styles.textinfo}>{t("inputs.sets")}: {interval.sets}</Text>
                 </View>
-                <Text style={styles.textinfo}>Total time: {interval.totalTime}</Text>
+                <Text style={styles.textinfo}>{t("totalTime")} {interval.totalTime}</Text>
             </TouchableOpacity>
         )
     }

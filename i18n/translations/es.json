@@ -1,6 +1,8 @@
 {
     "start": "Comenzar",
     "search": "Buscar...",
+    "save": "Guardar",
+    "totalTime": "Tiempo total:",
     "config": {
         "preferences": "Preferencias",
         "volume": "Volumen",
@@ -15,7 +17,8 @@
     "states": {
         "prep": "Preparación",
         "work": "Ejercitar",
-        "rest": "Descanso"
+        "rest": "Descanso",
+        "end": "¡Has terminado!"
     },
     "bottomBar": {
         "create": "Crear",
@@ -23,12 +26,14 @@
         "config": "Configuración"
     },
     "inputs": {
+        "name": "Nombre",
         "prep": "Preparación",
         "series": "Series",
         "work": "Ejercitar",
         "rest": "Descanso",
         "sets": "Sets",
         "restbtwsets": "Descanso entre sets",
-        "video": "Video"
+        "video": "Video",
+        "create": "Crear"
     }
 }

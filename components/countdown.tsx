@@ -3,7 +3,7 @@ import { useState, useEffect } from 'react'
 import { Audio } from 'expo-av';
 import { formatTimeSeconds, calcTotalTime, timeToSeconds } from '../utils/normalizer';
 import { useKeepAwake } from 'expo-keep-awake';
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import { useTranslation } from 'react-i18next';
 
 /* Styles */
 import styles from '../StyleSheets/countdown';
@@ -36,6 +36,8 @@ const shortBeepSound = new Audio.Sound();
 export default function Countdown({ name, prepTime, activeTime, restTime, restBetweenSets, series, sets, link, setRenderCountdown, setShowNav, soundDisabled, backgroundColors }: any) {
     useKeepAwake();
 
+    const { t } = useTranslation();
+
     prepTime = timeToSeconds(prepTime)
     activeTime = timeToSeconds(activeTime)
     restTime = timeToSeconds(restTime)
@@ -44,7 +46,7 @@ export default function Countdown({ name, prepTime, activeTime, restTime, restBe
 
     const totalTime = calcTotalTime({ name: name ? name : "Untitled", prepTime, activeTime, restTime, restBetweenSets, series, sets })
 
-    const [timerState, setTimerState] = useState('Preparación')
+    const [timerState, setTimerState] = useState('prep')
     const [timeRemaining, setTimeRemaining] = useState(prepTime)
     const [serie, setSerie] = useState(0)
     const [setNumber, setSetNumber] = useState(1)
@@ -70,7 +72,7 @@ export default function Countdown({ name, prepTime, activeTime, restTime, restBe
             }, 1000);
         }
 
-        if (timerState !== "Preparación") {
+        if (timerState !== "prep") {
             setBackwardDisabled(false)
         } else {
             setBackwardDisabled(true)
@@ -113,7 +115,7 @@ export default function Countdown({ name, prepTime, activeTime, restTime, restBe
                     }
 
                     setEnded(true);
-                    setTimerState("¡Has terminado!");
+                    setTimerState("end");
                     return
                 }
                 if (sound) {
@@ -122,18 +124,18 @@ export default function Countdown({ name, prepTime, activeTime, restTime, restBe
                     })();
                 }
 
-                setTimerState('Descanso');
+                setTimerState('rest');
                 setTimeRemaining(restBetweenSets)
                 setSerie(0)
                 setSetNumber(prevSetNumber => prevSetNumber + 1)
             } else {
-                if (timerState == "Ejercitar") {
+                if (timerState == "work") {
                     if (sound) {
                         (async () => {
                             await mediumBeepSound.replayAsync();
                         })();
                     }
-                    setTimerState('Descanso')
+                    setTimerState('rest')
                     setTimeRemaining(restTime)
                 } else {
                     if (sound) {
@@ -142,7 +144,7 @@ export default function Countdown({ name, prepTime, activeTime, restTime, restBe
                         })();
                     }
 
-                    setTimerState('Ejercitar')
+                    setTimerState('work')
                     setTimeRemaining(activeTime)
                     setSerie(prevSerie => prevSerie + 1)
                 }
@@ -193,19 +195,19 @@ export default function Countdown({ name, prepTime, activeTime, restTime, restBe
     }
 
     const handleGoBackward = () => {
-        if (timerState === "Preparación") return;
+        if (timerState === "prep") return;
 
-        /* Backward from "Preparación" */
-        if (serie === 1 && setNumber === 1 && timerState === "Ejercitar") {
+        /* Backward from "prep" */
+        if (serie === 1 && setNumber === 1 && timerState === "work") {
             setTimeRemaining(prepTime);
             setTotalTimeRemaining(prevTTR => prevTTR + prepTime + (activeTime - timeRemaining));
-            setTimerState("Preparación");
+            setTimerState("prep");
             setSerie(prevS => prevS - 1);
             return;
         }
 
-        /* Backward from "Ejercitar" moving set */
-        if (serie === 1 && timerState === "Ejercitar") {
+        /* Backward from "work" moving set */
+        if (serie === 1 && timerState === "work") {
             if (sound) {
                 (async () => {
                     await mediumBeepSound.replayAsync();
@@ -214,13 +216,13 @@ export default function Countdown({ name, prepTime, activeTime, restTime, restBe
 
             setTimeRemaining(restBetweenSets);
             setTotalTimeRemaining(prevTTR => prevTTR + restBetweenSets + (activeTime - timeRemaining));
-            setTimerState("Descanso");
+            setTimerState("rest");
             setSerie(prevS => prevS - 1);
             return;
         }
 
-        /* Backward from "Descanso" moving set */
-        if (serie === 0 && timerState === "Descanso") {
+        /* Backward from "rest" moving set */
+        if (serie === 0 && timerState === "rest") {
             if (sound) {
                 (async () => {
                     await longBeepSound.replayAsync();
@@ -229,14 +231,14 @@ export default function Countdown({ name, prepTime, activeTime, restTime, restBe
 
             setTimeRemaining(activeTime);
             setTotalTimeRemaining(prevTTR => prevTTR + activeTime + (restBetweenSets - timeRemaining));
-            setTimerState("Ejercitar");
+            setTimerState("work");
             setSerie(series);
             setSetNumber(prevSet => prevSet - 1);
             return;
         }
 
-        /* Backward from "Ejercitar" */
-        if (timerState === "Ejercitar") {
+        /* Backward from "work" */
+        if (timerState === "work") {
             if (sound) {
                 (async () => {
                     await mediumBeepSound.replayAsync();
@@ -245,13 +247,13 @@ export default function Countdown({ name, prepTime, activeTime, restTime, restBe
 
             setTimeRemaining(restTime);
             setTotalTimeRemaining(prevTTR => prevTTR + restTime + (activeTime - timeRemaining));
-            setTimerState("Descanso");
+            setTimerState("rest");
             setSerie(prevS => prevS - 1);
             return;
         }
 
-        /* Backward from "Descanso" */
-        if (timerState === "Descanso") {
+        /* Backward from "rest" */
+        if (timerState === "rest") {
             if (sound) {
                 (async () => {
                     await longBeepSound.replayAsync();
@@ -260,12 +262,12 @@ export default function Countdown({ name, prepTime, activeTime, restTime, restBe
 
             setTimeRemaining(activeTime);
             setTotalTimeRemaining(prevTTR => prevTTR + activeTime + (restTime - timeRemaining));
-            setTimerState("Ejercitar");
+            setTimerState("work");
             return;
         }
 
         /* Backward from finish */
-        if (timerState === "¡Has terminado!") {
+        if (timerState === "end") {
             if (sound) {
                 (async () => {
                     await longBeepSound.replayAsync();
@@ -274,7 +276,7 @@ export default function Countdown({ name, prepTime, activeTime, restTime, restBe
 
             setTimeRemaining(activeTime);
             setTotalTimeRemaining(prevTTR => prevTTR + activeTime);
-            setTimerState("Ejercitar");
+            setTimerState("work");
             setForwardDisabled(false)
             setEnded(false);
             return;
@@ -289,7 +291,7 @@ export default function Countdown({ name, prepTime, activeTime, restTime, restBe
     const handleRepeat = () => {
         setIsRunning(false);
         setEnded(false);
-        setTimerState('Preparación');
+        setTimerState('prep');
         setTimeRemaining(prepTime);
         setSerie(0);
         setSetNumber(1);
@@ -309,10 +311,10 @@ export default function Countdown({ name, prepTime, activeTime, restTime, restBe
 
     const getBgColor = (): string => {
         const equalities: { [key: string]: string; } = {
-            "Preparación": backgroundColors.prepTime,
-            "Ejercitar": backgroundColors.activeTime,
-            "Descanso": backgroundColors.restTime,
-            "¡Has terminado!": "#212121"
+            "prep": backgroundColors.prepTime,
+            "work": backgroundColors.activeTime,
+            "rest": backgroundColors.restTime,
+            "end": "#212121"
         }
         return equalities[timerState]
     }
@@ -352,7 +354,7 @@ export default function Countdown({ name, prepTime, activeTime, restTime, restBe
                 )}
 
                 <View style={styles.countdownContainer}>
-                    <Text style={styles.timerstate}>{timerState}</Text>
+                    <Text style={styles.timerstate}>{t("states." + timerState)}</Text>
                     <Text
                         style={styles.countdown}
                         adjustsFontSizeToFit={true}
@@ -367,11 +369,11 @@ export default function Countdown({ name, prepTime, activeTime, restTime, restBe
 
                 <View style={styles.setsseries}>
                     <View style={styles.subinfo}>
-                        <Text style={{ color: '#FFFFFF' }}>Serie</Text>
+                        <Text style={{ color: '#FFFFFF' }}>{t("inputs.series")}</Text>
                         <Text style={{ color: '#FFFFFF' }}>{serie}/{series}</Text>
                     </View>
                     <View style={styles.subinfo}>
-                        <Text style={{ color: '#FFFFFF' }}>Set</Text>
+                        <Text style={{ color: '#FFFFFF' }}>{t("inputs.sets")}</Text>
                         <Text style={{ color: '#FFFFFF' }}>{setNumber}/{sets}</Text>
                     </View>
                 </View>

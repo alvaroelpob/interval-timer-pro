@@ -1,6 +1,8 @@
 {
     "start": "Start",
     "search": "Search...",
+    "save": "Save",
+    "totalTime": "Total time:",
     "config": {
         "preferences": "Preferences",
         "volume": "Volume",
@@ -15,7 +17,8 @@
     "states": {
         "prep": "Preparation",
         "work": "Work",
-        "rest": "Rest"
+        "rest": "Rest",
+        "end": "You have finished!"
     },
     "bottomBar": {
         "create": "Create",
@@ -23,12 +26,14 @@
         "config": "Configuration"
     },
     "inputs": {
+        "name": "Nombre",
         "prep": "Preparation",
         "series": "Series",
         "work": "Work",
         "rest": "Rest",
         "sets": "Sets",
         "restbtwsets": "Rest between sets",
-        "video": "Video"
+        "video": "Video",
+        "create": "Create"
     }
 }
