@@ -20,6 +20,7 @@ import containers from "../StyleSheets/containers";
 
 /* Icons */
 import ArrowRight from "../assets/svg/arrowright";
+
 import i18n, { changeLanguage } from "i18next";
 import { useTranslation } from "react-i18next";
 
@@ -69,6 +70,15 @@ export default function Settings({ workoutsDB, setWorkouts }: Props) {
 
         retrieveSettings();
     }, []);
+
+    const getCurrentLanguage = () => {
+        const equalities: { [key: string]: string; } = {
+            "en": "English",
+            "es": "Español",
+            "ca": "Català"
+        }
+        return equalities[i18n.resolvedLanguage as string]
+    };
 
     const saveFile = async (data: ArrayDB) => {
         const permissions = await StorageAccessFramework.requestDirectoryPermissionsAsync();
@@ -260,7 +270,7 @@ export default function Settings({ workoutsDB, setWorkouts }: Props) {
                                 maxHeight={200}
                                 labelField="label"
                                 valueField="value"
-                                placeholder={i18n.resolvedLanguage} // Display language instead of es/en/ca
+                                placeholder={getCurrentLanguage()}
                                 onChange={item => {
                                     changeLanguage(item.value);
                                 }}
