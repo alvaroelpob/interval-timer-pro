@@ -107,6 +107,11 @@ export default function Settings({ workoutsDB, setWorkouts }: Props) {
         }
     };
 
+    const handleChangeLanguage = async (lang: string) => {
+        await AsyncStorage.setItem('language', JSON.stringify(lang));
+        changeLanguage(lang);
+    };
+
     const saveBgColors = async () => {
         await AsyncStorage.setItem('backgroundColors', JSON.stringify(backgroundColors));
     };
@@ -272,7 +277,7 @@ export default function Settings({ workoutsDB, setWorkouts }: Props) {
                                 valueField="value"
                                 placeholder={getCurrentLanguage()}
                                 onChange={item => {
-                                    changeLanguage(item.value);
+                                    handleChangeLanguage(item.value);
                                 }}
                                 renderItem={renderItem}
                             />
