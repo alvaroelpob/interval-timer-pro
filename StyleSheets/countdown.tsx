@@ -30,7 +30,7 @@ const styles = StyleSheet.create({
         alignSelf: 'center'
     },
     timerstate: {
-        fontSize: 30,
+        fontSize: 40,
         alignSelf: 'center',
         color: '#FFFFFF'
     },
