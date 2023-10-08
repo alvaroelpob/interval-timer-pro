@@ -169,8 +169,6 @@ export default function App() {
                         }
                     },
 
-                    headerTitle: openSearch ? "" : route.name,
-
                     headerBackTitleVisible: false,
                 })}
             >
@@ -188,7 +186,7 @@ export default function App() {
                 <Tab.Screen
                     name="Guardados"
                     options={{
-                        headerTitle: () => <Title screen={"saved"} />
+                        headerTitle: () => <Title screen={"saved"} openSearch={openSearch} />
                     }}
                     children={() => (
                         <Saved
