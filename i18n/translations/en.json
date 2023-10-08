@@ -1,7 +1,34 @@
 {
+    "start": "Start",
+    "search": "Search...",
+    "config": {
+        "preferences": "Preferences",
+        "volume": "Volume",
+        "lang": "Language",
+        "bgcolor": "Background colors",
+        "sensible": "Sensible zone",
+        "importWorkouts": "Import trainings",
+        "exportWorkouts": "Export trainings",
+        "deleteWorkouts": "Delete trainings",
+        "resetSettings": "Reset settings"
+    },
+    "states": {
+        "prep": "Preparation",
+        "work": "Work",
+        "rest": "Rest"
+    },
     "bottomBar": {
         "create": "Create",
         "saved": "Saved",
         "config": "Configuration"
+    },
+    "inputs": {
+        "prep": "Preparation",
+        "series": "Series",
+        "work": "Work",
+        "rest": "Rest",
+        "sets": "Sets",
+        "restbtwsets": "Rest between sets",
+        "video": "Video"
     }
 }

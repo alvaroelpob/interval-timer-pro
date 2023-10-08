@@ -10,6 +10,8 @@ import normalizer from './utils/normalizer';
 import Newinterval from './Screens/newinterval';
 import Saved from './Screens/saved';
 import Settings from './Screens/settings';
+import Title from './components/title';
+
 
 /* Icons */
 import Plus from './assets/svg/circleplus';
@@ -137,17 +139,13 @@ export default function App() {
                         backgroundColor: APPTHEME.HEADER,
                     },
 
-                    headerTitleStyle: {
-                        color: "#FFFFFF"
-                    },
-
                     headerRight: () => {
                         if (route.name === "Guardados" && openSearch) {
                             return (
                                 <View style={{ flexDirection: "row", alignItems: "center" }}>
                                     <TextInput
                                         style={{ flex: 1, color: "#FFFFFF" }}
-                                        placeholder="Buscar..."
+                                        placeholder={t("search")}
                                         placeholderTextColor="#FFFFFF"
                                         autoFocus={true}
                                         onBlur={handleSearch}
@@ -178,6 +176,9 @@ export default function App() {
             >
                 <Tab.Screen
                     name="Crear"
+                    options={{
+                        headerTitle: () => <Title screen={"create"} />
+                    }}
                     children={() => (
                         <Newinterval
                             setShowNav={setShowNav}
@@ -186,6 +187,9 @@ export default function App() {
                 />
                 <Tab.Screen
                     name="Guardados"
+                    options={{
+                        headerTitle: () => <Title screen={"saved"} />
+                    }}
                     children={() => (
                         <Saved
                             workoutsDB={workoutsDB}
@@ -198,6 +202,9 @@ export default function App() {
                 />
                 <Tab.Screen
                     name="Configuración"
+                    options={{
+                        headerTitle: () => <Title screen={"config"} />
+                    }}
                     children={() => (
                         <Settings
                             workoutsDB={workoutsDB}

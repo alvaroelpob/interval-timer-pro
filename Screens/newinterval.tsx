@@ -4,6 +4,7 @@ import { useRoute, RouteProp, useIsFocused } from '@react-navigation/native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { BackgroundColors, WorkoutFormated } from '../utils/types';
 import { APPTHEME } from '../lib/constants';
+import { useTranslation } from 'react-i18next';
 
 /* Utils */
 import { normalizeDate } from '../utils/normalizer';
@@ -22,6 +23,7 @@ import Countdown from '../components/countdown';
 export default function NewInterval({ setShowNav }: { setShowNav: Function }) {
     const route: RouteProp<{ params: { interval: WorkoutFormated } }, 'params'> = useRoute();
     const isFocused = useIsFocused();
+    const { t } = useTranslation();
     const interval = route.params?.interval;
 
     const [renderCountdown, setRenderCountdown] = useState(false);
@@ -149,35 +151,35 @@ export default function NewInterval({ setShowNav }: { setShowNav: Function }) {
 
                         <TouchableOpacity onPress={() => handleTouched(prepTime, setPrepTime)}>
                             <Animated.View style={[styles.create, { marginTop: 15, transform: [{ translateX: shakeAnimationPrepTime }] }]}>
-                                <Text style={styles.label}>Preparación*</Text>
+                                <Text style={styles.label}>{t("inputs.prep")}*</Text>
                                 <Text style={styles.labeltext}>{prepTime}</Text>
                             </Animated.View>
                         </TouchableOpacity>
 
                         <TouchableOpacity onPress={() => handleTouched(series, setSeries)}>
                             <View style={styles.create}>
-                                <Text style={styles.label}>Series*</Text>
+                                <Text style={styles.label}>{t("inputs.series")}*</Text>
                                 <Text style={styles.labeltext}>{series}</Text>
                             </View>
                         </TouchableOpacity>
 
                         <TouchableOpacity onPress={() => handleTouched(activeTime, setActiveTime)}>
                             <Animated.View style={[styles.create, { transform: [{ translateX: shakeAnimationActiveTime }] }]}>
-                                <Text style={styles.label}>Ejercitar*</Text>
+                                <Text style={styles.label}>{t("inputs.work")}*</Text>
                                 <Text style={styles.labeltext}>{activeTime}</Text>
                             </Animated.View>
                         </TouchableOpacity>
 
                         <TouchableOpacity onPress={() => handleTouched(restTime, setRestTime)}>
                             <Animated.View style={[styles.create, { transform: [{ translateX: shakeAnimationRestTime }] }]}>
-                                <Text style={styles.label}>Descanso*</Text>
+                                <Text style={styles.label}>{t("inputs.rest")}*</Text>
                                 <Text style={styles.labeltext}>{restTime}</Text>
                             </Animated.View>
                         </TouchableOpacity>
 
                         <TouchableOpacity onPress={() => handleTouched(sets, setSets)}>
                             <View style={styles.create}>
-                                <Text style={styles.label}>Sets</Text>
+                                <Text style={styles.label}>{t("inputs.sets")}</Text>
                                 <Text style={styles.labeltext}>{sets}</Text>
                             </View>
                         </TouchableOpacity>
@@ -185,14 +187,14 @@ export default function NewInterval({ setShowNav }: { setShowNav: Function }) {
                         {sets > 1 && (
                             <TouchableOpacity onPress={() => handleTouched(restBetweenSets, setRestBetweenSets)}>
                                 <Animated.View style={[styles.create, { transform: [{ translateX: shakeAnimationRestBetweenSets }] }]}>
-                                    <Text style={styles.label}>Descanso entre sets*</Text>
+                                    <Text style={styles.label}>{t("inputs.restbtwsets")}*</Text>
                                     <Text style={styles.labeltext}>{restBetweenSets}</Text>
                                 </Animated.View>
                             </TouchableOpacity>
                         )}
 
                         <Animated.View style={[styles.createWinput, { transform: [{ translateX: shakeAnimationLink }] }]}>
-                            <Text style={styles.label}>Video</Text>
+                            <Text style={styles.label}>{t("inputs.video")}</Text>
                             <TextInput
                                 onChangeText={(text) => setLink(text)}
                                 style={styles.input}
@@ -201,7 +203,7 @@ export default function NewInterval({ setShowNav }: { setShowNav: Function }) {
                         </Animated.View>
 
                         <TouchableOpacity onPress={handleClickStart} style={styles.button}>
-                            <Text style={styles.text}>Start Interval Timer</Text>
+                            <Text style={styles.text}>{t("start")}</Text>
                         </TouchableOpacity>
 
                     </ScrollView>

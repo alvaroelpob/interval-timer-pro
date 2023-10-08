@@ -1,7 +1,34 @@
 {
+    "start": "Començar",
+    "search": "Cerca...",
+    "config": {
+        "preferences": "Preferències",
+        "volume": "Volum",
+        "lang": "Idioma",
+        "bgcolor": "Color del fons",
+        "sensible": "Zona Sensible",
+        "importWorkouts": "Importar entrenaments",
+        "exportWorkouts": "Exportar entrenaments",
+        "deleteWorkouts": "Eliminar entrenaments",
+        "resetSettings": "Restablir configuració"
+    },
+    "states": {
+        "prep": "Preparació",
+        "work": "Exercitar",
+        "rest": "Descans"
+    },
     "bottomBar": {
         "create": "Crear",
         "saved": "Desats",
         "config": "Configuració"
+    },
+    "inputs": {
+        "prep": "Preparació",
+        "series": "Series",
+        "work": "Exercitar",
+        "rest": "Descans",
+        "sets": "Sets",
+        "restbtwsets": "Descans entre sets",
+        "video": "Video"
     }
 }

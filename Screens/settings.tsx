@@ -21,6 +21,7 @@ import containers from "../StyleSheets/containers";
 /* Icons */
 import ArrowRight from "../assets/svg/arrowright";
 import i18n, { changeLanguage } from "i18next";
+import { useTranslation } from "react-i18next";
 
 type Props = {
     workoutsDB: Database;
@@ -28,9 +29,9 @@ type Props = {
 }
 
 enum STATES {
-    PREPARATION = "Preparación",
-    REST = "Descanso",
-    ACTIVE = "Ejercitar"
+    PREPARATION = "prep",
+    REST = "rest",
+    ACTIVE = "work"
 }
 
 const availableLanguages = [
@@ -45,6 +46,8 @@ export default function Settings({ workoutsDB, setWorkouts }: Props) {
 
     const [volume, setVolume] = useState<boolean>(true);
     const [backgroundColors, setBackgroundColors] = useState<BackgroundColors>(APPTHEME.DEFAULT_COLORS);
+
+    const { t } = useTranslation();
 
     useEffect(() => {
         const retrieveSettings = async () => {
@@ -233,12 +236,12 @@ export default function Settings({ workoutsDB, setWorkouts }: Props) {
                     {/******************************************************************/}
 
                     <View style={styles.header}>
-                        <Text style={styles.headertext}>Preferencias</Text>
+                        <Text style={styles.headertext}>{t("config.preferences")}</Text>
                     </View>
 
                     <View style={styles.box}>
                         <View style={styles.subbox}>
-                            <Text style={styles.setting}>Volumen</Text>
+                            <Text style={styles.setting}>{t("config.volume")}</Text>
                             <Switch
                                 trackColor={{ false: '#767577', true: '#e47474' }}
                                 thumbColor={volume ? '#ef4234' : '#f4f3f4'}
@@ -248,7 +251,7 @@ export default function Settings({ workoutsDB, setWorkouts }: Props) {
                         </View>
 
                         <View style={styles.subbox}>
-                            <Text style={styles.setting}>Idioma</Text>
+                            <Text style={styles.setting}>{t("config.lang")}</Text>
                             <Dropdown
                                 style={styles.dropdown}
                                 selectedTextStyle={styles.selectedTextStyle}
@@ -269,26 +272,26 @@ export default function Settings({ workoutsDB, setWorkouts }: Props) {
                     {/******************************************************************/}
 
                     <View style={styles.header}>
-                        <Text style={styles.headertext}>Color del fondo</Text>
+                        <Text style={styles.headertext}>{t("config.bgcolor")}</Text>
                     </View>
 
                     <View style={styles.box}>
                         <SubBox
-                            text={STATES.PREPARATION}
+                            text={t("states." + STATES.PREPARATION)}
                             color={backgroundColors.prepTime}
                         />
 
                         <View style={styles.separator}></View>
 
                         <SubBox
-                            text={STATES.ACTIVE}
+                            text={t("states." + STATES.ACTIVE)}
                             color={backgroundColors.activeTime}
                         />
 
                         <View style={styles.separator}></View>
 
                         <SubBox
-                            text={STATES.REST}
+                            text={t("states." + STATES.REST)}
                             color={backgroundColors.restTime}
                         />
                     </View>
@@ -296,12 +299,12 @@ export default function Settings({ workoutsDB, setWorkouts }: Props) {
                     {/******************************************************************/}
 
                     <View style={styles.header}>
-                        <Text style={styles.headertext}>Zona sensible</Text>
+                        <Text style={styles.headertext}>{t("config.sensible")}</Text>
                     </View>
 
                     <View style={styles.dangerbox}>
                         <View style={styles.subbox}>
-                            <Text style={styles.setting}>Importar entrenamientos</Text>
+                            <Text style={styles.setting}>{t("config.importWorkouts")}</Text>
                             <TouchableOpacity onPress={importTrainings}>
                                 <ArrowRight color="#000000" />
                             </TouchableOpacity>
@@ -310,7 +313,7 @@ export default function Settings({ workoutsDB, setWorkouts }: Props) {
                         <View style={styles.separator}></View>
 
                         <View style={styles.subbox}>
-                            <Text style={styles.setting}>Exportar entrenamientos</Text>
+                            <Text style={styles.setting}>{t("config.exportWorkouts")}s</Text>
                             <TouchableOpacity onPress={exportTrainings}>
                                 <ArrowRight color="#000000" />
                             </TouchableOpacity>
@@ -319,7 +322,7 @@ export default function Settings({ workoutsDB, setWorkouts }: Props) {
                         <View style={styles.separator}></View>
 
                         <View style={styles.subbox}>
-                            <Text style={styles.setting}>Eliminar entrenamientos</Text>
+                            <Text style={styles.setting}>{t("config.deleteWorkouts")}</Text>
                             <TouchableOpacity onPress={dropTrainings}>
                                 <ArrowRight color="#000000" />
                             </TouchableOpacity>
@@ -328,7 +331,7 @@ export default function Settings({ workoutsDB, setWorkouts }: Props) {
                         <View style={styles.separator}></View>
 
                         <View style={styles.subbox}>
-                            <Text style={styles.setting}>Restablecer ajustes</Text>
+                            <Text style={styles.setting}>{t("config.resetSettings")}</Text>
                             <TouchableOpacity onPress={dropSettings}>
                                 <ArrowRight color="#000000" />
                             </TouchableOpacity>
