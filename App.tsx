@@ -4,6 +4,7 @@ import { View, Text, TouchableOpacity, TextInput, BackHandler } from 'react-nati
 import { useState, useEffect } from 'react'
 import { ArrayDB } from './utils/types';
 import { openDatabase, Database } from 'expo-sqlite';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import normalizer from './utils/normalizer';
 
 /* Components */
@@ -24,6 +25,7 @@ import { APPTHEME } from './lib/constants';
 /* i18next */
 import "./i18n/i18n.config";
 import { useTranslation } from "react-i18next";
+import { changeLanguage } from 'i18next';
 
 export default function App() {
     const [workoutsDB] = useState<Database>(openDatabase('workouts.db'));
@@ -38,6 +40,22 @@ export default function App() {
 
     const { t } = useTranslation();
     const Tab = createBottomTabNavigator();
+
+    useEffect(() => {
+        const retrieveLanguage = async () => {
+            try {
+                const storedLang = await AsyncStorage.getItem('language');
+
+                if (storedLang !== null) {
+                    changeLanguage(JSON.parse(storedLang));
+                }
+            } catch (error) {
+                console.log('Error retrieving language:', error);
+            }
+        };
+
+        retrieveLanguage();
+    }, [])
 
     useEffect(() => {
         workoutsDB.transaction(tx => {
