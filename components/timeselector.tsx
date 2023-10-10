@@ -59,7 +59,7 @@ export default function TimeSelector({ currentValue, setter, setModalVisible }: 
             </View>
 
             <TouchableOpacity onPress={saveTime} style={styles.button}>
-                <Text>{t("save")}</Text>
+                <Text style={{ color: "#FFFFFF", fontWeight: "500" }}>{t("save")}</Text>
             </TouchableOpacity>
         </View>
     );

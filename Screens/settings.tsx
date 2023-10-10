@@ -343,6 +343,7 @@ export default function Settings({ workoutsDB, setWorkouts }: Props) {
                             </TouchableOpacity>
                         </View>
 
+
                         <View style={styles.separator}></View>
 
                         <View style={styles.subbox}>

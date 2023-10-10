@@ -37,7 +37,7 @@ const newinterval = StyleSheet.create({
         paddingLeft: 7,
         color: '#ececec',
         borderWidth: 0,
-        backgroundColor: '#333333',
+        backgroundColor: '#404048',
     },
     label: {
         color: '#ececec',
@@ -57,7 +57,7 @@ const newinterval = StyleSheet.create({
         alignItems: 'center'
     },
     button: {
-        backgroundColor: '#747474',
+        backgroundColor: '#5d5cff',
         padding: 10,
         borderRadius: 10,
         alignItems: 'center',
