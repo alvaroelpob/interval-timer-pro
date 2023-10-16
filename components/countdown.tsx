@@ -332,7 +332,7 @@ export default function Countdown({ name, prepTime, activeTime, restTime, restBe
                             ) : (
                                 <Unlock />
                             )
-                        }
+                        } 
                     </TouchableOpacity>
 
                     <Text style={styles.totaltimeremaining}>{formatTimeSeconds(totalTimeRemaining)}</Text>
