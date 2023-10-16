@@ -19,7 +19,7 @@ const selectors = StyleSheet.create({
         flexDirection: 'row',
     },
     button: {
-        backgroundColor: '#5AA9DD',
+        backgroundColor: '#5d5cff',
         width: '100%',
         padding: 10,
         borderRadius: 10,

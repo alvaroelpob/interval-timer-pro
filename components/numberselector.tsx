@@ -38,7 +38,7 @@ export default function NumberSelector({ currentValue, setter, setModalVisible }
             </View>
 
             <TouchableOpacity onPress={saveNumber} style={styles.button}>
-                <Text>{t("save")}</Text>
+                <Text style={{ color: "#FFFFFF", fontWeight: "500" }}>{t("save")}</Text>
             </TouchableOpacity>
         </View>
     );

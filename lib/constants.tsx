@@ -18,7 +18,7 @@ interface APPTHEMEProps {
 
 const APPTHEME: APPTHEMEProps = {
     PRIMARY: "#05161A",
-    SECONDARY: "#072E33",
+    SECONDARY: "#252429",
     ACCENTS: {
         ONE: "#48BEFF",
         TWO: "#FE5F55", // D64933
