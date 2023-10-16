@@ -6,7 +6,6 @@ import { Database } from "expo-sqlite";
 
 import containers from '../StyleSheets/containers';
 import styles from '../StyleSheets/saved'
-import buttons from "../StyleSheets/buttons";
 
 const ITEMS_PER_PAGE = 10;
 
@@ -15,9 +14,11 @@ import Clock from "../assets/svg/clock";
 import Dumbbell from "../assets/svg/dumbbell";
 import Snooze from "../assets/svg/snooze";
 import RepeatSnooze from "../assets/svg/repeatsnooze";
-import Plus from "../assets/svg/plus";
 import Creator from "../components/creator";
 import Sad from "../assets/svg/sad";
+
+import OctopusButton from "../components/OctopusButton/octopus";
+
 import { useTranslation } from "react-i18next";
 
 type Props = {
@@ -148,9 +149,7 @@ export default function Saved({ workoutsDB, workouts, setWorkouts, setShowSearch
                 )
             }
 
-            <TouchableOpacity onPress={handleCreateInterval} style={buttons.buttonContainer}>
-                <Text style={buttons.buttonText}><Plus /></Text>
-            </TouchableOpacity>
+            <OctopusButton />
         </View>
     )
 }
