@@ -1,16 +1,14 @@
 import { useEffect, useRef, useState } from "react";
-import { View, StyleSheet, TouchableOpacity, Text, Animated, Pressable } from "react-native";
-import Plus from "../../assets/svg/plus";
+import { StyleSheet, TouchableOpacity, Text, Animated, Pressable } from "react-native";
+import { useIsFocused } from '@react-navigation/native';
+
+/* Components */
 import OctopusMainButton from "./button";
+
+/* Icons */
 import New from "../../assets/svg/new";
 import Upload from "../../assets/svg/upload";
-import { useIsFocused } from '@react-navigation/native';
-import { useSharedValue } from "react-native-reanimated";
 
-interface Props {
-    onPress1?: () => void;
-    onPress2?: () => void;
-}
 const size = 60;
 const mainButton = {
     size: 60,
@@ -18,6 +16,11 @@ const mainButton = {
         bottom: 20,
         right: 20
     }
+}
+
+interface Props {
+    onPress1?: () => void;
+    onPress2?: () => void;
 }
 
 export default function OctopusButton({ onPress1, onPress2 }: Props) {
