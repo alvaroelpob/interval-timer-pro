@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import { View, StyleSheet, TouchableOpacity, Text, Animated } from "react-native";
+import { View, StyleSheet, TouchableOpacity, Text, Animated, Pressable } from "react-native";
 import Plus from "../../assets/svg/plus";
 import OctopusMainButton from "./button";
 import New from "../../assets/svg/new";
@@ -83,7 +83,7 @@ export default function OctopusButton({ onPress1, onPress2 }: Props) {
     };
 
     return (
-        <View style={styles.container}>
+        <Pressable style={styles.container} onPress={closeArms}>
             <OctopusMainButton onPress={handleShowArms} />
 
             {showArms && (
@@ -101,7 +101,7 @@ export default function OctopusButton({ onPress1, onPress2 }: Props) {
                     </Animated.View>
                 </>
             )}
-        </View >
+        </Pressable >
     );
 }
 
