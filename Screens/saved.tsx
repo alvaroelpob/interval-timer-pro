@@ -47,6 +47,8 @@ export default function Saved({ workoutsDB, workouts, setWorkouts, setShowSearch
         setShowSearch(false)
     };
 
+    const handleImportInterval = () => { }; // TODO: Make this function
+
     const renderWorkoutItem = ({ item: interval, index }: { item: WorkoutFormated, index: number }) => {
         if (
             index < (page - 1) * ITEMS_PER_PAGE ||
@@ -149,7 +151,7 @@ export default function Saved({ workoutsDB, workouts, setWorkouts, setShowSearch
                 )
             }
 
-            <OctopusButton />
+            <OctopusButton onPress1={handleCreateInterval} onPress2={handleImportInterval} />
         </View>
     )
 }

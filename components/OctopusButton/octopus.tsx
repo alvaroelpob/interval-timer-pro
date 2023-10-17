@@ -1,55 +1,117 @@
-import { useState } from "react";
-import { View, StyleSheet, TouchableOpacity, Text } from "react-native";
+import { useEffect, useRef, useState } from "react";
+import { View, StyleSheet, TouchableOpacity, Text, Animated } from "react-native";
 import Plus from "../../assets/svg/plus";
 import OctopusMainButton from "./button";
+import New from "../../assets/svg/new";
+import Upload from "../../assets/svg/upload";
+import { useIsFocused } from '@react-navigation/native';
+import { useSharedValue } from "react-native-reanimated";
 
 interface Props {
-    onPress?: () => void;
+    onPress1?: () => void;
+    onPress2?: () => void;
 }
-
-export default function OctopusButton({ onPress }: Props) {
-
-    const [showArms, setShowArms] = useState<boolean>(false);
-
-    const handleOpenSubButtons = () => {
-
-    };
-
-    return (
-        <View style={styles.container}>
-            <OctopusMainButton />
-
-            {showArms && (
-                <>
-                    <TouchableOpacity onPress={() => { }} style={[styles.btn, styles.btn1]}>
-                        <Text style={styles.buttonText}><Plus /></Text>
-                    </TouchableOpacity>
-
-                    <TouchableOpacity onPress={() => { }} style={[styles.btn, styles.btn2]}>
-                        <Text style={styles.buttonText}><Plus /></Text>
-                    </TouchableOpacity>
-                </>
-            )}
-        </View >
-    );
-}
-
-const size = 40;
+const size = 60;
 const mainButton = {
-    size: 50,
+    size: 60,
     position: {
         bottom: 20,
         right: 20
     }
 }
 
+export default function OctopusButton({ onPress1, onPress2 }: Props) {
+
+    const isFocused = useIsFocused();
+    const [showArms, setShowArms] = useState<boolean>(false);
+
+    const armsAnimatedValue = useRef(new Animated.Value(0)).current;
+
+    const openArms = () => {
+        Animated.timing(armsAnimatedValue, {
+            toValue: 1,
+            duration: 200,
+            useNativeDriver: true,
+        }).start();
+    };
+
+    const closeArms = () => {
+        Animated.timing(armsAnimatedValue, {
+            toValue: 0,
+            duration: 200,
+            useNativeDriver: true,
+        }).start(() => setShowArms(false));
+    }
+
+
+    const valueBtn1 = armsAnimatedValue.interpolate({
+        inputRange: [0, 1],
+        outputRange: [0, -(mainButton.position.bottom * 4.4)],
+    });
+
+    const animatedStylesBtn1 = {
+        transform: [
+            { translateX: valueBtn1 }
+        ],
+    };
+
+    const valueBtn2 = armsAnimatedValue.interpolate({
+        inputRange: [0, 1],
+        outputRange: [0, -(mainButton.position.right * 4.4)],
+    });
+
+    const animatedStylesBtn2 = {
+        transform: [
+            { translateY: valueBtn2 }
+        ],
+    };
+
+    useEffect(() => {
+        if (showArms && !isFocused) {
+            armsAnimatedValue.setValue(0);
+            setShowArms(false);
+        }
+    }, [isFocused]);
+
+    const handleShowArms = () => {
+        if (showArms) {
+            closeArms();
+        } else {
+            setShowArms(true)
+            openArms();
+        }
+    };
+
+    return (
+        <View style={styles.container}>
+            <OctopusMainButton onPress={handleShowArms} />
+
+            {showArms && (
+                <>
+                    <Animated.View style={[styles.btn, styles.btn1, animatedStylesBtn1]}>
+                        <TouchableOpacity onPress={onPress1} >
+                            <Text style={styles.buttonText}><New /></Text>
+                        </TouchableOpacity>
+                    </Animated.View>
+
+                    <Animated.View style={[styles.btn, styles.btn2, animatedStylesBtn2]}>
+                        <TouchableOpacity onPress={onPress2} >
+                            <Text style={styles.buttonText}><Upload /></Text>
+                        </TouchableOpacity>
+                    </Animated.View>
+                </>
+            )}
+        </View >
+    );
+}
+
+
+
 const styles = StyleSheet.create({
     container: {
         position: "absolute",
         width: "100%",
-        height: "100%",
-        borderColor: "#FF00FF",
-        borderWidth: 3,
+        height: "100%"
     },
     btn: {
         position: "absolute",
@@ -69,8 +131,8 @@ const styles = StyleSheet.create({
         elevation: 5,
     },
     btn1: {
-        bottom: mainButton.position.bottom,
         right: mainButton.position.right,
+        bottom: mainButton.position.bottom
     },
     btn2: {
         bottom: mainButton.position.bottom,
@@ -80,5 +142,6 @@ const styles = StyleSheet.create({
         color: 'white',
         fontWeight: 'bold',
         fontSize: 24,
+        alignSelf: "center"
     },
 });

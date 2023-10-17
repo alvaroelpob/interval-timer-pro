@@ -1,6 +1,6 @@
 import { StyleSheet } from "react-native";
 
-const size = 50;
+const size = 60;
 
 const buttons = StyleSheet.create({
     buttonContainer: {
