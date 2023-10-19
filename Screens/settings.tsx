@@ -71,12 +71,6 @@ export default function Settings({ workoutsDB, setWorkouts }: Props) {
         retrieveSettings();
     }, []);
 
-    useEffect(() => {
-        console.log(backgroundColors);
-    }, [backgroundColors])
-
-    useEffect(() => { console.log(editing) }, [editing])
-
     const getCurrentLanguage = () => {
         const equalities: { [key: string]: string; } = {
             "en": "English",
