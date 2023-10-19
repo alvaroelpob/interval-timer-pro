@@ -71,6 +71,12 @@ export default function Settings({ workoutsDB, setWorkouts }: Props) {
         retrieveSettings();
     }, []);
 
+    useEffect(() => {
+        console.log(backgroundColors);
+    }, [backgroundColors])
+
+    useEffect(() => { console.log(editing) }, [editing])
+
     const getCurrentLanguage = () => {
         const equalities: { [key: string]: string; } = {
             "en": "English",
@@ -208,7 +214,7 @@ export default function Settings({ workoutsDB, setWorkouts }: Props) {
 
         return (
             <View style={styles.subbox}>
-                <Text style={styles.setting}>{text}</Text>
+                <Text style={styles.setting}>{t("states." + text)}</Text>
                 <Pressable onPress={handleChangeColor} style={styles.setCX}>
                     <SquareColor color={color} />
                     <Text style={styles.color}>{color}</Text>
@@ -292,21 +298,21 @@ export default function Settings({ workoutsDB, setWorkouts }: Props) {
 
                     <View style={styles.box}>
                         <SubBox
-                            text={t("states." + STATES.PREPARATION)}
+                            text={STATES.PREPARATION}
                             color={backgroundColors.prepTime}
                         />
 
                         <View style={styles.separator}></View>
 
                         <SubBox
-                            text={t("states." + STATES.ACTIVE)}
+                            text={STATES.ACTIVE}
                             color={backgroundColors.activeTime}
                         />
 
                         <View style={styles.separator}></View>
 
                         <SubBox
-                            text={t("states." + STATES.REST)}
+                            text={STATES.REST}
                             color={backgroundColors.restTime}
                         />
                     </View>

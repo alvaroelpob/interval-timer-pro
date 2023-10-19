@@ -1,4 +1,4 @@
-import { StyleSheet, View } from 'react-native';
+import { Button, StyleSheet, View } from 'react-native';
 import Animated, { useSharedValue } from 'react-native-reanimated';
 import ColorPicker, { Panel1, HueSlider, PreviewText } from 'reanimated-color-picker';
 import { BackgroundColors } from '../utils/types';
@@ -12,9 +12,9 @@ type Props = {
 
 export default function ColorPickerComponent({ setShowPicker, editing, backgroundColors, setBackgroundColors }: Props) {
     const selectedColor = useSharedValue(({
-        "Preparación": backgroundColors.prepTime,
-        "Ejercitar": backgroundColors.activeTime,
-        "Descanso": backgroundColors.restTime,
+        "prep": backgroundColors.prepTime,
+        "work": backgroundColors.activeTime,
+        "rest": backgroundColors.restTime,
     }[editing] || "#FFFFFF"));
 
     const onColorSelect = (color: { hex: string }) => {
@@ -22,11 +22,11 @@ export default function ColorPickerComponent({ setShowPicker, editing, backgroun
     };
 
     const handleChangeColor = (newColor: { hex: string }) => {
-        if (editing === "Preparación") {
+        if (editing === "prep") {
             setBackgroundColors(prev => ({ ...prev, prepTime: newColor.hex.toUpperCase() }));
-        } else if (editing === "Ejercitar") {
+        } else if (editing === "work") {
             setBackgroundColors(prev => ({ ...prev, activeTime: newColor.hex.toUpperCase() }));
-        } else if (editing === "Descanso") {
+        } else if (editing === "rest") {
             setBackgroundColors(prev => ({ ...prev, restTime: newColor.hex.toUpperCase() }));
         }
     }
