@@ -1,5 +1,5 @@
-import { ScrollView, View, Text, Switch, TouchableOpacity, Modal, Pressable, GestureResponderEvent, ViewBase, StyleSheet } from "react-native";
-import { useEffect, useRef, useState } from "react";
+import { ScrollView, View, Text, Switch, TouchableOpacity, Modal, Pressable, StyleSheet } from "react-native";
+import { useEffect, useState } from "react";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { StorageAccessFramework, readAsStringAsync, writeAsStringAsync } from 'expo-file-system';
 import { getDocumentAsync } from 'expo-document-picker';
@@ -186,8 +186,8 @@ export default function Settings({ workoutsDB, setWorkouts }: Props) {
     const dropTrainings = () => {
         workoutsDB.transaction((tx: any) => {
             tx.executeSql(`
-        DELETE FROM workouts
-      `);
+                DELETE FROM workouts
+            `);
         });
         setWorkouts([]);
     }
