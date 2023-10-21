@@ -237,12 +237,23 @@ export default function Settings({ workoutsDB, setWorkouts }: Props) {
                     saveBgColors()
                 }}
             >
-                <ColorPickerComponent
-                    setShowPicker={setShowPicker}
-                    editing={editing as STATES}
-                    backgroundColors={backgroundColors}
-                    setBackgroundColors={setBackgroundColors}
-                />
+                <View
+                    style={{
+                        flex: 1, justifyContent: "center", alignItems: "center", backgroundColor: 'rgba(0,0,0,0.5)'
+                    }}
+                >
+                    <Pressable
+                        style={{ ...StyleSheet.absoluteFillObject }}
+                        onPress={() => setShowPicker(false)}
+                    />
+
+                    <ColorPickerComponent
+                        setShowPicker={setShowPicker}
+                        editing={editing as STATES}
+                        backgroundColors={backgroundColors}
+                        setBackgroundColors={setBackgroundColors}
+                    />
+                </View>
             </Modal>
 
             <ScrollView>

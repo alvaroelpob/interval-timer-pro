@@ -35,34 +35,27 @@ export default function ColorPickerComponent({ setShowPicker, editing, backgroun
     if (selectedColor.value.length < 1) return <></>;
 
     return (
-        <Animated.View style={styles.container} >
-            <View style={styles.pickerContainer}>
-                <ColorPicker
-                    value={selectedColor.value}
-                    sliderThickness={25}
-                    thumbSize={24}
-                    thumbShape="circle"
-                    onChange={onColorSelect}
-                    onComplete={handleChangeColor}
-                    boundedThumb
-                >
-                    <Panel1 style={styles.panelStyle} />
-                    <HueSlider style={styles.sliderStyle} />
-                    <View style={styles.previewTxtContainer}>
-                        <PreviewText style={{ textTransform: "uppercase" }} />
-                    </View>
-                </ColorPicker>
-            </View>
+        <Animated.View style={styles.pickerContainer}>
+            <ColorPicker
+                value={selectedColor.value}
+                sliderThickness={25}
+                thumbSize={24}
+                thumbShape="circle"
+                onChange={onColorSelect}
+                onComplete={handleChangeColor}
+                boundedThumb
+            >
+                <Panel1 style={styles.panelStyle} />
+                <HueSlider style={styles.sliderStyle} />
+                <View style={styles.previewTxtContainer}>
+                    <PreviewText style={{ textTransform: "uppercase" }} />
+                </View>
+            </ColorPicker>
         </Animated.View>
     );
 }
 
 const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        justifyContent: 'center',
-        alignContent: 'center',
-    },
     pickerContainer: {
         alignSelf: 'center',
         width: 300,
