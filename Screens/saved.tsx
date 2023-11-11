@@ -1,13 +1,16 @@
-import { View, Text, TouchableOpacity, Modal, FlatList, TextInput, ScrollView } from "react-native";
-import { useState, useCallback } from "react";
+import { View, Text, TouchableOpacity, Modal, FlatList } from "react-native";
+import { useState } from "react";
 import { NewArrayDB, WorkoutFormated } from "../utils/types";
 import { NavigationProp, useNavigation } from "@react-navigation/native";
 import { Database } from "expo-sqlite";
 
+const ITEMS_PER_PAGE = 10;
+
+/* Styles */
 import containers from '../StyleSheets/containers';
 import styles from '../StyleSheets/saved'
+import buttons from "../StyleSheets/buttons";
 
-const ITEMS_PER_PAGE = 10;
 
 /* Icons */
 import Clock from "../assets/svg/clock";
@@ -16,8 +19,7 @@ import Snooze from "../assets/svg/snooze";
 import RepeatSnooze from "../assets/svg/repeatsnooze";
 import Creator from "../components/creator";
 import Sad from "../assets/svg/sad";
-
-import OctopusButton from "../components/OctopusButton/octopus";
+import Plus from "../assets/svg/plus";
 
 import { useTranslation } from "react-i18next";
 
@@ -46,8 +48,6 @@ export default function Saved({ workoutsDB, workouts, setWorkouts, setShowSearch
         setCreatingModal(true);
         setShowSearch(false)
     };
-
-    const handleImportInterval = () => { }; // TODO: Make this function
 
     const renderWorkoutItem = ({ item: interval, index }: { item: WorkoutFormated, index: number }) => {
         if (
@@ -151,7 +151,9 @@ export default function Saved({ workoutsDB, workouts, setWorkouts, setShowSearch
                 )
             }
 
-            <OctopusButton onPress1={handleCreateInterval} onPress2={handleImportInterval} />
+            <TouchableOpacity onPress={handleCreateInterval} style={buttons.buttonContainer}>
+                <Text style={buttons.buttonText}><Plus /></Text>
+            </TouchableOpacity>
         </View>
     )
 }
