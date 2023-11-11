@@ -2,10 +2,13 @@ import { StyleSheet } from 'react-native';
 
 const styles = StyleSheet.create({
     timer: {
-        display: 'flex',
         flex: 1,
+        width: "100%",
+        height: "100%",
+        display: 'flex',
         flexDirection: 'column'
     },
+
     header: {
         display: 'flex',
         flexDirection: 'row',
@@ -24,6 +27,14 @@ const styles = StyleSheet.create({
         alignSelf: 'center',
         marginTop: 2
     },
+
+    videoContainer: {},
+
+    timerInfoContainer: {
+        flex: 1,
+        justifyContent: "center",
+        flexDirection: "column",
+    },
     countdownContainer: {
         display: 'flex',
         flexDirection: 'column',
@@ -40,30 +51,19 @@ const styles = StyleSheet.create({
         alignSelf: 'center',
         color: '#FFFFFF'
     },
-    countdowninfo: {
-        height: "55%",
+
+    containerSubInfo: {
         display: 'flex',
-        flexDirection: 'column',
-        justifyContent: 'space-between',
-    },
-    timerinfo: {
-        height: "45%",
-        display: 'flex',
-        flexDirection: 'column',
-        justifyContent: 'space-around',
-        rowGap: 50,
-        alignItems: 'center',
+        flexDirection: 'row',
+        justifyContent: "center",
+        columnGap: 40
     },
     subinfo: {
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center'
     },
-    setsseries: {
-        display: 'flex',
-        flexDirection: 'row',
-        columnGap: 40
-    },
+
     controls: {
         display: 'flex',
         flexDirection: 'row',

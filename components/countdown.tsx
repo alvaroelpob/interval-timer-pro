@@ -321,36 +321,37 @@ export default function Countdown({ name, prepTime, activeTime, restTime, restBe
 
     return (
         <View style={[{ backgroundColor: getBgColor() }, styles.timer]}>
-            <View style={styles.countdowninfo}>
+            <View style={styles.header}>
 
-                <View style={styles.header}>
+                <TouchableOpacity onPress={handleToggleControls}>
+                    {
+                        allDisabled ? (
+                            <Lock />
+                        ) : (
+                            <Unlock />
+                        )
+                    }
+                </TouchableOpacity>
 
-                    <TouchableOpacity onPress={handleToggleControls}>
-                        {
-                            allDisabled ? (
-                                <Lock />
-                            ) : (
-                                <Unlock />
-                            )
-                        } 
-                    </TouchableOpacity>
+                <Text style={styles.totaltimeremaining}>{formatTimeSeconds(totalTimeRemaining)}</Text>
 
-                    <Text style={styles.totaltimeremaining}>{formatTimeSeconds(totalTimeRemaining)}</Text>
+                <TouchableOpacity onPress={handleToggleSound} disabled={allDisabled || soundDisabled}>
+                    {
+                        sound ? (
+                            <On disabled={allDisabled || soundDisabled} />
+                        ) : (
+                            <Off disabled={allDisabled || soundDisabled} />
+                        )
+                    }
+                </TouchableOpacity>
 
-                    <TouchableOpacity onPress={handleToggleSound} disabled={allDisabled || soundDisabled}>
-                        {
-                            sound ? (
-                                <On disabled={allDisabled || soundDisabled} />
-                            ) : (
-                                <Off disabled={allDisabled || soundDisabled} />
-                            )
-                        }
-                    </TouchableOpacity>
+            </View>
 
-                </View>
-
+            <View style={styles.timerInfoContainer}>
                 {link && (
-                    <YoutubePlayer videoID={link}></YoutubePlayer>
+                    <View style={styles.videoContainer}>
+                        <YoutubePlayer videoID={link}></YoutubePlayer>
+                    </View>
                 )}
 
                 <View style={styles.countdownContainer}>
@@ -361,13 +362,9 @@ export default function Countdown({ name, prepTime, activeTime, restTime, restBe
                         numberOfLines={1}
                     >{formatTimeSeconds(timeRemaining)}</Text>
                 </View>
-            </View>
 
 
-
-            <View style={styles.timerinfo}>
-
-                <View style={styles.setsseries}>
+                <View style={styles.containerSubInfo}>
                     <View style={styles.subinfo}>
                         <Text style={{ color: '#FFFFFF' }}>{t("inputs.series")}</Text>
                         <Text style={{ color: '#FFFFFF' }}>{serie}/{series}</Text>
@@ -378,36 +375,36 @@ export default function Countdown({ name, prepTime, activeTime, restTime, restBe
                     </View>
                 </View>
 
+            </View>
 
-                <View style={styles.controls}>
+            <View style={styles.controls}>
 
-                    <TouchableOpacity onPress={handleGoBackward} disabled={allDisabled || backwardDisabled}>
-                        <Backward disabled={allDisabled || backwardDisabled} />
-                    </TouchableOpacity>
+                <TouchableOpacity onPress={handleGoBackward} disabled={allDisabled || backwardDisabled}>
+                    <Backward disabled={allDisabled || backwardDisabled} />
+                </TouchableOpacity>
 
-                    <TouchableOpacity onPress={handleTogglePause} disabled={allDisabled || controlsDisabled || ended}>
-                        {
-                            isRunning ? (
-                                <Pause disabled={allDisabled || controlsDisabled} />
-                            ) : (
-                                <Play disabled={allDisabled || controlsDisabled} />
-                            )
-                        }
-                    </TouchableOpacity>
+                <TouchableOpacity onPress={handleTogglePause} disabled={allDisabled || controlsDisabled || ended}>
                     {
-                        ended ? (
-                            <TouchableOpacity onPress={handleRepeat}>
-                                <Repeat />
-                            </TouchableOpacity>
+                        isRunning ? (
+                            <Pause disabled={allDisabled || controlsDisabled} />
                         ) : (
-                            <TouchableOpacity onPress={handleGoForward} disabled={allDisabled || forwardDisabled}>
-                                <Forward disabled={allDisabled || forwardDisabled} />
-                            </TouchableOpacity>
+                            <Play disabled={allDisabled || controlsDisabled} />
                         )
                     }
+                </TouchableOpacity>
+                {
+                    ended ? (
+                        <TouchableOpacity onPress={handleRepeat}>
+                            <Repeat />
+                        </TouchableOpacity>
+                    ) : (
+                        <TouchableOpacity onPress={handleGoForward} disabled={allDisabled || forwardDisabled}>
+                            <Forward disabled={allDisabled || forwardDisabled} />
+                        </TouchableOpacity>
+                    )
+                }
 
 
-                </View>
             </View>
         </View >
     );
