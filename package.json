@@ -33,7 +33,8 @@
     "react-native-svg": "13.4.0",
     "react-native-webview": "11.26.0",
     "react-native-wheely": "^0.6.0",
-    "reanimated-color-picker": "^2.3.5"
+    "reanimated-color-picker": "^2.3.5",
+    "expo-linking": "~4.0.1"
   },
   "devDependencies": {
     "@babel/core": "^7.20.0",

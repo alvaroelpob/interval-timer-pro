@@ -5,6 +5,7 @@ import { useState, useEffect } from 'react'
 import { ArrayDB } from './utils/types';
 import { openDatabase, Database } from 'expo-sqlite';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { openURL } from 'expo-linking';
 import normalizer from './utils/normalizer';
 
 /* Components */
@@ -13,13 +14,14 @@ import Saved from './Screens/saved';
 import Settings from './Screens/settings';
 import Title from './components/title';
 
-
 /* Icons */
 import Plus from './assets/svg/circleplus';
 import Bookmark from './assets/svg/bookmark';
 import Gear from './assets/svg/gear';
 import Lupa from './assets/svg/lupa';
 import Close from './assets/svg/close';
+import Help from './assets/svg/help';
+
 import { APPTHEME } from './lib/constants';
 
 /* i18next */
@@ -99,6 +101,10 @@ export default function App() {
 
     const handleSearch = () => {
         setOpenSearch(prev => !prev)
+    }
+
+    const handleHelp = () => {
+        openURL("https://localhost:3000");
     }
 
     return (
@@ -182,6 +188,12 @@ export default function App() {
                                     <Lupa />
                                 </TouchableOpacity>
                             );
+                        } else if (route.name === "Configuración") {
+                            return (
+                                <TouchableOpacity onPress={handleHelp} style={{ marginRight: 20 }}>
+                                    <Help />
+                                </TouchableOpacity>
+                            )
                         } else {
                             return null;
                         }
