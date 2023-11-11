@@ -12,6 +12,7 @@ import styles from '../StyleSheets/newinterval';
 /* Components */
 import TimeSelector from './timeselector';
 import NumberSelector from './numberselector'
+import Asterisk from './asterisk';
 
 export default function Creator({ workoutsDB, setCreatingModal, setWorkouts }: { workoutsDB: Database, setCreatingModal: Function, setWorkouts: Function }) {
     const headerHeight = useHeaderHeight();
@@ -137,7 +138,7 @@ export default function Creator({ workoutsDB, setCreatingModal, setWorkouts }: {
                 </Modal>
 
                 <Animated.View style={[styles.createWinput, { transform: [{ translateX: shakeAnimationName }] }]}>
-                    <Text style={styles.label}>{t("inputs.name")}</Text>
+                    <Text style={styles.label}>{t("inputs.name")}<Asterisk/></Text>
                     <TextInput
                         onChangeText={(text) => setName(text)}
                         style={styles.input}
@@ -147,28 +148,28 @@ export default function Creator({ workoutsDB, setCreatingModal, setWorkouts }: {
 
                 <TouchableOpacity onPress={() => handleTouched(prepTime, setPrepTime)}>
                     <Animated.View style={[styles.create, { transform: [{ translateX: shakeAnimationPrepTime }] }]}>
-                        <Text style={styles.label}>{t("inputs.prep")}</Text>
+                        <Text style={styles.label}>{t("inputs.prep")}<Asterisk/></Text>
                         <Text style={styles.labeltext}>{prepTime}</Text>
                     </Animated.View>
                 </TouchableOpacity>
 
                 <TouchableOpacity onPress={() => handleTouched(series, setSeries)}>
                     <View style={styles.create}>
-                        <Text style={styles.label}>{t("inputs.series")}</Text>
+                        <Text style={styles.label}>{t("inputs.series")}<Asterisk/></Text>
                         <Text style={styles.labeltext}>{series}</Text>
                     </View>
                 </TouchableOpacity>
 
                 <TouchableOpacity onPress={() => handleTouched(activeTime, setActiveTime)}>
                     <Animated.View style={[styles.create, { transform: [{ translateX: shakeAnimationActiveTime }] }]}>
-                        <Text style={styles.label}>{t("inputs.work")}</Text>
+                        <Text style={styles.label}>{t("inputs.work")}<Asterisk/></Text>
                         <Text style={styles.labeltext}>{activeTime}</Text>
                     </Animated.View>
                 </TouchableOpacity>
 
                 <TouchableOpacity onPress={() => handleTouched(restTime, setRestTime)}>
                     <Animated.View style={[styles.create, { transform: [{ translateX: shakeAnimationRestTime }] }]}>
-                        <Text style={styles.label}>{t("inputs.rest")}</Text>
+                        <Text style={styles.label}>{t("inputs.rest")}<Asterisk/></Text>
                         <Text style={styles.labeltext}>{restTime}</Text>
                     </Animated.View>
                 </TouchableOpacity>
@@ -183,7 +184,7 @@ export default function Creator({ workoutsDB, setCreatingModal, setWorkouts }: {
                 {sets > 1 && (
                     <TouchableOpacity onPress={() => handleTouched(restBetweenSets, setRestBetweenSets)}>
                         <Animated.View style={[styles.create, { transform: [{ translateX: shakeAnimationRestBetweenSets }] }]}>
-                            <Text style={styles.label}>{t("inputs.restbtwsets")}</Text>
+                            <Text style={styles.label}>{t("inputs.restbtwsets")}<Asterisk/></Text>
                             <Text style={styles.labeltext}>{restBetweenSets}</Text>
                         </Animated.View>
                     </TouchableOpacity>
