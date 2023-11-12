@@ -45,6 +45,10 @@ const settings = StyleSheet.create({
         color: '#ececec',
         fontSize: 14
     },
+    settingBtn: {
+        width: "30%",
+        alignItems: "flex-end"
+    },
     separator: {
         borderBottomColor: '#0d0d0d',
         borderBottomWidth: 1,

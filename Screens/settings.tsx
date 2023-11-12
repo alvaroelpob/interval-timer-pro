@@ -331,7 +331,7 @@ export default function Settings({ workoutsDB, setWorkouts }: Props) {
                     <View style={styles.dangerbox}>
                         <View style={styles.subbox}>
                             <Text style={styles.setting}>{t("config.importWorkouts")}</Text>
-                            <TouchableOpacity onPress={importTrainings}>
+                            <TouchableOpacity style={styles.settingBtn} onPress={importTrainings}>
                                 <ArrowRight color="#000000" />
                             </TouchableOpacity>
                         </View>
@@ -340,7 +340,7 @@ export default function Settings({ workoutsDB, setWorkouts }: Props) {
 
                         <View style={styles.subbox}>
                             <Text style={styles.setting}>{t("config.exportWorkouts")}s</Text>
-                            <TouchableOpacity onPress={exportTrainings}>
+                            <TouchableOpacity style={styles.settingBtn} onPress={exportTrainings}>
                                 <ArrowRight color="#000000" />
                             </TouchableOpacity>
                         </View>
@@ -349,7 +349,7 @@ export default function Settings({ workoutsDB, setWorkouts }: Props) {
 
                         <View style={styles.subbox}>
                             <Text style={styles.setting}>{t("config.deleteWorkouts")}</Text>
-                            <TouchableOpacity onPress={dropTrainings}>
+                            <TouchableOpacity style={styles.settingBtn} onPress={dropTrainings}>
                                 <ArrowRight color="#000000" />
                             </TouchableOpacity>
                         </View>
@@ -359,7 +359,7 @@ export default function Settings({ workoutsDB, setWorkouts }: Props) {
 
                         <View style={styles.subbox}>
                             <Text style={styles.setting}>{t("config.resetSettings")}</Text>
-                            <TouchableOpacity onPress={dropSettings}>
+                            <TouchableOpacity style={styles.settingBtn} onPress={dropSettings}>
                                 <ArrowRight color="#000000" />
                             </TouchableOpacity>
                         </View>
