@@ -9,7 +9,7 @@ import { useTranslation } from 'react-i18next';
 import styles from '../StyleSheets/countdown';
 
 /* Components */
-import YoutubePlayer from './youtubeplayer';
+import YoutubePlayer from '../components/Screens/Countdown/youtubeplayer';
 
 /* Icons */
 import Play from '../assets/svg/controls/play';

@@ -16,10 +16,10 @@ import containers from '../StyleSheets/containers';
 import styles from '../StyleSheets/newinterval';
 
 /* Components */
-import TimeSelector from '../components/timeselector';
-import NumberSelector from '../components/numberselector'
-import Countdown from '../components/countdown';
-import Asterisk from '../components/asterisk';
+import TimeSelector from '../components/Inputs/timeselector';
+import NumberSelector from '../components/Inputs/numberselector'
+import Countdown from './countdown';
+import Asterisk from '../components/Misc/asterisk';
 
 export default function NewInterval({ setShowNav }: { setShowNav: Function }) {
     const route: RouteProp<{ params: { interval: WorkoutFormated } }, 'params'> = useRoute();

@@ -1,8 +1,8 @@
 import { useState } from 'react';
 import { TouchableOpacity, View, Text } from 'react-native';
 import WheelPicker from 'react-native-wheely';
-import { formatTime } from '../utils/normalizer';
-import styles from '../StyleSheets/selectors';
+import { formatTime } from '../../utils/normalizer';
+import styles from '../../StyleSheets/selectors';
 import { useTranslation } from 'react-i18next';
 
 const hoursArray = Array.from({ length: 24 }, (_, i) => i.toString());

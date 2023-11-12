@@ -10,9 +10,9 @@ import containers from '../StyleSheets/containers';
 import styles from '../StyleSheets/newinterval';
 
 /* Components */
-import TimeSelector from './timeselector';
-import NumberSelector from './numberselector'
-import Asterisk from './asterisk';
+import TimeSelector from '../components/Inputs/timeselector';
+import NumberSelector from '../components/Inputs/numberselector'
+import Asterisk from '../components/Misc/asterisk';
 
 export default function Creator({ workoutsDB, setCreatingModal, setWorkouts }: { workoutsDB: Database, setCreatingModal: Function, setWorkouts: Function }) {
     const headerHeight = useHeaderHeight();

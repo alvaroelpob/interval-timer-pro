@@ -12,7 +12,7 @@ import normalizer from './utils/normalizer';
 import Newinterval from './Screens/newinterval';
 import Saved from './Screens/saved';
 import Settings from './Screens/settings';
-import Title from './components/title';
+import Title from './components/Screens/Main/title';
 
 /* Icons */
 import Plus from './assets/svg/circleplus';

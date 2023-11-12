@@ -3,7 +3,7 @@ import { TouchableOpacity, View, Text } from 'react-native';
 import WheelPicker from 'react-native-wheely';
 import { useTranslation } from 'react-i18next';
 
-import styles from '../StyleSheets/selectors';
+import styles from '../../StyleSheets/selectors';
 
 const numberArray = Array.from({ length: 100 }, (_, i) => i.toString()).slice(1);
 

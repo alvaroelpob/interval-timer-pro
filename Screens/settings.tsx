@@ -7,8 +7,8 @@ import { APPTHEME } from "../lib/constants";
 import { Dropdown } from 'react-native-element-dropdown';
 
 /* Components */
-import ColorPickerComponent from "../components/colorpicker";
-import SquareColor from "../components/squarecolor";
+import ColorPickerComponent from "../components/Inputs/colorpicker";
+import SquareColor from "../components/Misc/squarecolor";
 
 /* Types */
 import { Database } from "expo-sqlite";
