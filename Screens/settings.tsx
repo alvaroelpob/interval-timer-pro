@@ -1,4 +1,4 @@
-import { ScrollView, View, Text, Switch, TouchableOpacity, Modal, Pressable, StyleSheet } from "react-native";
+import { ScrollView, View, Text, Switch, Modal, Pressable, StyleSheet } from "react-native";
 import { useEffect, useState } from "react";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { StorageAccessFramework, readAsStringAsync, writeAsStringAsync } from 'expo-file-system';
@@ -8,7 +8,10 @@ import { Dropdown } from 'react-native-element-dropdown';
 
 /* Components */
 import ColorPickerComponent from "../components/Inputs/colorpicker";
-import SquareColor from "../components/Misc/squarecolor";
+import BoxPreference from "../components/Screens/Settings/BoxPreference";
+import BoxSensible from "../components/Screens/Settings/BoxSensible";
+import Header from "../components/Screens/Settings/Header";
+import Separator from "../components/Screens/Settings/Separator";
 
 /* Types */
 import { Database } from "expo-sqlite";
@@ -18,9 +21,7 @@ import { ArrayDB, BackgroundColors } from "../utils/types";
 import styles from '../StyleSheets/settings'
 import containers from "../StyleSheets/containers";
 
-/* Icons */
-import ArrowRight from "../assets/svg/arrowright";
-
+/* Translations */
 import i18n, { changeLanguage } from "i18next";
 import { useTranslation } from "react-i18next";
 
@@ -43,7 +44,7 @@ const availableLanguages = [
 
 export default function Settings({ workoutsDB, setWorkouts }: Props) {
     const [showPicker, setShowPicker] = useState<boolean>(false);
-    const [editing, setEditing] = useState<STATES>();
+    const [editing, setEditing] = useState<STATES>(STATES.ACTIVE);
 
     const [volume, setVolume] = useState<boolean>(true);
     const [backgroundColors, setBackgroundColors] = useState<BackgroundColors>(APPTHEME.DEFAULT_COLORS);
@@ -199,24 +200,6 @@ export default function Settings({ workoutsDB, setWorkouts }: Props) {
         setBackgroundColors(APPTHEME.DEFAULT_COLORS);
     }
 
-    const SubBox = ({ text, color }: { text: STATES, color: string }) => {
-
-        const handleChangeColor = () => {
-            setShowPicker(true);
-            setEditing(text);
-        };
-
-        return (
-            <View style={styles.subbox}>
-                <Text style={styles.setting}>{t("states." + text)}</Text>
-                <Pressable onPress={handleChangeColor} style={styles.setCX}>
-                    <SquareColor color={color} />
-                    <Text style={styles.color}>{color}</Text>
-                </Pressable>
-            </View>
-        )
-    };
-
     const renderItem = (item: any) => {
         return (
             <View style={styles.item}>
@@ -261,9 +244,7 @@ export default function Settings({ workoutsDB, setWorkouts }: Props) {
 
                     {/******************************************************************/}
 
-                    <View style={styles.header}>
-                        <Text style={styles.headertext}>{t("config.preferences")}</Text>
-                    </View>
+                    <Header label={t("config.preferences")} />
 
                     <View style={styles.box}>
                         <View style={styles.subbox}>
@@ -297,73 +278,70 @@ export default function Settings({ workoutsDB, setWorkouts }: Props) {
 
                     {/******************************************************************/}
 
-                    <View style={styles.header}>
-                        <Text style={styles.headertext}>{t("config.bgcolor")}</Text>
-                    </View>
+                    <Header label={t("config.bgcolor")} />
 
                     <View style={styles.box}>
-                        <SubBox
+                        <BoxPreference
+                            label={t("states." + STATES.PREPARATION)}
                             text={STATES.PREPARATION}
                             color={backgroundColors.prepTime}
+                            setShowPicker={setShowPicker}
+                            setEditing={setEditing}
                         />
 
-                        <View style={styles.separator}></View>
+                        <Separator />
 
-                        <SubBox
+                        <BoxPreference
+                            label={t("states." + STATES.ACTIVE)}
                             text={STATES.ACTIVE}
                             color={backgroundColors.activeTime}
+                            setShowPicker={setShowPicker}
+                            setEditing={setEditing}
                         />
 
-                        <View style={styles.separator}></View>
+                        <Separator />
 
-                        <SubBox
+                        <BoxPreference
+                            label={t("states." + STATES.REST)}
                             text={STATES.REST}
                             color={backgroundColors.restTime}
+                            setShowPicker={setShowPicker}
+                            setEditing={setEditing}
                         />
                     </View>
 
                     {/******************************************************************/}
 
-                    <View style={styles.header}>
-                        <Text style={styles.headertext}>{t("config.sensible")}</Text>
-                    </View>
+                    <Header label={t("config.sensible")} />
 
                     <View style={styles.dangerbox}>
-                        <View style={styles.subbox}>
-                            <Text style={styles.setting}>{t("config.importWorkouts")}</Text>
-                            <TouchableOpacity style={styles.settingBtn} onPress={importTrainings}>
-                                <ArrowRight color="#000000" />
-                            </TouchableOpacity>
-                        </View>
+                        <BoxSensible
+                            label={t("config.importWorkouts")}
+                            onPress={importTrainings}
+                        />
 
-                        <View style={styles.separator}></View>
+                        <Separator />
 
-                        <View style={styles.subbox}>
-                            <Text style={styles.setting}>{t("config.exportWorkouts")}</Text>
-                            <TouchableOpacity style={styles.settingBtn} onPress={exportTrainings}>
-                                <ArrowRight color="#000000" />
-                            </TouchableOpacity>
-                        </View>
+                        <BoxSensible
+                            label={t("config.exportWorkouts")}
+                            onPress={exportTrainings}
+                        />
 
-                        <View style={styles.separator}></View>
+                        <Separator />
 
-                        <View style={styles.subbox}>
-                            <Text style={styles.setting}>{t("config.deleteWorkouts")}</Text>
-                            <TouchableOpacity style={styles.settingBtn} onPress={dropTrainings}>
-                                <ArrowRight color="#000000" />
-                            </TouchableOpacity>
-                        </View>
+                        <BoxSensible
+                            label={t("config.deleteWorkouts")}
+                            onPress={dropTrainings}
+                        />
 
+                        <Separator />
 
-                        <View style={styles.separator}></View>
-
-                        <View style={styles.subbox}>
-                            <Text style={styles.setting}>{t("config.resetSettings")}</Text>
-                            <TouchableOpacity style={styles.settingBtn} onPress={dropSettings}>
-                                <ArrowRight color="#000000" />
-                            </TouchableOpacity>
-                        </View>
+                        <BoxSensible
+                            label={t("config.resetSettings")}
+                            onPress={dropSettings}
+                        />
                     </View>
+
                 </View>
             </ScrollView>
         </View>

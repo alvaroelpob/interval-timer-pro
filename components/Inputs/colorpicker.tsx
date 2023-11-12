@@ -2,6 +2,7 @@ import { Button, StyleSheet, View } from 'react-native';
 import Animated, { useSharedValue } from 'react-native-reanimated';
 import ColorPicker, { Panel1, HueSlider, PreviewText } from 'reanimated-color-picker';
 import { BackgroundColors } from '../../utils/types';
+import { useEffect } from 'react';
 
 type Props = {
     setShowPicker: React.Dispatch<React.SetStateAction<boolean>>;

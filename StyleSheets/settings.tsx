@@ -5,15 +5,6 @@ const settings = StyleSheet.create({
         display: 'flex',
         flexDirection: 'column'
     },
-    header: {
-        marginLeft: 30,
-        marginVertical: 5,
-    },
-    headertext: {
-        marginTop: 10,
-        fontSize: 21,
-        color: '#ececec'
-    },
     box: {
         display: 'flex',
         flexDirection: 'column',
@@ -44,24 +35,6 @@ const settings = StyleSheet.create({
     setting: {
         color: '#ececec',
         fontSize: 14
-    },
-    settingBtn: {
-        width: "30%",
-        alignItems: "flex-end"
-    },
-    separator: {
-        borderBottomColor: '#0d0d0d',
-        borderBottomWidth: 1,
-        marginBottom: 4,
-    },
-    color: {
-        color: '#ffffff'
-    },
-    setCX: {
-        display: 'flex',
-        flexDirection: 'row',
-        alignItems: 'center',
-        columnGap: 3
     },
     dropdown: {
         width: 100,
