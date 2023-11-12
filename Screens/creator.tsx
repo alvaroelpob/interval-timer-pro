@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from 'react';
-import { StatusBar, View, Text, ScrollView, Modal, TouchableOpacity, BackHandler, TextInput, Animated } from 'react-native';
+import { StatusBar, View, Text, ScrollView, Modal, TouchableOpacity, BackHandler, Animated } from 'react-native';
 import { useHeaderHeight } from '@react-navigation/elements';
 import { Database } from 'expo-sqlite';
 import { timeToSeconds } from '../utils/normalizer';
@@ -10,9 +10,10 @@ import containers from '../StyleSheets/containers';
 import styles from '../StyleSheets/newinterval';
 
 /* Components */
+import Crate from '../components/Screens/NewInterval/Crate';
+import CrateInput from '../components/Screens/NewInterval/CrateInput';
 import TimeSelector from '../components/Inputs/timeselector';
 import NumberSelector from '../components/Inputs/numberselector'
-import Asterisk from '../components/Misc/asterisk';
 
 export default function Creator({ workoutsDB, setCreatingModal, setWorkouts }: { workoutsDB: Database, setCreatingModal: Function, setWorkouts: Function }) {
     const headerHeight = useHeaderHeight();
@@ -137,57 +138,66 @@ export default function Creator({ workoutsDB, setCreatingModal, setWorkouts }: {
                     </View>
                 </Modal>
 
-                <Animated.View style={[styles.createWinput, { transform: [{ translateX: shakeAnimationName }] }]}>
-                    <Text style={styles.label}>{t("inputs.name")}<Asterisk/></Text>
-                    <TextInput
-                        onChangeText={(text) => setName(text)}
-                        style={styles.input}
-                        cursorColor="#ececec"
-                    />
-                </Animated.View>
+                <CrateInput
+                    label={t("inputs.name")}
+                    setter={setName}
+                    shakeAnimation={shakeAnimationName}
+                    isMandatory={false}
+                />
 
-                <TouchableOpacity onPress={() => handleTouched(prepTime, setPrepTime)}>
-                    <Animated.View style={[styles.create, { transform: [{ translateX: shakeAnimationPrepTime }] }]}>
-                        <Text style={styles.label}>{t("inputs.prep")}<Asterisk/></Text>
-                        <Text style={styles.labeltext}>{prepTime}</Text>
-                    </Animated.View>
-                </TouchableOpacity>
 
-                <TouchableOpacity onPress={() => handleTouched(series, setSeries)}>
-                    <View style={styles.create}>
-                        <Text style={styles.label}>{t("inputs.series")}<Asterisk/></Text>
-                        <Text style={styles.labeltext}>{series}</Text>
-                    </View>
-                </TouchableOpacity>
+                <Crate
+                    label={t("inputs.prep")}
+                    handleTouched={handleTouched}
+                    currentValue={prepTime}
+                    valueChanger={setPrepTime}
+                    shakeAnimation={shakeAnimationPrepTime}
+                    isMandatory={true}
+                />
 
-                <TouchableOpacity onPress={() => handleTouched(activeTime, setActiveTime)}>
-                    <Animated.View style={[styles.create, { transform: [{ translateX: shakeAnimationActiveTime }] }]}>
-                        <Text style={styles.label}>{t("inputs.work")}<Asterisk/></Text>
-                        <Text style={styles.labeltext}>{activeTime}</Text>
-                    </Animated.View>
-                </TouchableOpacity>
+                <Crate
+                    label={t("inputs.series")}
+                    handleTouched={handleTouched}
+                    currentValue={series}
+                    valueChanger={setSeries}
+                    isMandatory={false}
+                />
 
-                <TouchableOpacity onPress={() => handleTouched(restTime, setRestTime)}>
-                    <Animated.View style={[styles.create, { transform: [{ translateX: shakeAnimationRestTime }] }]}>
-                        <Text style={styles.label}>{t("inputs.rest")}<Asterisk/></Text>
-                        <Text style={styles.labeltext}>{restTime}</Text>
-                    </Animated.View>
-                </TouchableOpacity>
+                <Crate
+                    label={t("inputs.work")}
+                    handleTouched={handleTouched}
+                    currentValue={activeTime}
+                    valueChanger={setActiveTime}
+                    shakeAnimation={shakeAnimationActiveTime}
+                    isMandatory={true}
+                />
 
-                <TouchableOpacity onPress={() => handleTouched(sets, setSets)}>
-                    <View style={styles.create}>
-                        <Text style={styles.label}>{t("inputs.sets")}</Text>
-                        <Text style={styles.labeltext}>{sets}</Text>
-                    </View>
-                </TouchableOpacity>
+                <Crate
+                    label={t("inputs.rest")}
+                    handleTouched={handleTouched}
+                    currentValue={restTime}
+                    valueChanger={setRestTime}
+                    shakeAnimation={shakeAnimationRestTime}
+                    isMandatory={true}
+                />
+
+                <Crate
+                    label={t("inputs.sets")}
+                    handleTouched={handleTouched}
+                    currentValue={sets}
+                    valueChanger={setSets}
+                    isMandatory={false}
+                />
 
                 {sets > 1 && (
-                    <TouchableOpacity onPress={() => handleTouched(restBetweenSets, setRestBetweenSets)}>
-                        <Animated.View style={[styles.create, { transform: [{ translateX: shakeAnimationRestBetweenSets }] }]}>
-                            <Text style={styles.label}>{t("inputs.restbtwsets")}<Asterisk/></Text>
-                            <Text style={styles.labeltext}>{restBetweenSets}</Text>
-                        </Animated.View>
-                    </TouchableOpacity>
+                    <Crate
+                        label={t("inputs.restbtwsets")}
+                        handleTouched={handleTouched}
+                        currentValue={restBetweenSets}
+                        valueChanger={setRestBetweenSets}
+                        shakeAnimation={shakeAnimationRestBetweenSets}
+                        isMandatory={true}
+                    />
                 )}
 
                 <TouchableOpacity onPress={handleClickStart} style={styles.button}>
