@@ -339,7 +339,7 @@ export default function Settings({ workoutsDB, setWorkouts }: Props) {
                         <View style={styles.separator}></View>
 
                         <View style={styles.subbox}>
-                            <Text style={styles.setting}>{t("config.exportWorkouts")}s</Text>
+                            <Text style={styles.setting}>{t("config.exportWorkouts")}</Text>
                             <TouchableOpacity style={styles.settingBtn} onPress={exportTrainings}>
                                 <ArrowRight color="#000000" />
                             </TouchableOpacity>
