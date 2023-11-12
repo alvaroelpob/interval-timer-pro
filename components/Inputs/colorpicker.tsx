@@ -32,7 +32,6 @@ export default function ColorPickerComponent({ setShowPicker, editing, backgroun
         }
     }
 
-
     if (selectedColor.value.length < 1) return <></>;
 
     return (
