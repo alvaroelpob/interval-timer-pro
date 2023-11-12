@@ -101,7 +101,6 @@ export default function NewInterval({ setShowNav }: { setShowNav: Function }) {
         }
 
         const backgroundColorsSetting = await AsyncStorage.getItem('backgroundColors');
-        console.log(backgroundColorsSetting)
         if (backgroundColorsSetting === null) {
             setBackgroundColors(APPTHEME.DEFAULT_COLORS)
         } else {
