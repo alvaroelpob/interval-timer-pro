@@ -227,7 +227,10 @@ export default function Settings({ workoutsDB, setWorkouts }: Props) {
                 >
                     <Pressable
                         style={{ ...StyleSheet.absoluteFillObject }}
-                        onPress={() => setShowPicker(false)}
+                        onPress={() => {
+                            setShowPicker(false);
+                            saveBgColors();
+                        }}
                     />
 
                     <ColorPickerComponent
