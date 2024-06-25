@@ -33,6 +33,8 @@ const styles = StyleSheet.create({
     },
     settingBtn: {
         width: "30%",
-        alignItems: "flex-end"
+        height: "100%",
+        alignItems: "flex-end",
+        justifyContent: "center"
     },
 });
