@@ -1,9 +1,9 @@
 import { useState, useEffect, useRef } from 'react';
 import { StatusBar, View, Text, ScrollView, Modal, TouchableOpacity, BackHandler, Animated } from 'react-native';
 import { useHeaderHeight } from '@react-navigation/elements';
-import { Database } from 'expo-sqlite';
 import { timeToSeconds } from '../utils/normalizer';
 import { useTranslation } from 'react-i18next';
+import { SQLiteDatabase } from 'expo-sqlite';
 
 /* Styles */
 import containers from '../StyleSheets/containers';
@@ -15,7 +15,7 @@ import CrateInput from '../components/Screens/NewInterval/CrateInput';
 import TimeSelector from '../components/Inputs/timeselector';
 import NumberSelector from '../components/Inputs/numberselector'
 
-export default function Creator({ workoutsDB, setCreatingModal, setWorkouts }: { workoutsDB: Database, setCreatingModal: Function, setWorkouts: Function }) {
+export default function Creator({ workoutsDB, setCreatingModal, setWorkouts }: { workoutsDB: SQLiteDatabase, setCreatingModal: Function, setWorkouts: Function }) {
     const headerHeight = useHeaderHeight();
     const { t } = useTranslation();
 
@@ -66,7 +66,7 @@ export default function Creator({ workoutsDB, setCreatingModal, setWorkouts }: {
         setCurrentVal(`${currentValues}`)
     }
 
-    const handleClickStart = () => {
+    const handleClickStart = async () => {
         if (name.length === 0) return shakeAnimation(shakeAnimationName);
 
         if (prepTime === "00:00:00") return shakeAnimation(shakeAnimationPrepTime);
@@ -77,38 +77,35 @@ export default function Creator({ workoutsDB, setCreatingModal, setWorkouts }: {
 
         if (sets !== 1 && restBetweenSets === "00:00:00") return shakeAnimation(shakeAnimationRestBetweenSets);
 
-        workoutsDB.transaction(tx => {
-            tx.executeSql(`
-                CREATE TABLE IF NOT EXISTS workouts (
-                    id INTEGER PRIMARY KEY AUTOINCREMENT,
-                    name TEXT,
-                    prepTime INTEGER,
-                    activeTime INTEGER,
-                    restTime INTEGER,
-                    restBetweenSets INTEGER,
-                    series INTEGER,
-                    sets INTEGER
-                )
-            `);
+        workoutsDB.execSync(`
+            CREATE TABLE IF NOT EXISTS workouts (
+                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                name TEXT,
+                prepTime INTEGER,
+                activeTime INTEGER,
+                restTime INTEGER,
+                restBetweenSets INTEGER,
+                series INTEGER,
+                sets INTEGER
+            )`
+        );
 
-            tx.executeSql(`
-                INSERT INTO workouts (name, prepTime, activeTime, restTime, restBetweenSets, series, sets) VALUES (?, ?, ?, ?, ?, ?, ?)
-            `, [name, timeToSeconds(prepTime), timeToSeconds(activeTime), timeToSeconds(restTime), timeToSeconds(restBetweenSets), series, sets],
-                (txObj, resultSet) => {
-                    setWorkouts((prev: any) => [...prev, {
-                        id: resultSet.insertId,
-                        name: name,
-                        prepTime: timeToSeconds(prepTime),
-                        activeTime: timeToSeconds(activeTime),
-                        restTime: timeToSeconds(restTime),
-                        restBetweenSets: timeToSeconds(restBetweenSets),
-                        series: series,
-                        sets: sets
-                    }])
-                },
-                (txObj, error) => { console.log(error); return false }
-            );
-        });
+        try {
+            const result = await workoutsDB.runAsync("INSERT INTO workouts (name, prepTime, activeTime, restTime, restBetweenSets, series, sets) VALUES (?, ?, ?, ?, ?, ?, ?)", name, timeToSeconds(prepTime), timeToSeconds(activeTime), timeToSeconds(restTime), timeToSeconds(restBetweenSets), series, sets);
+
+            setWorkouts((prev: any) => [...prev, {
+                id: result.lastInsertRowId,
+                name: name,
+                prepTime: timeToSeconds(prepTime),
+                activeTime: timeToSeconds(activeTime),
+                restTime: timeToSeconds(restTime),
+                restBetweenSets: timeToSeconds(restBetweenSets),
+                series: series,
+                sets: sets
+            }]);
+        } catch (error) {
+            return false;
+        }
 
         setCreatingModal(false)
     }

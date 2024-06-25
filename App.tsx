@@ -3,7 +3,7 @@ import { NavigationContainer } from '@react-navigation/native';
 import { View, Text, TouchableOpacity, TextInput, BackHandler } from 'react-native';
 import { useState, useEffect } from 'react'
 import { ArrayDB } from './utils/types';
-import { openDatabase, Database } from 'expo-sqlite';
+import { SQLiteDatabase, openDatabaseSync } from "expo-sqlite";
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { openURL } from 'expo-linking';
 import normalizer from './utils/normalizer';
@@ -30,8 +30,8 @@ import { useTranslation } from "react-i18next";
 import { changeLanguage } from 'i18next';
 
 export default function App() {
-    const [workoutsDB] = useState<Database>(openDatabase('workouts.db'));
-
+    const [workoutsDB] = useState<SQLiteDatabase>(openDatabaseSync('workouts.db'));
+    
     const [workouts, setWorkouts] = useState<ArrayDB>([]);
 
     const [showNav, setShowNav] = useState<boolean>(true)
@@ -60,28 +60,20 @@ export default function App() {
     }, [])
 
     useEffect(() => {
-        workoutsDB.transaction(tx => {
-            tx.executeSql(`
-                CREATE TABLE IF NOT EXISTS workouts (
-                    id INTEGER PRIMARY KEY AUTOINCREMENT,
-                    name TEXT,
-                    prepTime INTEGER,
-                    activeTime INTEGER,
-                    restTime INTEGER,
-                    restBetweenSets INTEGER,
-                    series INTEGER,
-                    sets INTEGER
-                )
-            `);
-        });
+        workoutsDB.execSync(`
+            CREATE TABLE IF NOT EXISTS workouts (
+                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                name TEXT,
+                prepTime INTEGER,
+                activeTime INTEGER,
+                restTime INTEGER,
+                restBetweenSets INTEGER,
+                series INTEGER,
+                sets INTEGER
+            )`
+        );
 
-        workoutsDB.transaction(tx => {
-            tx.executeSql('SELECT * FROM workouts', [],
-                (txObj, resultSet) => setWorkouts(resultSet.rows._array),
-                (txObj, error) => { console.log(error); return false }
-            );
-        });
-
+        setWorkouts(workoutsDB.getAllSync("SELECT * FROM workouts"));
     }, [workoutsDB]);
 
     useEffect(() => {

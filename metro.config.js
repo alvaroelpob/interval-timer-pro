@@ -1,16 +1,9 @@
-const { getDefaultConfig } = require('metro-config');
+const { getDefaultConfig } = require('expo/metro-config');
 
-module.exports = (async () => {
-    const {
-        resolver: { sourceExts },
-    } = await getDefaultConfig();
+const config = getDefaultConfig(__dirname);
 
-    return {
-        transformer: {
-            assetPlugins: ['expo-asset/tools/hashAssetFiles'],
-        },
-        resolver: {
-            sourceExts: [...sourceExts, 'mp3'],
-        },
-    };
-})();
+config.resolver.assetExts.push(
+  'mp3'
+);
+
+module.exports = config;

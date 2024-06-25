@@ -23,11 +23,11 @@ import Lock from '../assets/svg/controls/lock';
 import Unlock from '../assets/svg/controls/unlock';
 
 /* Sounds */
-const whistle = require('../assets/sounds/Others/whistle');
-const long_beep = require('../assets/sounds/Beeps/long_beep');
-const medium_beep = require('../assets/sounds/Beeps/medium_beep');
-const short_beep = require('../assets/sounds/Beeps/short_beep');
-const congrats = require('../assets/sounds/Others/congrats');
+const whistle = require('../assets/sounds/Others/whistle.mp3');
+const long_beep = require('../assets/sounds/Beeps/long_beep.mp3');
+const medium_beep = require('../assets/sounds/Beeps/medium_beep.mp3');
+const short_beep = require('../assets/sounds/Beeps/short_beep.mp3');
+const congrats = require('../assets/sounds/Others/congrats.mp3');
 
 const longBeepSound = new Audio.Sound();
 const mediumBeepSound = new Audio.Sound();

@@ -14,7 +14,7 @@ import Header from "../components/Screens/Settings/Header";
 import Separator from "../components/Screens/Settings/Separator";
 
 /* Types */
-import { Database } from "expo-sqlite";
+import { SQLiteDatabase } from "expo-sqlite";
 import { ArrayDB, BackgroundColors } from "../utils/types";
 
 /* Styles */
@@ -26,7 +26,7 @@ import i18n, { changeLanguage } from "i18next";
 import { useTranslation } from "react-i18next";
 
 type Props = {
-    workoutsDB: Database;
+    workoutsDB: SQLiteDatabase;
     setWorkouts: Function;
 }
 
@@ -120,48 +120,43 @@ export default function Settings({ workoutsDB, setWorkouts }: Props) {
     const importTrainings = async () => {
         try {
             const result = await getDocumentAsync({ type: 'application/json', copyToCacheDirectory: false });
-            if (result.type === 'success') {
-                const content = await readAsStringAsync(result.uri);
+            if (!result.canceled) {
+                const content = await readAsStringAsync(result.assets[0].uri);
                 try {
                     const newWorkouts: ArrayDB = JSON.parse(content);
-                    workoutsDB.transaction(tx => {
-                        tx.executeSql(`
-                            CREATE TABLE IF NOT EXISTS workouts (
-                                id INTEGER PRIMARY KEY AUTOINCREMENT,
-                                name TEXT,
-                                prepTime INTEGER,
-                                activeTime INTEGER,
-                                restTime INTEGER,
-                                restBetweenSets INTEGER,
-                                series INTEGER,
-                                sets INTEGER
-                            )
-                        `);
-                    });
 
-                    newWorkouts.forEach(newWorkout => {
-                        workoutsDB.transaction(tx => {
-                            tx.executeSql(`
-                                INSERT INTO workouts (name, prepTime, activeTime, restTime, restBetweenSets, series, sets) VALUES (?, ?, ?, ?, ?, ?, ?)
-                            `, [newWorkout.name, newWorkout.prepTime, newWorkout.activeTime, newWorkout.restTime, newWorkout.restBetweenSets, newWorkout.series, newWorkout.sets],
-                                (txObj, resultSet) => {
-                                    setWorkouts((prev: any) => [...prev, {
-                                        id: resultSet.insertId,
-                                        name: newWorkout.name,
-                                        prepTime: newWorkout.prepTime,
-                                        activeTime: newWorkout.activeTime,
-                                        restTime: newWorkout.restTime,
-                                        restBetweenSets: newWorkout.restBetweenSets,
-                                        series: newWorkout.series,
-                                        sets: newWorkout.sets
-                                    }])
-                                },
-                                (txObj, error) => { console.log(error); return false }
-                            );
-                        });
+                    workoutsDB.execSync(`
+                        CREATE TABLE IF NOT EXISTS workouts (
+                            id INTEGER PRIMARY KEY AUTOINCREMENT,
+                            name TEXT,
+                            prepTime INTEGER,
+                            activeTime INTEGER,
+                            restTime INTEGER,
+                            restBetweenSets INTEGER,
+                            series INTEGER,
+                            sets INTEGER
+                        )`
+                    );
+
+                    newWorkouts.forEach(async newWorkout => {
+                        const result = await workoutsDB.runAsync(
+                            `INSERT INTO workouts (name, prepTime, activeTime, restTime, restBetweenSets, series, sets) VALUES (?, ?, ?, ?, ?, ?, ?)`,
+                            newWorkout.name, newWorkout.prepTime, newWorkout.activeTime, newWorkout.restTime, newWorkout.restBetweenSets, newWorkout.series, newWorkout.sets
+                        );
+
+                        setWorkouts((prev: any) => [...prev, {
+                            id: result.lastInsertRowId,
+                            name: newWorkout.name,
+                            prepTime: newWorkout.prepTime,
+                            activeTime: newWorkout.activeTime,
+                            restTime: newWorkout.restTime,
+                            restBetweenSets: newWorkout.restBetweenSets,
+                            series: newWorkout.series,
+                            sets: newWorkout.sets
+                        }]);
                     })
                 } catch (err) {
-                    alert("File must be a valid json")
+                    alert("File must be a valid json");
                 }
             }
         } catch (error) {
@@ -169,27 +164,18 @@ export default function Settings({ workoutsDB, setWorkouts }: Props) {
         }
     }
 
-    const exportTrainings = () => {
-        workoutsDB.transaction(tx => {
-            tx.executeSql('SELECT * FROM workouts', [],
-                (txObj, resultSet) => {
-                    if (resultSet.rows._array.length === 0) {
-                        alert("No workouts to export")
-                    } else {
-                        saveFile(resultSet.rows._array);
-                    }
-                },
-                (txObj, error) => { console.log(error); return false }
-            );
-        });
+    const exportTrainings = async () => {
+        const result: ArrayDB = await workoutsDB.getAllAsync("SELECT * FROM workouts");
+
+        if (result.length === 0) {
+            alert("No workouts to export")
+        } else {
+            saveFile(result);
+        }
     }
 
-    const dropTrainings = () => {
-        workoutsDB.transaction((tx: any) => {
-            tx.executeSql(`
-                DELETE FROM workouts
-            `);
-        });
+    const dropTrainings = async () => {
+        await workoutsDB.runAsync("DELETE FROM workouts")
         setWorkouts([]);
     }
 

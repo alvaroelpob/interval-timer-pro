@@ -2,7 +2,7 @@ import { View, Text, TouchableOpacity, Modal, FlatList } from "react-native";
 import { useState } from "react";
 import { NewArrayDB, WorkoutFormated } from "../utils/types";
 import { NavigationProp, useNavigation } from "@react-navigation/native";
-import { Database } from "expo-sqlite";
+import { SQLiteDatabase } from 'expo-sqlite';
 
 const ITEMS_PER_PAGE = 10;
 
@@ -24,7 +24,7 @@ import Plus from "../assets/svg/plus";
 import { useTranslation } from "react-i18next";
 
 type Props = {
-    workoutsDB: Database,
+    workoutsDB: SQLiteDatabase,
     workouts: NewArrayDB,
     setWorkouts: Function,
     setShowSearch: React.Dispatch<React.SetStateAction<boolean>>,
