@@ -113,7 +113,7 @@ export default function Saved({ workoutsDB, workouts, setWorkouts, setShowSearch
             {
                 workouts.length === 0 ? (
                     <View style={styles.empty}>
-                        <Text style={{ color: "#FFFFFF" }}>No tienes ningún entrenamiento guardado.</Text>
+                        <Text style={{ color: "#FFFFFF" }}>{t("savedtrainings")}</Text>
                         <Sad />
                     </View>
                 ) : (
