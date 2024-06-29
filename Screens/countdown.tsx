@@ -1,4 +1,4 @@
-import { View, Text, BackHandler, TouchableOpacity } from 'react-native';
+import { View, Text, BackHandler, TouchableOpacity, ToastAndroid } from 'react-native';
 import { useState, useEffect } from 'react'
 import { Audio } from 'expo-av';
 import { formatTimeSeconds, calcTotalTime, timeToSeconds } from '../utils/normalizer';
@@ -305,8 +305,18 @@ export default function Countdown({ name, prepTime, activeTime, restTime, restBe
         setSound(sound => !sound);
     };
 
-    const handleToggleControls = () => {
-        setAllDisabled(ds => !ds)
+    const handleToggleControlsPress = () => {
+        if (!allDisabled) {
+            ToastAndroid.show(t("longpressControls"), ToastAndroid.SHORT);
+        } else {
+            setAllDisabled(prev => !prev);
+        }
+    }
+
+    const handleToggleControlsLongPress = () => {
+        if (allDisabled) {
+            setAllDisabled(prev => !prev);
+        }
     }
 
     const getBgColor = (): string => {
@@ -323,7 +333,7 @@ export default function Countdown({ name, prepTime, activeTime, restTime, restBe
         <View style={[{ backgroundColor: getBgColor() }, styles.timer]}>
             <View style={styles.header}>
 
-                <TouchableOpacity onPress={handleToggleControls}>
+                <TouchableOpacity onPress={handleToggleControlsPress} onLongPress={handleToggleControlsLongPress}>
                     {
                         allDisabled ? (
                             <Lock />
