@@ -17,7 +17,7 @@ import Clock from "../assets/svg/clock";
 import Dumbbell from "../assets/svg/dumbbell";
 import Snooze from "../assets/svg/snooze";
 import RepeatSnooze from "../assets/svg/repeatsnooze";
-import Creator from "./creator";
+import Creator from "../Subscreens/creator";
 import Sad from "../assets/svg/sad";
 import Plus from "../assets/svg/plus";
 

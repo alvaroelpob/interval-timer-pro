@@ -20,7 +20,7 @@ import Crate from '../components/Screens/NewInterval/Crate';
 import CrateInput from '../components/Screens/NewInterval/CrateInput';
 import TimeSelector from '../components/Inputs/timeselector';
 import NumberSelector from '../components/Inputs/numberselector';
-import Countdown from './countdown';
+import Countdown from '../Subscreens/countdown';
 
 export default function NewInterval({ setShowNav }: { setShowNav: Function }) {
     const route: RouteProp<{ params: { interval: WorkoutFormated } }, 'params'> = useRoute();
