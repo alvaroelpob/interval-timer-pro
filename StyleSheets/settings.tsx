@@ -1,4 +1,5 @@
 import { StyleSheet } from 'react-native';
+import { APPTHEME } from '../lib/constants';
 
 const settings = StyleSheet.create({
     boxes: {
@@ -12,7 +13,7 @@ const settings = StyleSheet.create({
         marginHorizontal: 18,
         marginVertical: 7,
         borderRadius: 20,
-        backgroundColor: '#1f1f1f',
+        backgroundColor: APPTHEME.SECONDARY,
     },
     dangerbox: {
         display: 'flex',
