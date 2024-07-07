@@ -306,7 +306,7 @@ export default function Countdown({ name, prepTime, activeTime, restTime, restBe
     };
 
     const handleToggleControlsPress = () => {
-        if (!allDisabled) {
+        if (allDisabled) {
             ToastAndroid.show(t("longpressControls"), ToastAndroid.SHORT);
         } else {
             setAllDisabled(prev => !prev);
