@@ -3,8 +3,8 @@ import { Svg, Path, G } from 'react-native-svg';
 export default function Gear({ focused }: { focused?: boolean }) {
     return (
         <Svg
-            width={19}
-            height={19}
+            width={21}
+            height={21}
             viewBox={"159 8.34 221.85 235.06"}
         >
             <G

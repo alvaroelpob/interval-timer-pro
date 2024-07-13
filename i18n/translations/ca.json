@@ -23,7 +23,8 @@
         "end": "Has acabat!"
     },
     "bottomBar": {
-        "create": "Crear",
+        "newinterval": "Interval",
+        "newcountdown": "Conta enrera",
         "saved": "Desats",
         "config": "Configuració"
     },

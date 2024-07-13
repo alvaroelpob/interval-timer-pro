@@ -21,6 +21,7 @@ import CrateInput from '../components/Screens/NewInterval/CrateInput';
 import TimeSelector from '../components/Inputs/timeselector';
 import NumberSelector from '../components/Inputs/numberselector';
 import Countdown from '../Subscreens/countdown';
+import Bookmark from '../assets/svg/navbar/bookmark';
 
 export default function NewInterval({ setShowNav }: { setShowNav: Function }) {
     const route: RouteProp<{ params: { interval: WorkoutFormated } }, 'params'> = useRoute();

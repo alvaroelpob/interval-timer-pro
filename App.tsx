@@ -10,19 +10,21 @@ import normalizer from './utils/normalizer';
 
 /* Components */
 import Newinterval from './Screens/newinterval';
+import NewCountdown from './Screens/newcountdown';
 import Saved from './Screens/saved';
 import Settings from './Screens/settings';
 import Title from './components/Screens/Main/title';
 
 /* Icons */
-import Plus from './assets/svg/circleplus';
-import Bookmark from './assets/svg/bookmark';
-import Gear from './assets/svg/gear';
+import Timer from './assets/svg/navbar/timer';
+import Stopwatch from './assets/svg/navbar/stopwatch';
+import Bookmark from './assets/svg/navbar/bookmark';
+import Gear from './assets/svg/navbar/gear';
 import Lupa from './assets/svg/lupa';
 import Close from './assets/svg/close';
 import Help from './assets/svg/help';
 
-import { APPTHEME } from './lib/constants';
+import { APPTHEME, ROUTES } from './lib/constants';
 
 /* i18next */
 import "./i18n/i18n.config";
@@ -31,7 +33,7 @@ import { changeLanguage } from 'i18next';
 
 export default function App() {
     const [workoutsDB] = useState<SQLiteDatabase>(openDatabaseSync('workouts.db'));
-    
+
     const [workouts, setWorkouts] = useState<ArrayDB>([]);
 
     const [showNav, setShowNav] = useState<boolean>(true)
@@ -131,24 +133,28 @@ export default function App() {
 
                     tabBarIcon: ({ focused, color, size }) => {
 
-                        if (route.name === 'Crear') {
-                            return <Plus focused={focused} />
-                        } else if (route.name === 'Guardados') {
+                        if (route.name === ROUTES.NEWINTERVAL) {
+                            return <Timer focused={focused} />
+                        } else if (route.name === ROUTES.NEWCOUNTDOWN) {
+                            return <Stopwatch focused={focused} />
+                        } else if (route.name === ROUTES.SAVED) {
                             return <Bookmark focused={focused} />
-                        } else if (route.name === "Configuración") {
+                        } else if (route.name === ROUTES.SETTINGS) {
                             return <Gear focused={focused} />
                         }
                     },
 
                     tabBarLabel: ({ focused, color }) => {
-
-                        if (route.name === 'Crear') {
-                            return <Text style={{ color: "#FFFFFF" }}>{t("bottomBar.create")}</Text>
-                        } else if (route.name === 'Guardados') {
-                            return <Text style={{ color: "#FFFFFF" }}>{t("bottomBar.saved")}</Text>
-                        } else if (route.name === "Configuración") {
-                            return <Text style={{ color: "#FFFFFF" }}>{t("bottomBar.config")}</Text>
-                        }
+                        return <></>;
+                        // if (route.name === ROUTES.NEWINTERVAL) {
+                        //     return <Text style={{ color: "#FFFFFF" }}>{t("bottomBar.newinterval")}</Text>
+                        // } else if (route.name === ROUTES.NEWCOUNTDOWN) {
+                        //     return <Text style={{ color: "#FFFFFF" }}>{t("bottomBar.newcountdown")}</Text>
+                        // } else if (route.name === ROUTES.SAVED) {
+                        //     return <Text style={{ color: "#FFFFFF" }}>{t("bottomBar.saved")}</Text>
+                        // } else if (route.name === ROUTES.SETTINGS) {
+                        //     return <Text style={{ color: "#FFFFFF" }}>{t("bottomBar.config")}</Text>
+                        // }
                     },
 
                     headerStyle: {
@@ -156,7 +162,7 @@ export default function App() {
                     },
 
                     headerRight: () => {
-                        if (route.name === "Guardados" && openSearch) {
+                        if (route.name === ROUTES.SAVED && openSearch) {
                             return (
                                 <View style={{ flexDirection: "row", alignItems: "center" }}>
                                     <TextInput
@@ -174,13 +180,13 @@ export default function App() {
                                     </TouchableOpacity>
                                 </View>
                             );
-                        } else if (route.name === "Guardados" && showSearch) {
+                        } else if (route.name === ROUTES.SAVED && showSearch) {
                             return (
                                 <TouchableOpacity onPress={handleSearch} style={{ marginRight: 20 }}>
                                     <Lupa />
                                 </TouchableOpacity>
                             );
-                        } else if (route.name === "Configuración") {
+                        } else if (route.name === ROUTES.SETTINGS) {
                             return (
                                 <TouchableOpacity onPress={handleHelp} style={{ marginRight: 20 }}>
                                     <Help />
@@ -195,9 +201,9 @@ export default function App() {
                 })}
             >
                 <Tab.Screen
-                    name="Crear"
+                    name={ROUTES.NEWINTERVAL}
                     options={{
-                        headerTitle: () => <Title screen={"create"} />
+                        headerTitle: () => <Title screen={"newinterval"} />
                     }}
                     children={() => (
                         <Newinterval
@@ -206,7 +212,16 @@ export default function App() {
                     )}
                 />
                 <Tab.Screen
-                    name="Guardados"
+                    name={ROUTES.NEWCOUNTDOWN}
+                    options={{
+                        headerTitle: () => <Title screen={"newcountdown"} />
+                    }}
+                    children={() => (
+                        <NewCountdown />
+                    )}
+                />
+                <Tab.Screen
+                    name={ROUTES.SAVED}
                     options={{
                         headerTitle: () => <Title screen={"saved"} openSearch={openSearch} />
                     }}
@@ -221,7 +236,7 @@ export default function App() {
                     )}
                 />
                 <Tab.Screen
-                    name="Configuración"
+                    name={ROUTES.SETTINGS}
                     options={{
                         headerTitle: () => <Title screen={"config"} />
                     }}
