@@ -22,6 +22,7 @@ import Sad from "../assets/svg/sad";
 import Plus from "../assets/svg/plus";
 
 import { useTranslation } from "react-i18next";
+import { ROUTES } from "../lib/constants";
 
 type Props = {
     workoutsDB: SQLiteDatabase,
@@ -39,7 +40,7 @@ export default function Saved({ workoutsDB, workouts, setWorkouts, setShowSearch
     const { t } = useTranslation();
 
     const startCountdown = (interval: WorkoutFormated) => {
-        (navigation as any).navigate('Crear' as never, {
+        (navigation as any).navigate(ROUTES.NEWINTERVAL as never, {
             interval: interval,
         } as never)
     };
