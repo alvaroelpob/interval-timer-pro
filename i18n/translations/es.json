@@ -23,8 +23,7 @@
         "end": "¡Has terminado!"
     },
     "bottomBar": {
-        "newinterval": "Interval",
-        "newcountdown": "Cuenta atrás",
+        "create": "Crear",
         "saved": "Guardados",
         "config": "Configuración"
     },

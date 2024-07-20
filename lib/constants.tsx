@@ -34,11 +34,4 @@ const APPTHEME: APPTHEMEProps = {
     TABBAR: "#05161A",
 };
 
-enum ROUTES {
-    NEWINTERVAL = "NEWINTERVAL",
-    NEWCOUNTDOWN = "NEWCOUNTDOWN",
-    SAVED = "SAVED",
-    SETTINGS = "SETTINGS"
-}
-
-export { APPTHEME, ROUTES };
+export { APPTHEME };

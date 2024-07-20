@@ -3,8 +3,8 @@ import { Svg, Path, G } from 'react-native-svg';
 export default function Bookmark({ focused }: { focused?: boolean }) {
     return (
         <Svg
-            width={21}
-            height={21}
+            width={19}
+            height={19}
             viewBox={"72 37.07 235.5 313.96"}
         >
             <G
