@@ -107,7 +107,9 @@ export default function App() {
                     tabBarStyle: {
                         display: showNav ? undefined : "none",
                         backgroundColor: APPTHEME.TABBAR,
-                        borderTopColor: "none"
+                        borderTopWidth: 0,
+                        borderTopColor: "none",
+                        paddingTop: 5
                     },
 
                     tabBarVisibilityAnimationConfig: {

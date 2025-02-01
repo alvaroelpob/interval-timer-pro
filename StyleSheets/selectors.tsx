@@ -17,6 +17,9 @@ const selectors = StyleSheet.create({
     wheelpickers: {
         display: 'flex',
         flexDirection: 'row',
+        justifyContent: "center",
+        width: "100%",
+        columnGap: 20
     },
     button: {
         backgroundColor: '#5d5cff',
